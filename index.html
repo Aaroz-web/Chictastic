@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NoClue Abroad – yllätysmatka, jossa tiedät mitä haluat, mutta et minne olet menossa." />
+  <title>NoClue Abroad — You know what. Not where.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="NoClue Abroad home">
+      <span class="brand-mark">?</span>
+      <span>NoClue <b>Abroad</b></span>
+    </a>
+    <nav>
+      <a href="#how">Miten se toimii</a>
+      <a href="#why">Miksi NoClue?</a>
+      <a href="#trip">Aloita</a>
+    </nav>
+    <a class="nav-button" href="#trip">Suunnittele matka</a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> Uusi tapa matkustaa</div>
+        <h1>Tiedät mitä haluat.<br><em>Et tiedä minne olet menossa.</em></h1>
+        <p class="hero-text">Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#trip">Suunnittele yllätysmatka <span>→</span></a>
+          <a class="text-button" href="#how">Katso miten se toimii</a>
+        </div>
+        <div class="trust-row">
+          <div><strong>☀</strong><span>Lämmin tai viileä</span></div>
+          <div><strong>⌁</strong><span>Golf, ranta, kaupunki</span></div>
+          <div><strong>€</strong><span>Sinun budjettisi</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="sun"></div>
+        <div class="plane">✈</div>
+        <div class="destination-card top-card"><span class="mini-label">LÄHTÖ</span><strong>HEL</strong><span>Helsinki</span></div>
+        <div class="destination-card mystery-card"><span class="mini-label">KOHDE</span><div class="question">?</div><strong>Salainen</strong><span>Selviää myöhemmin</span></div>
+        <div class="route route-one"></div>
+        <div class="route route-two"></div>
+        <div class="stamp">NO<br>CLUE</div>
+      </div>
+    </section>
+
+    <section class="section intro" id="how">
+      <div class="section-kicker">01 — Näin se toimii</div>
+      <h2>Sinä päätät <span>fiiliksen.</span><br>Me päätämme paikan.</h2>
+      <p>Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka, jota et osannut odottaa.</p>
+
+      <div class="steps">
+        <article class="step-card"><div class="number">01</div><div class="icon">✦</div><h3>Kerro mitä haluat</h3><p>Esimerkiksi aurinkoa, golfia, hyvää ruokaa ja budjetti 2 000 €.</p></article>
+        <article class="step-card featured"><div class="number">02</div><div class="icon">⌁</div><h3>Me valitsemme kohteen</h3><p>Etsimme vaihtoehdon, joka sopii toiveisiisi. Kohde pysyy salaisena.</p></article>
+        <article class="step-card"><div class="number">03</div><div class="icon">↗</div><h3>Sinä lähdet</h3><p>Matka alkaa. Kohde paljastuu oikealla hetkellä. Yllätys kuuluu kokemukseen.</p></article>
+      </div>
+    </section>
+
+    <section class="split-section" id="why">
+      <div class="split-image">
+        <div class="image-overlay">
+          <span>YOUR NEXT</span>
+          <strong>UNKNOWN</strong>
+          <small>Somewhere worth going.</small>
+        </div>
+      </div>
+      <div class="split-copy">
+        <div class="section-kicker">02 — Miksi NoClue?</div>
+        <h2>Matkan paras osa voi olla se, mitä et vielä tiedä.</h2>
+        <p>Perinteisessä matkassa tiedät kohteen jo ennen kuin olet edes varannut lennot. NoCluessa käännämme idean ympäri.</p>
+        <ul>
+          <li><span>✓</span><div><b>Sinun toiveesi ensin</b><small>Matka rakennetaan sinun budjetin, kiinnostusten ja fiiliksen ympärille.</small></div></li>
+          <li><span>✓</span><div><b>Vähemmän päätöksiä</b><small>Sinun ei tarvitse vertailla satoja kohteita ja hotelleja.</small></div></li>
+          <li><span>✓</span><div><b>Enemmän yllätyksiä</b><small>Et vain matkusta paikkaan – koet matkan löytämisen.</small></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="trip-section" id="trip">
+      <div class="section-kicker">03 — Sinun vuorosi</div>
+      <h2>Millainen matka<br><span>sinua kiinnostaa?</span></h2>
+      <p>Demo: täytä toiveesi ja näe, miltä NoClue-kokemus voisi alkaa.</p>
+
+      <form class="trip-form" id="tripForm">
+        <div class="form-grid">
+          <label>Budjetti <select id="budget"><option>500–1 000 €</option><option selected>1 000–2 000 €</option><option>2 000–3 000 €</option><option>3 000 €+</option></select></label>
+          <label>Matkan pituus <select id="duration"><option>3–4 päivää</option><option selected>5–7 päivää</option><option>8–14 päivää</option></select></label>
+          <label>Millainen sää? <select id="weather"><option selected>☀️ Aurinkoinen ja lämmin</option><option>🌤️ Leuto</option><option>❄️ Ei väliä</option></select></label>
+          <label>Matkaseura <select id="company"><option selected>👥 Ystävät</option><option>❤️ Puoliso</option><option>👨‍👩‍👧‍👦 Perhe</option><option>🧳 Yksin</option></select></label>
+        </div>
+        <div class="interest-label">Mitä haluat tehdä? <span>Valitse kaikki sopivat</span></div>
+        <div class="chips">
+          <label><input type="checkbox" value="Ranta"><span>🏖️ Ranta</span></label>
+          <label><input type="checkbox" value="Golf"><span>⛳ Golf</span></label>
+          <label><input type="checkbox" value="Ruoka"><span>🍝 Ruoka</span></label>
+          <label><input type="checkbox" value="Kaupunki"><span>🏙️ Kaupunki</span></label>
+          <label><input type="checkbox" value="Luonto"><span>🌿 Luonto</span></label>
+          <label><input type="checkbox" value="Seikkailu"><span>🧗 Seikkailu</span></label>
+        </div>
+        <button class="primary-button form-button" type="submit">Lukitse toiveeni <span>→</span></button>
+      </form>
+      <div class="result" id="result" aria-live="polite"></div>
+    </section>
+
+    <section class="final-cta">
+      <div><span class="eyebrow"><span></span> The destination is the surprise.</span><h2>Ready to have <em>NoClue?</em></h2></div>
+      <a class="light-button" href="#trip">Aloita suunnittelu →</a>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#top"><span class="brand-mark">?</span><span>NoClue <b>Abroad</b></span></a><span>Travel differently.</span><span>© 2026 NoClue Abroad</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
