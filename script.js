@@ -1,35 +1,4 @@
-const form = document.getElementById('tripForm');
-const result = document.getElementById('result');
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const data = {
-    budget: document.getElementById('budget').value,
-    duration: document.getElementById('duration').value,
-    weather: document.getElementById('weather').value,
-    company: document.getElementById('company').value,
-    interests: [...document.querySelectorAll('.chips input:checked')].map(i => i.value)
-  };
-
-  const savedTrips = JSON.parse(localStorage.getItem('noclueTrips') || '[]');
-  savedTrips.push({ ...data, createdAt: new Date().toISOString() });
-  localStorage.setItem('noclueTrips', JSON.stringify(savedTrips));
-
-  const interests = data.interests.length ? data.interests.join(', ') : 'Ei määritelty';
-  result.style.display = 'block';
-  result.innerHTML = `<strong>Toiveet lukittu ✓</strong><br>Budjetti ${data.budget} · ${data.duration} · ${data.weather} · ${data.company}<br>Kiinnostukset: ${interests}<br><br><strong>🤫 Kohde pysyy salaisena.</strong> Olemme tallentaneet matkatoiveesi tähän selaimeen. Seuraava vaihe on yhdistää lomake oikeaan tilaus- ja yhteydenottokanavaan.`;
-  result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-});
-
-// Smooth reveal for sections
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.step-card,.about-grid>div,.competitor-row>div').forEach(el => {
-  el.classList.add('reveal');
-  observer.observe(el);
-});
+const form=document.getElementById('tripForm');const result=document.getElementById('result');
+function pickDestination(data){const warm=data.weather.includes('Aurinkoinen');const i=data.interests; if(i.includes('Golf')&&warm)return{city:'Algarve',country:'Portugali',why:'aurinko, golfkentät, rannat ja paljon tekemistä'};if(i.includes('Ranta')&&warm)return{city:'Kreeta',country:'Kreikka',why:'lämmin sää, rannat, ruoka ja rento tunnelma'};if(i.includes('Seikkailu')&&i.includes('Luonto'))return{city:'Madeira',country:'Portugali',why:'vaellus, luonto, meri ja seikkailut'};if(i.includes('Kaupunki')&&warm)return{city:'Barcelona',country:'Espanja',why:'kaupunkielämä, ruoka, meri ja aurinko'};if(i.includes('Luonto'))return{city:'Slovenia',country:'Slovenia',why:'järvet, vuoret ja aktiivinen tekeminen'};return warm?{city:'Mallorca',country:'Espanja',why:'aurinko, meri, ruoka ja monipuoliset aktiviteetit'}:{city:'Praha',country:'Tšekki',why:'kaupunki, ruoka, kulttuuri ja hyvä hinta-laatusuhde'}}
+form.addEventListener('submit',e=>{e.preventDefault();const data={budget:document.getElementById('budget').value,duration:document.getElementById('duration').value,weather:document.getElementById('weather').value,company:document.getElementById('company').value,interests:[...document.querySelectorAll('.chips input:checked')].map(x=>x.value)};const destination=pickDestination(data);const trips=JSON.parse(localStorage.getItem('noclueTrips')||'[]');trips.push({...data,destination,createdAt:new Date().toISOString()});localStorage.setItem('noclueTrips',JSON.stringify(trips));result.style.display='block';result.innerHTML=`<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;opacity:.7">NOCLUE AI — SUOSITUS</div><h3 style="margin:8px 0;font-family:Manrope;font-size:28px">${destination.city}, ${destination.country} ✦</h3><p style="margin:0;line-height:1.6">AI valitsi tämän toiveidesi perusteella: ${destination.why}.<br><br><strong>🤫 Oikeassa NoClue-matkassa kohde pysyy matkustajalle salaisena.</strong></p><small style="display:block;margin-top:14px;opacity:.65">Tämä versio käyttää sisäänrakennettua suositusmoottoria. Tuotantoversiossa se voidaan yhdistää oikeaan AI-palveluun sekä ajantasaiseen lento- ja hotellidataan.</small>`;result.scrollIntoView({behavior:'smooth',block:'center'})});
+const observer=new IntersectionObserver(entries=>entries.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.12});document.querySelectorAll('.step-card,.about-grid>div,.competitor-row>div').forEach(el=>{el.classList.add('reveal');observer.observe(el)});
