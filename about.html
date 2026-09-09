@@ -10,15 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <style>
-    .about-goal{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;text-align:left;padding:115px 7vw}
-    .about-goal-copy h2{font-size:clamp(42px,4.8vw,68px);margin:18px 0 25px}
-    .about-goal-copy>p{max-width:560px;color:#65706a;line-height:1.75;margin:0}
-    .about-competitors{padding:8px 0 8px 10px}
-    .competitors-label{font-size:10px;letter-spacing:.18em;font-weight:700;color:#68736d;margin-bottom:18px}
-    .about-competitors .competitor-row{max-width:none;grid-template-columns:1fr 1fr;gap:14px}
-    .about-competitors .competitor-row>div{min-height:150px}
-    .about-competitors .competitor-row strong{font-size:20px}
-    @media(max-width:900px){.about-goal{grid-template-columns:1fr;padding:80px 6vw;gap:35px}.about-competitors{padding:0}}
+    .about-goal{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center;text-align:left}
+    .about-goal-copy{max-width:560px}
+    .about-goal-copy>p{max-width:540px;margin:0;color:#65706a;line-height:1.7}
+    .about-competitors{width:100%}
+    .competitors-label{font-size:10px;letter-spacing:.18em;font-weight:700;color:#68736d;margin-bottom:15px}
+    .about-competitors .competitor-row{max-width:none;grid-template-columns:1fr 1fr;gap:12px}
+    .about-competitors .competitor-row>div{min-height:145px}
+    @media(max-width:800px){.about-goal{grid-template-columns:1fr;gap:35px}.about-competitors .competitor-row{grid-template-columns:1fr 1fr}}
     @media(max-width:560px){.about-competitors .competitor-row{grid-template-columns:1fr}}
   </style>
 </head>
@@ -38,46 +37,23 @@
       <div class="hero-actions"><a class="primary-button" href="index.html#trip">Suunnittele yllätysmatka <span>→</span></a><a class="text-button" href="#story">Lue meistä</a></div>
       <div class="trust-row"><div><strong>✦</strong><span>Vähemmän suunnittelua</span></div><div><strong>?</strong><span>Aito yllätys</span></div><div><strong>→</strong><span>Enemmän kokemuksia</span></div></div>
     </div>
-    <div class="hero-visual about-visual">
-      <div class="sun"></div><div class="plane">✈</div>
-      <div class="destination-card top-card"><span class="mini-label">SINÄ HALUAT</span><strong>EXPERIENCE</strong><span>Me hoidamme paikan</span></div>
-      <div class="destination-card mystery-card"><span class="mini-label">KOHDE</span><div class="question">?</div><strong>Salainen</strong><span>Selviää oikealla hetkellä</span></div>
-      <div class="route route-one"></div><div class="route route-two"></div><div class="stamp">NO<br>CLUE</div>
-    </div>
+    <div class="hero-visual about-visual"><div class="sun"></div><div class="plane">✈</div><div class="destination-card top-card"><span class="mini-label">SINÄ HALUAT</span><strong>EXPERIENCE</strong><span>Me hoidamme paikan</span></div><div class="destination-card mystery-card"><span class="mini-label">KOHDE</span><div class="question">?</div><strong>Salainen</strong><span>Selviää oikealla hetkellä</span></div><div class="route route-one"></div><div class="route route-two"></div><div class="stamp">NO<br>CLUE</div></div>
   </section>
 
   <section class="section intro" id="story">
     <div class="section-kicker">01 — Mikä NoClue Abroad on?</div>
     <h2>Matkustamisen ei pitäisi tuntua <span>projektilta.</span></h2>
     <p>Usein matkan suunnittelu tarkoittaa tuntikausia lentoja, hotelleja, arvosteluja ja aktiviteetteja vertaillen. Me haluamme tehdä asian toisin.</p>
-    <div class="steps about-steps">
-      <article class="step-card"><div class="number">01</div><div class="icon">✦</div><h3>Sinä kerrot toiveesi</h3><p>Esimerkiksi lämmin sää, golfia, uintia, hyvää ruokaa ja budjetti 2 000 €.</p></article>
-      <article class="step-card featured"><div class="number">02</div><div class="icon">⌁</div><h3>Me etsimme kokonaisuuden</h3><p>Hyödynnämme tietoa ja hakuja löytääksemme toiveisiin sopivan kohteen ja tekemisen.</p></article>
-      <article class="step-card"><div class="number">03</div><div class="icon">?</div><h3>Sinä lähdet tietämättä</h3><p>Saat pakkauslistan ja tarvittavat tiedot. Kohde pysyy salassa oikeaan hetkeen asti.</p></article>
-    </div>
+    <div class="steps about-steps"><article class="step-card"><div class="number">01</div><div class="icon">✦</div><h3>Sinä kerrot toiveesi</h3><p>Esimerkiksi lämmin sää, golfia, uintia, hyvää ruokaa ja budjetti 2 000 €.</p></article><article class="step-card featured"><div class="number">02</div><div class="icon">⌁</div><h3>Me etsimme kokonaisuuden</h3><p>Hyödynnämme tietoa ja hakuja löytääksemme toiveisiin sopivan kohteen ja tekemisen.</p></article><article class="step-card"><div class="number">03</div><div class="icon">?</div><h3>Sinä lähdet tietämättä</h3><p>Saat pakkauslistan ja tarvittavat tiedot. Kohde pysyy salassa oikeaan hetkeen asti.</p></article></div>
   </section>
 
-  <section class="split-section about-split">
-    <div class="split-image"><div class="image-overlay"><span>THE IDEA</span><strong>LESS PLAN.<br>MORE GO.</strong><small>Somewhere worth going.</small></div></div>
-    <div class="split-copy"><div class="section-kicker">02 — Miksi perustimme tämän?</div><h2>Matkan paras osa voi olla se, mitä et vielä tiedä.</h2><p>Meidän mielestämme matkustamisesta on tullut liian ennalta-arvattavaa. Kohde päätetään ensin ja vasta sen jälkeen mietitään, mitä siellä tehdään.</p><ul><li><span>✓</span><div><b>Toiveet ennen kohdetta</b><small>Matka lähtee siitä, millaisen kokemuksen haluat.</small></div></li><li><span>✓</span><div><b>Vähemmän päätöksiä</b><small>Sinun ei tarvitse vertailla satoja vaihtoehtoja.</small></div></li><li><span>✓</span><div><b>Enemmän jännitystä</b><small>Et tiedä kaikkea etukäteen – juuri siksi matka tuntuu erilaiselta.</small></div></li></ul></div>
-  </section>
+  <section class="split-section about-split"><div class="split-image"><div class="image-overlay"><span>THE IDEA</span><strong>LESS PLAN.<br>MORE GO.</strong><small>Somewhere worth going.</small></div></div><div class="split-copy"><div class="section-kicker">02 — Miksi perustimme tämän?</div><h2>Matkan paras osa voi olla se, mitä et vielä tiedä.</h2><p>Meidän mielestämme matkustamisesta on tullut liian ennalta-arvattavaa. Kohde päätetään ensin ja vasta sen jälkeen mietitään, mitä siellä tehdään.</p><ul><li><span>✓</span><div><b>Toiveet ennen kohdetta</b><small>Matka lähtee siitä, millaisen kokemuksen haluat.</small></div></li><li><span>✓</span><div><b>Vähemmän päätöksiä</b><small>Sinun ei tarvitse vertailla satoja vaihtoehtoja.</small></div></li><li><span>✓</span><div><b>Enemmän jännitystä</b><small>Et tiedä kaikkea etukäteen – juuri siksi matka tuntuu erilaiselta.</small></div></li></ul></div></section>
 
-  <section class="section intro about-audience-modern">
-    <div class="section-kicker">03 — Kenelle NoClue on?</div><h2>Tehty ihmisille, jotka haluavat <span>kokea enemmän.</span></h2>
-    <p>NoClue sopii ihmisille, jotka haluavat matkalle, mutta eivät halua käyttää vapaa-aikaansa sen suunnitteluun.</p>
-    <div class="steps"><article class="step-card"><div class="icon">👥</div><h3>Kaveriporukoille</h3><p>Yhteinen seikkailu ilman sitä, että yhden pitää hoitaa koko suunnittelu.</p></article><article class="step-card"><div class="icon">✦</div><h3>Seikkailijoille</h3><p>Kun tavallinen viikonloppukohde ei enää riitä ja haluat jotain odottamatonta.</p></article><article class="step-card"><div class="icon">⚡</div><h3>Kiireisille</h3><p>Kun haluat vain päästä matkalle ja antaa jonkun muun hoitaa yksityiskohdat.</p></article></div>
-  </section>
+  <section class="section intro about-audience-modern"><div class="section-kicker">03 — Kenelle NoClue on?</div><h2>Tehty ihmisille, jotka haluavat <span>kokea enemmän.</span></h2><p>NoClue sopii ihmisille, jotka haluavat matkalle, mutta eivät halua käyttää vapaa-aikaansa sen suunnitteluun.</p><div class="steps"><article class="step-card"><div class="icon">👥</div><h3>Kaveriporukoille</h3><p>Yhteinen seikkailu ilman sitä, että yhden pitää hoitaa koko suunnittelu.</p></article><article class="step-card"><div class="icon">✦</div><h3>Seikkailijoille</h3><p>Kun tavallinen viikonloppukohde ei enää riitä ja haluat jotain odottamatonta.</p></article><article class="step-card"><div class="icon">⚡</div><h3>Kiireisille</h3><p>Kun haluat vain päästä matkalle ja antaa jonkun muun hoitaa yksityiskohdat.</p></article></div></section>
 
   <section class="competition-section about-goal">
-    <div class="about-goal-copy">
-      <div class="section-kicker">04 — Meidän tavoitteemme</div>
-      <h2>Rakennamme <span>pohjoismaista</span><br>mysteerimatkailua.</h2>
-      <p>Haluamme tehdä mysteerimatkasta luotettavan ja modernin tavan matkustaa. Tavoitteemme on yhdistää hyvä hinta-laatusuhde, kiinnostavat aktiviteetit ja aito yllätys yhdeksi kokonaisuudeksi.</p>
-    </div>
-    <div class="about-competitors">
-      <div class="competitors-label">KILPAILIJAT &amp; MEIDÄN ERO</div>
-      <div class="competitor-row"><div><small>KILPAILIJA</small><strong>Waynabox</strong><span>Eurooppa</span></div><div><small>KILPAILIJA</small><strong>Mystery Holidays</strong><span>Mysteerimatkat</span></div><div><small>KILPAILIJA</small><strong>Pack Up + Go</strong><span>Yhdysvallat</span></div><div class="our-edge"><small>NOCLUE ABROAD</small><strong>Pohjoismaat</strong><span>Suomi &amp; Ruotsi → maailma</span></div></div>
-    </div>
+    <div class="about-goal-copy"><div class="section-kicker">04 — Meidän tavoitteemme</div><h2>Rakennamme <span>pohjoismaista</span><br>mysteerimatkailua.</h2><p>Haluamme tehdä mysteerimatkasta luotettavan ja modernin tavan matkustaa. Tavoitteemme on yhdistää hyvä hinta-laatusuhde, kiinnostavat aktiviteetit ja aito yllätys yhdeksi kokonaisuudeksi.</p></div>
+    <div class="about-competitors"><div class="competitors-label">KILPAILIJAT &amp; MEIDÄN ERO</div><div class="competitor-row"><div><small>KILPAILIJA</small><strong>Waynabox</strong><span>Eurooppa</span></div><div><small>KILPAILIJA</small><strong>Mystery Holidays</strong><span>Mysteerimatkat</span></div><div><small>KILPAILIJA</small><strong>Pack Up + Go</strong><span>Yhdysvallat</span></div><div class="our-edge"><small>NOCLUE ABROAD</small><strong>Pohjoismaat</strong><span>Suomi &amp; Ruotsi → maailma</span></div></div></div>
   </section>
 
   <section class="final-cta"><div><span class="eyebrow"><span></span> The destination is the surprise.</span><h2>Ready to have <em>NoClue?</em></h2></div><a class="light-button" href="index.html#trip">Aloita suunnittelu →</a></section>
