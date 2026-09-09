@@ -19,8 +19,36 @@
     .about-competitors .competitor-row>div{min-height:145px}
     .about-hero-clean{padding-top:70px}
     .about-hero-clean .about-hero-copy{max-width:650px}
-    @media(max-width:800px){.about-goal{grid-template-columns:1fr;gap:35px}.about-competitors .competitor-row{grid-template-columns:1fr 1fr}.about-hero-clean{padding-top:40px}}
-    @media(max-width:560px){.about-competitors .competitor-row{grid-template-columns:1fr}}
+
+    .responsibility-section{background:#17231f;padding:95px 7%;border-radius:0;margin:30px 0;color:#fff;position:relative;overflow:hidden}
+    .responsibility-section:before{content:"";position:absolute;width:430px;height:430px;border-radius:50%;background:rgba(226,123,82,.12);right:-150px;top:-180px}
+    .responsibility-head{position:relative;z-index:1;max-width:850px;margin-bottom:45px}
+    .responsibility-head .section-kicker{color:#e27b52}
+    .responsibility-head h2{font-size:clamp(42px,5.5vw,76px);line-height:.98;margin:12px 0 20px;color:#fff;letter-spacing:-.045em}
+    .responsibility-head h2 span{color:#e27b52}
+    .responsibility-head>p{font-size:18px;line-height:1.7;color:#d8e0dc;max-width:760px;margin:0}
+    .responsibility-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .responsibility-card{background:#f7f6f1;color:#17231f;border-radius:24px;padding:30px;min-height:235px;display:flex;flex-direction:column;justify-content:space-between}
+    .responsibility-card.featured{background:#e27b52;color:#fff;transform:translateY(-18px)}
+    .responsibility-icon{font-size:30px;margin-bottom:25px}
+    .responsibility-card h3{font-size:23px;margin:0 0 10px;letter-spacing:-.02em}
+    .responsibility-card p{margin:0;color:#65706a;line-height:1.6;font-size:15px}
+    .responsibility-card.featured p{color:#fff}
+    .responsibility-bottom{position:relative;z-index:1;margin-top:25px;padding:20px 25px;border:1px solid rgba(255,255,255,.18);border-radius:18px;color:#d8e0dc;font-size:14px;line-height:1.6}
+    .responsibility-bottom strong{color:#fff}
+
+    @media(max-width:800px){
+      .about-goal{grid-template-columns:1fr;gap:35px}
+      .about-competitors .competitor-row{grid-template-columns:1fr 1fr}
+      .about-hero-clean{padding-top:40px}
+      .responsibility-section{padding:70px 6%}
+      .responsibility-grid{grid-template-columns:1fr}
+      .responsibility-card.featured{transform:none}
+    }
+    @media(max-width:560px){
+      .about-competitors .competitor-row{grid-template-columns:1fr}
+      .responsibility-section{padding:55px 20px}
+    }
   </style>
 </head>
 <body>
@@ -54,7 +82,19 @@
 
   <section class="section intro"><div class="section-kicker">04 — Yrityksemme</div><h2>Toimimme <span>Suomesta käsin.</span></h2><p>NoClue Abroad ei tarvitse aluksi omia toimitiloja. Yrityksen toiminta voidaan hoitaa digitaalisesti, joten pystymme pitämään kulut pieninä ja keskittymään itse palvelun kehittämiseen.</p><div class="steps"><article class="step-card"><div class="number">01</div><div class="icon">👥</div><h3>2 työntekijää aluksi</h3><p>He etsivät täydellisiä matkakohteita ja niissä tehtäviä aktiviteetteja, suunnittelevat matkat ja pitävät huolen siitä, että kaikki sujuu hyvin.</p></article><article class="step-card featured"><div class="number">02</div><div class="icon">🤖</div><h3>AI apuna</h3><p>Hyödynnämme tekoälyä kohteiden, hintojen ja aktiviteettien vertailussa, jotta asiakkaalle voidaan löytää mahdollisimman hyvä kokonaisuus.</p></article><article class="step-card"><div class="number">03</div><div class="icon">🌍</div><h3>Maailma vaihtoehtona</h3><p>Matka voi suuntautua lähelle tai kauas asiakkaan toiveiden, budjetin ja sopivien vaihtoehtojen perusteella.</p></article></div></section>
 
-  <section class="section intro"><div class="section-kicker">05 — Kiertotalous &amp; vastuullisuus</div><h2>Matkustamista <span>vastuullisemmin.</span></h2><p>Huomioimme vastuullisuuden suosimalla ekologisempia matkustustapoja aina kun se on mahdollista. Lyhyemmillä matkoilla voidaan suosia junia ja busseja lentämisen sijaan. Hotelleissa ja aktiviteeteissa suositaan vastuullisesti toimivia ja paikallisia yrityksiä. Ympäristövaikutukset huomioidaan ilman, että se näkyy asiakkaalle matkan laadun heikkenemisenä.</p><div class="steps"><article class="step-card"><div class="icon">🚆</div><h3>Ekologisempi liikkuminen</h3><p>Junia ja busseja suositaan mahdollisuuksien mukaan etenkin lyhyemmillä matkoilla.</p></article><article class="step-card featured"><div class="icon">♻</div><h3>Vähemmän turhaa materiaalia</h3><p>Matkaohjeet, liput ja pakkauslista toimitetaan digitaalisesti, jolloin turhaa paperia ja materiaalia ei tarvita.</p></article><article class="step-card"><div class="icon">🌱</div><h3>Vastuulliset kumppanit</h3><p>Suosimme vastuullisesti toimivia hotelleja, aktiviteetteja ja paikallisia palveluntarjoajia.</p></article></div></section>
+  <section class="responsibility-section">
+    <div class="responsibility-head">
+      <div class="section-kicker">05 — Kiertotalous &amp; vastuullisuus</div>
+      <h2>Vastuullisuus ei saa olla <span>matkan kompromissi.</span></h2>
+      <p>Haluamme tehdä matkustamisesta vastuullisempaa ilman, että hyvä kokemus kärsii. Valitsemme matkalle mahdollisuuksien mukaan ekologisempia liikkumistapoja, vastuullisia kumppaneita ja digitaalisia ratkaisuja.</p>
+    </div>
+    <div class="responsibility-grid">
+      <article class="responsibility-card"><div><div class="responsibility-icon">🚆</div><h3>Ekologisempi tapa liikkua</h3></div><p>Lyhyemmillä matkoilla voimme suosia junia ja busseja lentämisen sijaan. Matkan valinnassa huomioidaan ympäristövaikutukset yhdessä hinnan ja kokemuksen kanssa.</p></article>
+      <article class="responsibility-card featured"><div><div class="responsibility-icon">🌱</div><h3>Paikalliset &amp; vastuulliset</h3></div><p>Suosimme hotelleja, ravintoloita ja aktiviteetteja, jotka toimivat vastuullisesti ja hyödyttävät kohteen paikallista taloutta.</p></article>
+      <article class="responsibility-card"><div><div class="responsibility-icon">📱</div><h3>Digitaalisesti, vähemmän jätettä</h3></div><p>Liput, matkaohjeet ja pakkauslista toimitetaan digitaalisesti. Näin vähennämme turhaa paperia ja materiaalien käyttöä.</p></article>
+    </div>
+    <div class="responsibility-bottom"><strong>Tavoitteemme:</strong> yhdistää yllätyksellisyys, hyvä matkakokemus ja vastuullisempi matkailu niin, ettei asiakas koe joutuvansa tinkimään laadusta.</div>
+  </section>
 
   <section class="section intro"><div class="section-kicker">06 — Megatrendit</div><h2>Matkailu muuttuu – <span>me muutumme mukana.</span></h2><p>NoClue Abroadissa näkyvät erityisesti kestävä kehitys, digitalisaatio ja muuttuvat kulutustottumukset. Ihmiset haluavat matkustaa ja saada uusia elämyksiä, mutta samalla yhä useampi haluaa tehdä sen vastuullisesti. Me tarjoamme tähän uudenlaisen ratkaisun.</p><div class="steps"><article class="step-card"><div class="icon">🌱</div><h3>Kestävä kehitys</h3><p>Vastuullisempia matkustustapoja ja yhteistyötä vastuullisten palveluntarjoajien kanssa.</p></article><article class="step-card featured"><div class="icon">📱</div><h3>Digitalisaatio</h3><p>AI:ta ja digitaalisia palveluita hyödynnetään sopivan matkan löytämiseen ja kokoamiseen.</p></article><article class="step-card"><div class="icon">✦</div><h3>Uudet kulutustottumukset</h3><p>Asiakkaat etsivät yhä enemmän elämyksiä, helppoutta ja yksilöllisiä kokemuksia tavallisen pakettimatkan sijaan.</p></article></div></section>
 
