@@ -44,8 +44,20 @@
       <h2>Millainen matka<br><span>sinua kiinnostaa?</span></h2>
       <p>Täytä toiveesi. Tästä alkaa NoClue-kokemus.</p>
       <form class="trip-form" id="tripForm">
+        <div class="trip-planner">
+          <div class="planner-block">
+            <div class="planner-title-row"><div><div class="planner-title">Milloin haluat lähteä?</div><div class="planner-help">Valitse tarkka matkustuspäivä.</div></div><div class="selected-date" id="selectedDateLabel">Ei valittu</div></div>
+            <div class="calendar-head"><button type="button" class="calendar-nav" id="prevMonth" aria-label="Edellinen kuukausi">‹</button><strong id="calendarMonth">Kuukausi</strong><button type="button" class="calendar-nav" id="nextMonth" aria-label="Seuraava kuukausi">›</button></div>
+            <div class="calendar-week"><span>MA</span><span>TI</span><span>KE</span><span>TO</span><span>PE</span><span>LA</span><span>SU</span></div>
+            <div class="calendar-days" id="calendarDays"></div>
+            <input type="hidden" id="travelDate" name="travelDate">
+          </div>
+          <div class="planner-block budget-block">
+            <div class="planner-title-row"><div><div class="planner-title">Mikä on budjettisi?</div><div class="planner-help">Säädä enimmäisbudjetti tarkasti.</div></div><div class="budget-big" id="budgetValue">2 000 €</div></div>
+            <input id="budget" name="budget" type="range" min="250" max="10000" step="50" value="2000" aria-label="Matkabudjetti"><div class="budget-scale"><span>250 €</span><span>2 500 €</span><span>5 000 €</span><span>7 500 €</span><span>10 000 €</span></div>
+          </div>
+        </div>
         <div class="form-grid">
-          <label>Budjetti <select id="budget"><option>500–1 000 €</option><option selected>1 000–2 000 €</option><option>2 000–3 000 €</option><option>3 000 €+</option></select></label>
           <label>Matkan pituus <select id="duration"><option>3–4 päivää</option><option selected>5–7 päivää</option><option>8–14 päivää</option></select></label>
           <label>Millainen sää? <select id="weather"><option selected>☀️ Aurinkoinen ja lämmin</option><option>🌤️ Leuto</option><option>❄️ Ei väliä</option></select></label>
           <label>Matkaseura <select id="company"><option selected>👥 Ystävät</option><option>❤️ Puoliso</option><option>👨‍👩‍👧‍👦 Perhe</option><option>🧳 Yksin</option></select></label>
