@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NoClue Abroad — SWOT-analyysi." />
+  <title>SWOT — NoClue Abroad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .swot-page{max-width:1180px;margin:0 auto;padding:70px 6% 90px}
+    .swot-header{max-width:820px;padding:30px 0 65px}
+    .swot-kicker{font-size:11px;letter-spacing:.18em;font-weight:700;color:#e27b52;margin-bottom:16px}
+    .swot-header h1{font-size:clamp(52px,8vw,90px);line-height:.95;letter-spacing:-.055em;margin:0 0 24px}
+    .swot-header h1 em{color:#e27b52;font-style:normal}
+    .swot-header p{max-width:720px;font-size:18px;line-height:1.75;color:#65706a;margin:0}
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .swot-card{border:1px solid #dfe1dc;border-radius:26px;padding:34px;background:#fff}
+    .swot-letter{font-family:Manrope,sans-serif;font-size:54px;line-height:1;font-weight:800;margin-bottom:20px}
+    .swot-card h2{font-size:28px;letter-spacing:-.03em;margin:0 0 18px}
+    .swot-card p{font-size:16px;line-height:1.8;color:#65706a;margin:0}
+    .swot-card.s{background:#f1f3ee}.swot-card.w{background:#f7f3ef}.swot-card.o{background:#f2f4f1}.swot-card.t{background:#f4f1ef}
+    .swot-note{margin-top:22px;padding:24px 26px;border-top:1px solid #dfe1dc;color:#65706a;line-height:1.7;font-size:15px}
+    @media(max-width:800px){.swot-page{padding-top:35px}.swot-header{padding-bottom:45px}.swot-grid{grid-template-columns:1fr}.swot-card{padding:28px}}
+  </style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="index.html" aria-label="NoClue Abroad home"><img class="logo" src="logo.svg" alt="NoClue Abroad"></a>
+  <nav><a href="index.html#how">Miten se toimii</a><a href="about.html">Meistä</a><a class="active" href="swot.html">SWOT</a><a href="index.html#trip">Aloita</a></nav>
+  <a class="nav-button" href="index.html#trip">Suunnittele matka</a>
+</header>
+
+<main class="swot-page">
+  <section class="swot-header">
+    <div class="swot-kicker">YRITYSANALYYSI</div>
+    <h1>SWOT <em>analyysi.</em></h1>
+    <p>SWOT-analyysin avulla tarkastellaan NoClue Abroadin vahvuuksia, heikkouksia, mahdollisuuksia ja uhkia sekä niitä tekijöitä, jotka voivat vaikuttaa yrityksen toimintaan ja kasvuun.</p>
+  </section>
+
+  <section class="swot-grid">
+    <article class="swot-card s">
+      <div class="swot-letter">S</div>
+      <h2>Strengths — Vahvuudet</h2>
+      <p>Olemme ainoa kaltaisemme firma, joka toimii Pohjois-Euroopassa. Koska olemme nuoria, annamme matkaasi nuorekkaan näkemyksen. Meidän kohteemme ovat tarkkaan valittuja turvallisuuden ja ympäristöystävällisyyden perusteella.</p>
+    </article>
+
+    <article class="swot-card w">
+      <div class="swot-letter">W</div>
+      <h2>Weaknesses — Heikkoudet</h2>
+      <p>Olemme uusi ja nuori yritys, joten meillä ei vielä ole samanlaista kokemusta alalta kuin vanhemmilla yrityksillä. Myös asiakaskunnan ja tunnettuuden rakentaminen vie aikaa.</p>
+    </article>
+
+    <article class="swot-card o">
+      <div class="swot-letter">O</div>
+      <h2>Opportunities — Mahdollisuudet</h2>
+      <p>Olemme ainoa Pohjoismaissa toimiva kaltaisemme firma. Tämä antaa meille mahdollisuuden erottua muista ja tarjota asiakkaille jotain erilaista. Pohjoismaissa toimiminen auttaa myös ymmärtämään paremmin alueen asiakkaita ja heidän tarpeitaan.</p>
+    </article>
+
+    <article class="swot-card t">
+      <div class="swot-letter">T</div>
+      <h2>Threats — Uhat</h2>
+      <p>Pohjoismaissa on kohtalaisen pieni määrä potentiaalisia asiakkaita verrattuna muihin maailmanosiin. Asiakkaiden määrä voi rajoittaa yrityksen kasvua, jos toiminta pysyy pelkästään Pohjoismaissa. Tulevaisuudessa toimintaa voisi olla mahdollista laajentaa myös muualle.</p>
+    </article>
+  </section>
+
+  <div class="swot-note">SWOT-analyysi kokoaa yhteen yrityksen sisäisiä vahvuuksia ja heikkouksia sekä toimintaympäristöön liittyviä mahdollisuuksia ja uhkia.</div>
+</main>
+
+<footer><a class="brand" href="index.html"><img class="logo footer-logo" src="logo.svg" alt="NoClue Abroad"></a><a href="about.html">Meistä</a><a href="swot.html">SWOT</a><span>© 2026 NoClue Abroad</span></footer>
+<script src="script.js"></script>
+</body>
+</html>
