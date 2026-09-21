@@ -1,4 +1,14 @@
 const form=document.getElementById('tripForm');const result=document.getElementById('result');
+// Featured destination selection (up to 10)
+const selectedFeatured = new Set();
+document.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{
+  const name=card.dataset.destination;
+  if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false');}
+  else if(selectedFeatured.size<10){selectedFeatured.add(name);card.setAttribute('aria-pressed','true');}
+  const status=document.getElementById('selectionStatus');
+  if(status)status.textContent=selectedFeatured.size+' / 10 valittu';
+}));
+
 
 const DESTINATIONS=[
 {city:'Barcelona',country:'Espanja',region:'Espanja',tags:['warm','beach','city','food','golf']},
@@ -77,7 +87,8 @@ function scoreDestination(d,data){
 }
 
 function pickDestination(data){
-  const scored=DESTINATIONS.map(d=>({...d,score:scoreDestination(d,data)}));
+  const pool=selectedFeatured.size ? DESTINATIONS.filter(d=>selectedFeatured.has(d.city)) : DESTINATIONS;
+  const scored=pool.map(d=>({...d,score:scoreDestination(d,data)}));
   const max=Math.max(...scored.map(d=>d.score));
   const best=scored.filter(d=>d.score===max);
   return best[Math.floor(Math.random()*best.length)];
