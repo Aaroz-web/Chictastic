@@ -1,99 +1,28 @@
 const form=document.getElementById('tripForm');const result=document.getElementById('result');
-// Featured destination selection (up to 10)
+// All destination cards + selection (up to 10)
 const selectedFeatured = new Set();
-document.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{
-  const name=card.dataset.destination;
-  if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false');}
-  else if(selectedFeatured.size<10){selectedFeatured.add(name);card.setAttribute('aria-pressed','true');}
-  const status=document.getElementById('selectionStatus');
-  if(status)status.textContent=selectedFeatured.size+' / 10 valittu';
-}));
-
-
-const DESTINATIONS=[
-{city:'Barcelona',country:'Espanja',region:'Espanja',tags:['warm','beach','city','food','golf']},
-{city:'Malaga',country:'Espanja',region:'Espanja',tags:['warm','beach','city','food','golf','nature']},
-{city:'Valencia',country:'Espanja',region:'Espanja',tags:['warm','beach','city','food']},
-{city:'Mallorca',country:'Espanja',region:'Espanja',tags:['warm','beach','food','golf','nature','adventure']},
-{city:'Rooma',country:'Italia',region:'Italia',tags:['city','food','culture']},
-{city:'Bologna',country:'Italia',region:'Italia',tags:['city','food','culture']},
-{city:'Florence',country:'Italia',region:'Italia',tags:['city','food','culture']},
-{city:'Sardinia',country:'Italia',region:'Italia',tags:['warm','beach','nature','adventure','golf']},
-{city:'Sisilia',country:'Italia',region:'Italia',tags:['warm','beach','food','nature','culture']},
-{city:'Ateena',country:'Kreikka',region:'Kreikka',tags:['warm','city','food','culture']},
-{city:'Kreeta',country:'Kreikka',region:'Kreikka',tags:['warm','beach','food','nature','adventure','golf']},
-{city:'Rodos',country:'Kreikka',region:'Kreikka',tags:['warm','beach','food','golf']},
-{city:'Korfu',country:'Kreikka',region:'Kreikka',tags:['warm','beach','nature','food']},
-{city:'Mykonos',country:'Kreikka',region:'Kreikka',tags:['warm','beach','food','city']},
-{city:'Lisbon',country:'Portugali',region:'Portugali',tags:['warm','city','food','beach','golf']},
-{city:'Porto',country:'Portugali',region:'Portugali',tags:['city','food','culture']},
-{city:'Algarve',country:'Portugali',region:'Portugali',tags:['warm','beach','golf','nature']},
-{city:'Berliini',country:'Saksa',region:'Keski-Eurooppa',tags:['city','food','culture']},
-{city:'Hampuri',country:'Saksa',region:'Keski-Eurooppa',tags:['city','food']},
-{city:'München',country:'Saksa',region:'Keski-Eurooppa',tags:['city','food','nature','adventure']},
-{city:'Amsterdam',country:'Alankomaat',region:'Keski-Eurooppa',tags:['city','food','culture']},
-{city:'Vienna',country:'Itävalta',region:'Keski-Eurooppa',tags:['city','food','culture']},
-{city:'Zürich',country:'Sveitsi',region:'Keski-Eurooppa',tags:['city','nature','food']},
-{city:'Geneva',country:'Sveitsi',region:'Keski-Eurooppa',tags:['city','nature','food']},
-{city:'Praha',country:'Tšekki',region:'Keski-Eurooppa',tags:['city','food','culture']},
-{city:'Luxembourg',country:'Luxemburg',region:'Keski-Eurooppa',tags:['city','nature','culture']},
-{city:'Alppikylät',country:'Alppialue',region:'Keski-Eurooppa',tags:['nature','adventure','golf']},
-{city:'Reykjavik',country:'Islanti',region:'Pohjois-Eurooppa',tags:['nature','adventure','city']},
-{city:'Oslo',country:'Norja',region:'Pohjois-Eurooppa',tags:['city','nature','adventure']},
-{city:'Bergen',country:'Norja',region:'Pohjois-Eurooppa',tags:['nature','adventure','city']},
-{city:'Kööpenhamina',country:'Tanska',region:'Pohjois-Eurooppa',tags:['city','food','culture']},
-{city:'Tukholma',country:'Ruotsi',region:'Pohjois-Eurooppa',tags:['city','food','culture']},
-{city:'Gothenburg',country:'Ruotsi',region:'Pohjois-Eurooppa',tags:['city','food','nature']},
-{city:'Helsinki',country:'Suomi',region:'Pohjois-Eurooppa',tags:['city','food','culture','nature']},
-{city:'Turku',country:'Suomi',region:'Pohjois-Eurooppa',tags:['city','food','culture']},
-{city:'Dublin',country:'Irlanti',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'Lontoo',country:'Iso-Britannia',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'Pariisi',country:'Ranska',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'Nizza',country:'Ranska',region:'Länsi-Eurooppa',tags:['warm','beach','city','food']},
-{city:'Bordeaux',country:'Ranska',region:'Länsi-Eurooppa',tags:['food','city','culture']},
-{city:'Bruges',country:'Belgia',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'Amsterdam',country:'Alankomaat',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'Rotterdam',country:'Alankomaat',region:'Länsi-Eurooppa',tags:['city','food','culture']},
-{city:'New York',country:'Yhdysvallat',region:'Amerikat',tags:['city','food','culture']},
-{city:'Los Angeles',country:'Yhdysvallat',region:'Amerikat',tags:['warm','beach','city','food']},
-{city:'Dallas',country:'Yhdysvallat',region:'Amerikat',tags:['warm','city','food']},
-{city:'Alaska',country:'Yhdysvallat',region:'Amerikat',tags:['nature','adventure']},
-{city:'Toronto',country:'Kanada',region:'Amerikat',tags:['city','food','nature']},
-{city:'Miami',country:'Yhdysvallat',region:'Amerikat',tags:['warm','beach','city','food','golf']},
-{city:'Buenos Aires',country:'Argentiina',region:'Amerikat',tags:['city','food','culture']},
-{city:'Rio de Janeiro',country:'Brasilia',region:'Amerikat',tags:['warm','beach','city','nature','adventure']},
-{city:'Sapporo',country:'Japani',region:'Kauko-Itä',tags:['city','food','nature','adventure']},
-{city:'Tokio',country:'Japani',region:'Kauko-Itä',tags:['city','food','culture']},
-{city:'Seoul',country:'Etelä-Korea',region:'Kauko-Itä',tags:['city','food','culture']},
-{city:'Singapore',country:'Singapore',region:'Kauko-Itä',tags:['warm','city','food','culture']},
-{city:'Sydney',country:'Australia',region:'Kauko-Itä',tags:['warm','beach','city','nature']},
-{city:'Auckland',country:'Uusi-Seelanti',region:'Kauko-Itä',tags:['nature','adventure','city']},
-{city:'Wellington',country:'Uusi-Seelanti',region:'Kauko-Itä',tags:['nature','adventure','city']}
-];
-
-function scoreDestination(d,data){
-  let score=1;
-  const warm=data.weather.includes('Aurinkoinen');
-  const interests=data.interests;
-  if(warm&&d.tags.includes('warm'))score+=7;
-  if(warm&&!d.tags.includes('warm'))score-=1;
-  if(interests.includes('Ranta')&&d.tags.includes('beach'))score+=8;
-  if(interests.includes('Golf')&&d.tags.includes('golf'))score+=8;
-  if(interests.includes('Ruoka')&&d.tags.includes('food'))score+=5;
-  if(interests.includes('Kaupunki')&&d.tags.includes('city'))score+=6;
-  if(interests.includes('Luonto')&&d.tags.includes('nature'))score+=7;
-  if(interests.includes('Seikkailu')&&d.tags.includes('adventure'))score+=7;
-  return score;
+const destinationGrid = document.getElementById('allDestinationGrid');
+const selectionStatus = document.getElementById('selectionStatus');
+function destinationImageUrl(city){
+  const queries={
+    'Alppikylät':'Swiss Alps mountain village','Alaska':'Alaska mountains travel','Sardinia':'Sardinia Italy coast','Sicilia':'Sicily Italy coast','Mallorca':'Mallorca Spain beach','Algarve':'Algarve Portugal coast','Kreeta':'Crete Greece beach','Rodos':'Rhodes Greece beach','Korfu':'Corfu Greece coast','Mykonos':'Mykonos Greece','Reykjavik':'Reykjavik Iceland','Auckland':'Auckland New Zealand','Wellington':'Wellington New Zealand'
+  };
+  return 'https://loremflickr.com/900/600/'+encodeURIComponent(queries[city]||city+' travel');
 }
-
-function pickDestination(data){
-  const pool=selectedFeatured.size ? DESTINATIONS.filter(d=>selectedFeatured.has(d.city)) : DESTINATIONS;
-  const scored=pool.map(d=>({...d,score:scoreDestination(d,data)}));
-  const max=Math.max(...scored.map(d=>d.score));
-  const best=scored.filter(d=>d.score===max);
-  return best[Math.floor(Math.random()*best.length)];
+function renderDestinationCards(){
+  if(!destinationGrid)return;
+  destinationGrid.innerHTML=DESTINATIONS.map((d,n)=>{
+    const tags=d.tags.filter(t=>['warm','beach','golf','food','city','nature','adventure'].includes(t)).slice(0,2).map(t=>({warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'}[t])).join(' · ');
+    return '<button class="featured-card" type="button" data-destination="'+d.city.replace(/"/g,'&quot;')+'" aria-pressed="false"><div class="featured-image" style="background-image:url(\''+destinationImageUrl(d.city)+'\')"><span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span></div><div class="featured-copy"><div><strong>'+d.city+'</strong><small>'+d.country+'</small></div><span class="featured-tags">'+tags+'</span></div></button>';
+  }).join('');
+  destinationGrid.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{
+    const name=card.dataset.destination;
+    if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false');}
+    else if(selectedFeatured.size<10){selectedFeatured.add(name);card.setAttribute('aria-pressed','true');}
+    if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 10 valittu';
+  }));
 }
-
+renderDestinationCards();
 if(form){form.addEventListener('submit',e=>{
   e.preventDefault();
   const data={
