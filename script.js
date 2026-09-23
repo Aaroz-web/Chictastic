@@ -5,7 +5,32 @@ const destinationGrid = document.getElementById('allDestinationGrid');
 const selectionStatus = document.getElementById('selectionStatus');
 function destinationImageUrl(city,country){return 'https://loremflickr.com/900/600/'+encodeURIComponent(city+' '+country+' travel');}
 const tagText={warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'};
-function renderDestinationCards(){if(!destinationGrid)return;destinationGrid.innerHTML=DESTINATIONS.map((d,n)=>'<button class="featured-card" type="button" data-destination="'+d[0].replace(/"/g,'&quot;')+'" aria-pressed="false"><div class="featured-image" style="background-image:url(\\''+destinationImageUrl(d[0],d[1])+'\\')"><span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span></div><div class="featured-copy"><div><strong>'+d[0]+'</strong><small>'+d[1]+'</small></div><span class="featured-tags">'+d[2].slice(0,2).map(t=>tagText[t]).join(' · ')+'</span></div></button>').join('');destinationGrid.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{const name=card.dataset.destination;if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false')}else if(selectedFeatured.size<7){selectedFeatured.add(name);card.setAttribute('aria-pressed','true')}if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 7 vältettävää kohdetta valittu'}));}
+function renderDestinationCards(){
+  if(!destinationGrid)return;
+  destinationGrid.innerHTML='';
+  DESTINATIONS.forEach((d,n)=>{
+    const card=document.createElement('button');
+    card.type='button';
+    card.className='featured-card';
+    card.dataset.destination=d[0];
+    card.setAttribute('aria-pressed','false');
+    const image=document.createElement('div');
+    image.className='featured-image';
+    image.style.backgroundImage='url("'+destinationImageUrl(d[0],d[1])+'")';
+    image.innerHTML='<span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span>';
+    const copy=document.createElement('div');
+    copy.className='featured-copy';
+    copy.innerHTML='<div><strong>'+d[0]+'</strong><small>'+d[1]+'</small></div><span class="featured-tags">'+d[2].slice(0,2).map(t=>tagText[t]).join(' · ')+'</span>';
+    card.append(image,copy);
+    card.addEventListener('click',()=>{
+      const name=card.dataset.destination;
+      if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false')}
+      else if(selectedFeatured.size<7){selectedFeatured.add(name);card.setAttribute('aria-pressed','true')}
+      if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 7 vältettävää kohdetta valittu';
+    });
+    destinationGrid.appendChild(card);
+  });
+}
 function pickDestination(data){const excluded=new Set(data.excludedDestinations||[]);const interests=data.interests||[];const pool=DESTINATIONS.filter(d=>!excluded.has(d[0]));let best=pool[0];let bestScore=-1;pool.forEach(d=>{let score=d[2].filter(t=>interests.map(x=>({Ranta:'beach',Golf:'golf',Ruoka:'food',Kaupunki:'city',Luonto:'nature',Seikkailu:'adventure'}[x])).includes(t)).length;if((data.weather||'').includes('Aurinkoinen')&&d[2].includes('warm'))score+=2;if((data.weather||'').includes('Leuto')&&d[2].includes('nature'))score+=1;score+=Math.random();if(score>bestScore){best=d;bestScore=score}});return {city:best[0],country:best[1],tags:best[2]};}
 renderDestinationCards();
 if(form){form.addEventListener('submit',e=>{
