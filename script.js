@@ -1,36 +1,22 @@
 const form=document.getElementById('tripForm');const result=document.getElementById('result');
-// All destination cards + selection (up to 10)
+const DESTINATIONS=[["Barcelona","Espanja",["warm","beach","food","city"]],["Malaga","Espanja",["warm","beach","food","city"]],["Valencia","Espanja",["warm","beach","food","city"]],["Mallorca","Espanja",["warm","beach","nature","golf"]],["Rooma","Italia",["warm","food","city"]],["Bologna","Italia",["food","city"]],["Florence","Italia",["food","city"]],["Sardinia","Italia",["warm","beach","nature"]],["Sisilia","Italia",["warm","beach","food","nature"]],["Ateena","Kreikka",["warm","food","city"]],["Kreeta","Kreikka",["warm","beach","nature"]],["Rodos","Kreikka",["warm","beach","golf"]],["Korfu","Kreikka",["warm","beach","nature"]],["Mykonos","Kreikka",["warm","beach","city"]],["Lisbon","Portugali",["warm","food","city"]],["Porto","Portugali",["food","city"]],["Algarve","Portugali",["warm","beach","golf","nature"]],["Berliini","Saksa",["city","food"]],["Hampuri","Saksa",["city","food"]],["München","Saksa",["city","nature"]],["Amsterdam","Alankomaat",["city","food"]],["Vienna","Itävalta",["city","food"]],["Zürich","Sveitsi",["city","nature"]],["Geneva","Sveitsi",["city","nature"]],["Praha","Tšekki",["city","food"]],["Luxembourg","Luxemburg",["city","nature"]],["Alppikylät","Sveitsi",["nature","adventure"]],["Reykjavik","Islanti",["nature","adventure","city"]],["Oslo","Norja",["nature","city"]],["Bergen","Norja",["nature","adventure"]],["Kööpenhamina","Tanska",["city","food"]],["Tukholma","Ruotsi",["city","food"]],["Gothenburg","Ruotsi",["city","food"]],["Helsinki","Suomi",["city","food"]],["Turku","Suomi",["city","food"]],["Dublin","Irlanti",["city","food"]],["Lontoo","Iso-Britannia",["city","food"]],["Pariisi","Ranska",["city","food"]],["Nizza","Ranska",["warm","beach","food","city"]],["Bordeaux","Ranska",["food","city"]],["Bruges","Belgia",["city","food"]],["Rotterdam","Alankomaat",["city","food"]],["New York","Yhdysvallat",["city","food"]],["Los Angeles","Yhdysvallat",["warm","beach","city"]],["Dallas","Yhdysvallat",["city","food"]],["Alaska","Yhdysvallat",["nature","adventure"]],["Toronto","Kanada",["city","nature"]],["Miami","Yhdysvallat",["warm","beach","city"]],["Buenos Aires","Argentiina",["warm","food","city"]],["Rio de Janeiro","Brasilia",["warm","beach","city","adventure"]],["Sapporo","Japani",["nature","food","adventure"]],["Tokio","Japani",["city","food"]],["Seoul","Etelä-Korea",["city","food"]],["Singapore","Singapore",["warm","food","city"]],["Sydney","Australia",["warm","beach","city"]],["Auckland","Uusi-Seelanti",["nature","adventure","city"]],["Wellington","Uusi-Seelanti",["nature","city"]]];
 const selectedFeatured = new Set();
 const destinationGrid = document.getElementById('allDestinationGrid');
 const selectionStatus = document.getElementById('selectionStatus');
-function destinationImageUrl(city){
-  const queries={
-    'Alppikylät':'Swiss Alps mountain village','Alaska':'Alaska mountains travel','Sardinia':'Sardinia Italy coast','Sicilia':'Sicily Italy coast','Mallorca':'Mallorca Spain beach','Algarve':'Algarve Portugal coast','Kreeta':'Crete Greece beach','Rodos':'Rhodes Greece beach','Korfu':'Corfu Greece coast','Mykonos':'Mykonos Greece','Reykjavik':'Reykjavik Iceland','Auckland':'Auckland New Zealand','Wellington':'Wellington New Zealand'
-  };
-  return 'https://loremflickr.com/900/600/'+encodeURIComponent(queries[city]||city+' travel');
-}
-function renderDestinationCards(){
-  if(!destinationGrid)return;
-  destinationGrid.innerHTML=DESTINATIONS.map((d,n)=>{
-    const tags=d.tags.filter(t=>['warm','beach','golf','food','city','nature','adventure'].includes(t)).slice(0,2).map(t=>({warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'}[t])).join(' · ');
-    return '<button class="featured-card" type="button" data-destination="'+d.city.replace(/"/g,'&quot;')+'" aria-pressed="false"><div class="featured-image" style="background-image:url(\''+destinationImageUrl(d.city)+'\')"><span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span></div><div class="featured-copy"><div><strong>'+d.city+'</strong><small>'+d.country+'</small></div><span class="featured-tags">'+tags+'</span></div></button>';
-  }).join('');
-  destinationGrid.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{
-    const name=card.dataset.destination;
-    if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false');}
-    else if(selectedFeatured.size<10){selectedFeatured.add(name);card.setAttribute('aria-pressed','true');}
-    if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 10 valittu';
-  }));
-}
+function destinationImageUrl(city,country){return 'https://loremflickr.com/900/600/'+encodeURIComponent(city+' '+country+' travel');}
+const tagText={warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'};
+function renderDestinationCards(){if(!destinationGrid)return;destinationGrid.innerHTML=DESTINATIONS.map((d,n)=>'<button class="featured-card" type="button" data-destination="'+d[0].replace(/"/g,'&quot;')+'" aria-pressed="false"><div class="featured-image" style="background-image:url(\\''+destinationImageUrl(d[0],d[1])+'\\')"><span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span></div><div class="featured-copy"><div><strong>'+d[0]+'</strong><small>'+d[1]+'</small></div><span class="featured-tags">'+d[2].slice(0,2).map(t=>tagText[t]).join(' · ')+'</span></div></button>').join('');destinationGrid.querySelectorAll('.featured-card').forEach(card=>card.addEventListener('click',()=>{const name=card.dataset.destination;if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false')}else if(selectedFeatured.size<7){selectedFeatured.add(name);card.setAttribute('aria-pressed','true')}if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 7 vältettävää kohdetta valittu'}));}
+function pickDestination(data){const excluded=new Set(data.excludedDestinations||[]);const interests=data.interests||[];const pool=DESTINATIONS.filter(d=>!excluded.has(d[0]));let best=pool[0];let bestScore=-1;pool.forEach(d=>{let score=d[2].filter(t=>interests.map(x=>({Ranta:'beach',Golf:'golf',Ruoka:'food',Kaupunki:'city',Luonto:'nature',Seikkailu:'adventure'}[x])).includes(t)).length;if((data.weather||'').includes('Aurinkoinen')&&d[2].includes('warm'))score+=2;if((data.weather||'').includes('Leuto')&&d[2].includes('nature'))score+=1;score+=Math.random();if(score>bestScore){best=d;bestScore=score}});return {city:best[0],country:best[1],tags:best[2]};}
 renderDestinationCards();
-if(form){form.addEventListener('submit',e=>{
+if(form)){form.addEventListener('submit',e=>{
   e.preventDefault();
   const data={
     budget:document.getElementById('budget').value,
     duration:document.getElementById('duration')?.value||'',
     weather:document.getElementById('weather').value,
     company:document.getElementById('company').value,
-    interests:[...document.querySelectorAll('.chips input:checked')].map(x=>x.value)
+    interests:[...document.querySelectorAll('.chips input:checked')].map(x=>x.value),
+    excludedDestinations:[...selectedFeatured]
   };
   const destination=pickDestination(data);
   const trips=JSON.parse(localStorage.getItem('noclueTrips')||'[]');
