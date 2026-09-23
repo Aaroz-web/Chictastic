@@ -3,7 +3,16 @@ const DESTINATIONS=[["Barcelona","Espanja",["warm","beach","food","city"]],["Mal
 const selectedFeatured = new Set();
 const destinationGrid = document.getElementById('allDestinationGrid');
 const selectionStatus = document.getElementById('selectionStatus');
-function destinationImageUrl(city,country){return 'https://loremflickr.com/900/600/'+encodeURIComponent(city+' '+country+' travel');}
+const WIKI_DESTINATION_NAMES={"Rooma":"Rome","Florence":"Florence","Ateena":"Athens","Kreeta":"Crete","Rodos":"Rhodes","Korfu":"Corfu","Lisbon":"Lisbon","Berliini":"Berlin","Hampuri":"Hamburg","München":"Munich","Vienna":"Vienna","Zürich":"Zurich","Praha":"Prague","Alppikylät":"Swiss Alps","Reykjavik":"Reykjavík","Kööpenhamina":"Copenhagen","Tukholma":"Stockholm","Lontoo":"London","Pariisi":"Paris","Nizza":"Nice","Bruges":"Bruges","Tokio":"Tokyo","Rio de Janeiro":"Rio de Janeiro"};
+function destinationImageUrl(city){return 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/960px-Placeholder_view_vector.svg.png';}
+function loadDestinationImage(image,city){
+  const title=WIKI_DESTINATION_NAMES[city]||city;
+  const url='https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(title);
+  fetch(url).then(r=>r.ok?r.json():null).then(data=>{
+    const src=data&&data.thumbnail&&data.thumbnail.source;
+    if(src)image.style.backgroundImage='url("'+src.replace(/"/g,'%22')+'")';
+  }).catch(()=>{});
+}
 const tagText={warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'};
 function renderDestinationCards(){
   if(!destinationGrid)return;
@@ -16,7 +25,8 @@ function renderDestinationCards(){
     card.setAttribute('aria-pressed','false');
     const image=document.createElement('div');
     image.className='featured-image';
-    image.style.backgroundImage='url("'+destinationImageUrl(d[0],d[1])+'")';
+    image.style.backgroundImage='url("'+destinationImageUrl(d[0])+'")';
+    loadDestinationImage(image,d[0]);
     image.innerHTML='<span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span>';
     const copy=document.createElement('div');
     copy.className='featured-copy';
