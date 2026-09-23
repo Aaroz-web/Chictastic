@@ -1,10 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 149" role="img" aria-labelledby="title desc">
-<title id="title">NoClue Abroad</title><desc id="desc">Minimalist NoClue Abroad travel logo with a hidden destination symbol</desc>
+<title id="title">NoClue Abroad</title><desc id="desc">Minimalist NoClue Abroad travel logo with a hidden destination symbol and airplane</desc>
 <rect width="155" height="149" rx="32" fill="#F5F3EC"/>
 <circle cx="77.5" cy="70" r="43" fill="none" stroke="#18251F" stroke-width="7"/>
 <path d="M34.5 70h86M77.5 27c-13 12-20 26-20 43s7 31 20 43M77.5 27c13 12 20 26 20 43s-7 31-20 43" fill="none" stroke="#18251F" stroke-width="4" stroke-linecap="round"/>
 <path d="M51 42c8-5 17-8 26.5-8S96 37 104 42M51 98c8 5 17 8 26.5 8S96 103 104 98" fill="none" stroke="#9A6240" stroke-width="4" stroke-linecap="round"/>
 <circle cx="77.5" cy="70" r="13" fill="#9A6240"/>
 <text x="77.5" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#F5F3EC">?</text>
-<path d="M53 128h49" stroke="#18251F" stroke-width="4" stroke-linecap="round"/>
+<g transform="translate(101 113) rotate(-18)">
+<path d="M-18 0L-2 0L8-5L11-4L6 0L11 4L8 5L-2 0L-18 0Z" fill="#18251F"/>
+<path d="M-4 0L-8-8L-5-8L2 0L-5 8L-8 8L-4 0Z" fill="#18251F"/>
+</g>
+<path d="M43 128h42" stroke="#18251F" stroke-width="4" stroke-linecap="round"/>
 </svg>
