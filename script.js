@@ -7,11 +7,11 @@ const DESTINATION_IMAGE_QUERIES={"Barcelona":"Barcelona Sagrada Familia skyline"
 function destinationImageUrl(){return 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/960px-Placeholder_view_vector.svg.png';}
 function loadDestinationImage(image,city){
   const query=DESTINATION_IMAGE_QUERIES[city]||city+' travel landscape';
-  const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query)+'&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*';
+  const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query)+'&gsrnamespace=6&gsrlimit=20&prop=imageinfo&iiprop=url|mime|size&iiurlwidth=1000&format=json&origin=*';
   fetch(api).then(r=>r.ok?r.json():null).then(data=>{
     const pages=data&&data.query&&data.query.pages?Object.values(data.query.pages):[];
     const bad=/(flag|map|logo|icon|symbol|coat of arms|sign|road sign|street sign|bus stop|station sign)/i;
-    const candidates=pages.filter(p=>p&&p.imageinfo&&p.imageinfo[0]&&p.imageinfo[0].mime&&p.imageinfo[0].mime.startsWith('image/')&&!bad.test(p.title||''));
+    const candidates=pages.filter(p=>{const i=p&&p.imageinfo&&p.imageinfo[0];return i&&i.mime&&i.mime.startsWith('image/')&&!bad.test(p.title||'')&&i.width&&i.height&&i.width>=i.height*1.15;}).sort((a,b)=>{const ia=a.imageinfo[0],ib=b.imageinfo[0];return (ib.width*ib.height)-(ia.width*ia.height);});
     const info=(candidates[0]||pages[0])&&((candidates[0]||pages[0]).imageinfo||[])[0];
     const src=info&&(info.thumburl||info.url);
     if(src){image.style.backgroundImage='url("'+src.replace(/"/g,'%22')+'")';image.classList.add('loaded');}
