@@ -6,9 +6,9 @@
 <path d="M51 42c8-5 17-8 26.5-8S96 37 104 42M51 98c8 5 17 8 26.5 8S96 103 104 98" fill="none" stroke="#9A6240" stroke-width="4" stroke-linecap="round"/>
 <circle cx="77.5" cy="70" r="13" fill="#9A6240"/>
 <text x="77.5" y="78" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="800" fill="#F5F3EC">?</text>
-<g transform="translate(101 113) rotate(-18)">
-<path d="M-18 0L-2 0L8-5L11-4L6 0L11 4L8 5L-2 0L-18 0Z" fill="#18251F"/>
-<path d="M-4 0L-8-8L-5-8L2 0L-5 8L-8 8L-4 0Z" fill="#18251F"/>
+<g transform="translate(106 115) rotate(-18)" fill="#9A6240" stroke="#18251F" stroke-width="2.2" stroke-linejoin="round">
+<path d="M-25 0L-4-2L12-10L16-8L7-1L22 3L22 7L5 3L-5 5L-10 12L-14 11L-9 3L-25 2Z"/>
+<path d="M-2-1L-7-13L-3-13L6-2L-2-1Z"/>
 </g>
 <path d="M43 128h42" stroke="#18251F" stroke-width="4" stroke-linecap="round"/>
 </svg>
