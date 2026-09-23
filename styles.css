@@ -9,3 +9,11 @@
 @media(max-width:1050px){.featured-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:800px){.featured-grid{grid-template-columns:1fr 1fr}.featured-image{height:145px}}@media(max-width:520px){.featured-grid{grid-template-columns:1fr}}
 
 .featured-image img{width:100%;height:100%;display:block;object-fit:cover;object-position:center}.featured-image img+span{}
+.region-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:42px}
+.region-card{background:#fff;border:1px solid #e5e6df;border-radius:24px;overflow:hidden;box-shadow:0 12px 35px #17231f0c}
+.region-images{display:grid;grid-template-columns:1fr 1fr;height:220px;gap:3px;background:#eee}
+.region-images img{width:100%;height:100%;object-fit:cover;display:block}
+.region-copy{padding:22px 24px 25px}
+.region-copy h3{font:800 27px Manrope;margin:0 0 10px;letter-spacing:-.04em}
+.region-copy p{margin:0;color:#68716c;font-size:13px;line-height:1.8}
+@media(max-width:800px){.region-gallery{grid-template-columns:1fr}.region-images{height:190px}}
