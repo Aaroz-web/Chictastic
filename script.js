@@ -1,64 +1,80 @@
-Update Aaroz-web/Chictastic script.js. Keep all existing destination data, selection logic, planner logic, and language switcher unchanged. Replace the current Wikipedia REST thumbnail image system with a curated Wikimedia Commons image search system for the 57 destination cards. The goal is attractive travel photography, not flags, signs, generic streets, museums as buildings, or random city thumbnails.
+const form=document.getElementById('tripForm');const result=document.getElementById('result');
+const DESTINATIONS=[["Barcelona","Espanja",["warm","beach","food","city"]],["Malaga","Espanja",["warm","beach","food","city"]],["Valencia","Espanja",["warm","beach","food","city"]],["Mallorca","Espanja",["warm","beach","nature","golf"]],["Rooma","Italia",["warm","food","city"]],["Bologna","Italia",["food","city"]],["Florence","Italia",["food","city"]],["Sardinia","Italia",["warm","beach","nature"]],["Sisilia","Italia",["warm","beach","food","nature"]],["Ateena","Kreikka",["warm","food","city"]],["Kreeta","Kreikka",["warm","beach","nature"]],["Rodos","Kreikka",["warm","beach","golf"]],["Korfu","Kreikka",["warm","beach","nature"]],["Mykonos","Kreikka",["warm","beach","city"]],["Lisbon","Portugali",["warm","food","city"]],["Porto","Portugali",["food","city"]],["Algarve","Portugali",["warm","beach","golf","nature"]],["Berliini","Saksa",["city","food"]],["Hampuri","Saksa",["city","food"]],["München","Saksa",["city","nature"]],["Amsterdam","Alankomaat",["city","food"]],["Vienna","Itävalta",["city","food"]],["Zürich","Sveitsi",["city","nature"]],["Geneva","Sveitsi",["city","nature"]],["Praha","Tšekki",["city","food"]],["Luxembourg","Luxemburg",["city","nature"]],["Alppikylät","Sveitsi",["nature","adventure"]],["Reykjavik","Islanti",["nature","adventure","city"]],["Oslo","Norja",["nature","city"]],["Bergen","Norja",["nature","adventure"]],["Kööpenhamina","Tanska",["city","food"]],["Tukholma","Ruotsi",["city","food"]],["Gothenburg","Ruotsi",["city","food"]],["Helsinki","Suomi",["city","food"]],["Turku","Suomi",["city","food"]],["Dublin","Irlanti",["city","food"]],["Lontoo","Iso-Britannia",["city","food"]],["Pariisi","Ranska",["city","food"]],["Nizza","Ranska",["warm","beach","food","city"]],["Bordeaux","Ranska",["food","city"]],["Bruges","Belgia",["city","food"]],["Rotterdam","Alankomaat",["city","food"]],["New York","Yhdysvallat",["city","food"]],["Los Angeles","Yhdysvallat",["warm","beach","city"]],["Dallas","Yhdysvallat",["city","food"]],["Alaska","Yhdysvallat",["nature","adventure"]],["Toronto","Kanada",["city","nature"]],["Miami","Yhdysvallat",["warm","beach","city"]],["Buenos Aires","Argentiina",["warm","food","city"]],["Rio de Janeiro","Brasilia",["warm","beach","city","adventure"]],["Sapporo","Japani",["nature","food","adventure"]],["Tokio","Japani",["city","food"]],["Seoul","Etelä-Korea",["city","food"]],["Singapore","Singapore",["warm","food","city"]],["Sydney","Australia",["warm","beach","city"]],["Auckland","Uusi-Seelanti",["nature","adventure","city"]],["Wellington","Uusi-Seelanti",["nature","city"]]];
+const selectedFeatured = new Set();
+const destinationGrid = document.getElementById('allDestinationGrid');
+const selectionStatus = document.getElementById('selectionStatus');
+const DESTINATION_IMAGE_QUERIES={"Barcelona":"Barcelona Sagrada Familia skyline","Malaga":"Malaga Alcazaba sea view","Valencia":"Valencia City of Arts and Sciences","Mallorca":"Mallorca Cap de Formentor","Rooma":"Rome Colosseum sunset","Bologna":"Bologna skyline red rooftops","Florence":"Florence Duomo panorama","Sardinia":"Sardinia La Pelosa beach","Sisilia":"Sicily Taormina Mount Etna sea","Ateena":"Athens Acropolis sunset","Kreeta":"Crete Balos beach","Rodos":"Rhodes Lindos beach","Korfu":"Corfu Paleokastritsa bay","Mykonos":"Mykonos Little Venice sea","Lisbon":"Lisbon viewpoint sunset","Porto":"Porto Douro Dom Luis bridge sunset","Algarve":"Algarve Benagil cave beach","Berliini":"Berlin Brandenburg Gate sunset","Hampuri":"Hamburg harbor Elbphilharmonie sunset","München":"Bavaria Neuschwanstein Castle Alps","Amsterdam":"Amsterdam canals sunset","Vienna":"Vienna Schonbrunn Palace gardens","Zürich":"Zurich lake Alps panorama","Geneva":"Geneva lake Jet d'Eau Alps","Praha":"Prague Charles Bridge sunset","Luxembourg":"Luxembourg city valley panorama","Alppikylät":"Matterhorn Zermatt Alps","Reykjavik":"Iceland Reykjavik mountains ocean","Oslo":"Oslo fjord Opera House sunset","Bergen":"Bergen Norway fjord viewpoint","Kööpenhamina":"Copenhagen Nyhavn sunset","Tukholma":"Stockholm archipelago sunset","Gothenburg":"Gothenburg Sweden harbor sunset","Helsinki":"Helsinki Suomenlinna sea sunset","Turku":"Turku Finland archipelago castle","Dublin":"Dublin Cliffs of Moher Ireland","Lontoo":"London Tower Bridge Thames sunset","Pariisi":"Paris Eiffel Tower sunset","Nizza":"Nice France Promenade des Anglais Mediterranean","Bordeaux":"Bordeaux Place de la Bourse water mirror","Bruges":"Bruges Belgium canals sunset","Rotterdam":"Rotterdam Erasmus Bridge skyline sunset","New York":"New York skyline Statue of Liberty sunset","Los Angeles":"Los Angeles Griffith Observatory skyline sunset","Dallas":"Dallas skyline sunset Reunion Tower","Alaska":"Alaska mountains glacier landscape","Toronto":"Toronto skyline Lake Ontario sunset","Miami":"Miami South Beach ocean sunset","Buenos Aires":"Buenos Aires skyline sunset Puerto Madero","Rio de Janeiro":"Rio de Janeiro Copacabana Sugarloaf sunset","Sapporo":"Sapporo Japan mountain city view","Tokio":"Tokyo skyline Mount Fuji sunset","Seoul":"Seoul skyline Namsan sunset","Singapore":"Singapore Marina Bay Gardens by the Bay night","Sydney":"Sydney Opera House Harbour sunset","Auckland":"Auckland New Zealand skyline harbor sunset","Wellington":"Wellington New Zealand harbor hills sunset"};
+function destinationImageUrl(){return 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/960px-Placeholder_view_vector.svg.png';}
+function loadDestinationImage(image,city){
+  const query=DESTINATION_IMAGE_QUERIES[city]||city+' travel landscape';
+  const api='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query)+'&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*';
+  fetch(api).then(r=>r.ok?r.json():null).then(data=>{
+    const pages=data&&data.query&&data.query.pages?Object.values(data.query.pages):[];
+    const bad=/(flag|map|logo|icon|symbol|coat of arms|sign|road sign|street sign|bus stop|station sign)/i;
+    const candidates=pages.filter(p=>p&&p.imageinfo&&p.imageinfo[0]&&p.imageinfo[0].mime&&p.imageinfo[0].mime.startsWith('image/')&&!bad.test(p.title||''));
+    const info=(candidates[0]||pages[0])&&((candidates[0]||pages[0]).imageinfo||[])[0];
+    const src=info&&(info.thumburl||info.url);
+    if(src){image.style.backgroundImage='url("'+src.replace(/"/g,'%22')+'")';image.classList.add('loaded');}
+  }).catch(()=>{});
+}
+const tagText={warm:'☀️ Lämmin',beach:'🏖️ Ranta',golf:'⛳ Golf',food:'🍝 Ruoka',city:'🏙️ Kaupunki',nature:'🌿 Luonto',adventure:'🧗 Seikkailu'};
+function renderDestinationCards(){
+  if(!destinationGrid)return;
+  destinationGrid.innerHTML='';
+  DESTINATIONS.forEach((d,n)=>{
+    const card=document.createElement('button');
+    card.type='button';
+    card.className='featured-card';
+    card.dataset.destination=d[0];
+    card.setAttribute('aria-pressed','false');
+    const image=document.createElement('div');
+    image.className='featured-image';
+    image.style.backgroundImage='url("'+destinationImageUrl(d[0])+'")';
+    loadDestinationImage(image,d[0]);
+    image.innerHTML='<span class="featured-number">'+String(n+1).padStart(2,'0')+'</span><span class="featured-check">✓</span>';
+    const copy=document.createElement('div');
+    copy.className='featured-copy';
+    copy.innerHTML='<div><strong>'+d[0]+'</strong><small>'+d[1]+'</small></div><span class="featured-tags">'+d[2].slice(0,2).map(t=>tagText[t]).join(' · ')+'</span>';
+    card.append(image,copy);
+    card.addEventListener('click',()=>{
+      const name=card.dataset.destination;
+      if(selectedFeatured.has(name)){selectedFeatured.delete(name);card.setAttribute('aria-pressed','false')}
+      else if(selectedFeatured.size<7){selectedFeatured.add(name);card.setAttribute('aria-pressed','true')}
+      if(selectionStatus)selectionStatus.textContent=selectedFeatured.size+' / 7 vältettävää kohdetta valittu';
+    });
+    destinationGrid.appendChild(card);
+  });
+}
+function pickDestination(data){const excluded=new Set(data.excludedDestinations||[]);const interests=data.interests||[];const pool=DESTINATIONS.filter(d=>!excluded.has(d[0]));let best=pool[0];let bestScore=-1;pool.forEach(d=>{let score=d[2].filter(t=>interests.map(x=>({Ranta:'beach',Golf:'golf',Ruoka:'food',Kaupunki:'city',Luonto:'nature',Seikkailu:'adventure'}[x])).includes(t)).length;if((data.weather||'').includes('Aurinkoinen')&&d[2].includes('warm'))score+=2;if((data.weather||'').includes('Leuto')&&d[2].includes('nature'))score+=1;score+=Math.random();if(score>bestScore){best=d;bestScore=score}});return {city:best[0],country:best[1],tags:best[2]};}
+renderDestinationCards();
+if(form){form.addEventListener('submit',e=>{
+  e.preventDefault();
+  const data={
+    budget:document.getElementById('budget').value,
+    duration:document.getElementById('duration')?.value||'',
+    weather:document.getElementById('weather').value,
+    company:document.getElementById('company').value,
+    interests:[...document.querySelectorAll('.chips input:checked')].map(x=>x.value),
+    excludedDestinations:[...selectedFeatured]
+  };
+  const destination=pickDestination(data);
+  const trips=JSON.parse(localStorage.getItem('noclueTrips')||'[]');
+  trips.push({...data,destination,createdAt:new Date().toISOString()});
+  localStorage.setItem('noclueTrips',JSON.stringify(trips));
+  result.style.display='block';
+  result.innerHTML=`<div style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;opacity:.7">NOCLUE AI — KOHDEVALINTA</div><h3 style="margin:8px 0;font-family:Manrope;font-size:28px">${destination.city}, ${destination.country} ✦</h3><p style="margin:0;line-height:1.6">Kohde valittiin toiveidesi perusteella. Se sopii erityisesti: ${destination.tags.filter(t=>['warm','beach','golf','food','city','nature','adventure'].includes(t)).slice(0,4).map(t=>({warm:'aurinkoiseen säähän',beach:'rantalomaan',golf:'golfiin',food:'ruokaan',city:'kaupunkilomaan',nature:'luontoon',adventure:'seikkailuun'}[t])).join(', ')}.<br><br><strong>🤫 Oikeassa NoClue-matkassa kohde pysyy matkustajalle salaisena.</strong></p><small style="display:block;margin-top:14px;opacity:.65">Valinta tehdään NoClue-kohdevalikoimasta. Tuotantoversiossa mukaan voidaan liittää myös ajantasainen lento-, hotelli- ja hintadata.</small>`;
+  result.scrollIntoView({behavior:'smooth',block:'center'});
+})}
 
-For each destination, define a DESTINATION_IMAGE_QUERIES object with a specific scenic/landmark search phrase. Use visually strong subjects such as beaches, viewpoints, skylines, famous architecture, mountains, lakes, bays, sunsets, etc. Examples:
-Barcelona: "Barcelona Sagrada Familia skyline"
-Malaga: "Malaga Alcazaba sea view"
-Valencia: "Valencia City of Arts and Sciences"
-Mallorca: "Mallorca Cap de Formentor"
-Rooma: "Rome Colosseum sunset"
-Bologna: "Bologna skyline red rooftops"
-Florence: "Florence Duomo panorama"
-Sardinia: "Sardinia La Pelosa beach"
-Sisilia: "Sicily Taormina Mount Etna sea"
-Ateena: "Athens Acropolis sunset"
-Kreeta: "Crete Balos beach"
-Rodos: "Rhodes Lindos beach"
-Korfu: "Corfu Paleokastritsa bay"
-Mykonos: "Mykonos Little Venice sea"
-Lisbon: "Lisbon viewpoint sunset"
-Porto: "Porto Douro Dom Luis bridge sunset"
-Algarve: "Algarve Benagil cave beach"
-Berliini: "Berlin Brandenburg Gate sunset"
-Hampuri: "Hamburg harbor Elbphilharmonie sunset"
-München: "Bavaria Neuschwanstein Castle Alps"
-Amsterdam: "Amsterdam canals sunset"
-Vienna: "Vienna Schonbrunn Palace gardens"
-Zürich: "Zurich lake Alps panorama"
-Geneva: "Geneva lake Jet d'Eau Alps"
-Praha: "Prague Charles Bridge sunset"
-Luxembourg: "Luxembourg city valley panorama"
-Alppikylät: "Matterhorn Zermatt Alps"
-Reykjavik: "Iceland Reykjavik mountains ocean"
-Oslo: "Oslo fjord Opera House sunset"
-Bergen: "Bergen Norway fjord viewpoint"
-Kööpenhamina: "Copenhagen Nyhavn sunset"
-Tukholma: "Stockholm archipelago sunset"
-Gothenburg: "Gothenburg Sweden harbor sunset"
-Helsinki: "Helsinki Suomenlinna sea sunset"
-Turku: "Turku Finland archipelago castle"
-Dublin: "Dublin Cliffs of Moher Ireland"
-Lontoo: "London Tower Bridge Thames sunset"
-Pariisi: "Paris Eiffel Tower sunset"
-Nizza: "Nice France Promenade des Anglais Mediterranean"
-Bordeaux: "Bordeaux Place de la Bourse water mirror"
-Bruges: "Bruges Belgium canals sunset"
-Rotterdam: "Rotterdam Erasmus Bridge skyline sunset"
-New York: "New York skyline Statue of Liberty sunset"
-Los Angeles: "Los Angeles Griffith Observatory skyline sunset"
-Dallas: "Dallas skyline sunset Reunion Tower"
-Alaska: "Alaska mountains glacier landscape"
-Toronto: "Toronto skyline Lake Ontario sunset"
-Miami: "Miami South Beach ocean sunset"
-Buenos Aires: "Buenos Aires skyline sunset Puerto Madero"
-Rio de Janeiro: "Rio de Janeiro Copacabana Sugarloaf sunset"
-Sapporo: "Sapporo Japan mountain city view"
-Tokio: "Tokyo skyline Mount Fuji sunset"
-Seoul: "Seoul skyline Namsan sunset"
-Singapore: "Singapore Marina Bay Gardens by the Bay night"
-Sydney: "Sydney Opera House Harbour sunset"
-Auckland: "Auckland New Zealand skyline harbor sunset"
-Wellington: "Wellington New Zealand harbor hills sunset"
+const observer=new IntersectionObserver(entries=>entries.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.step-card,.about-grid>div,.competitor-row>div,.destination-group').forEach(el=>{el.classList.add('reveal');observer.observe(el)});
 
-Implement loadDestinationImage(image, city) using the Wikimedia Commons API, not Wikipedia article summaries. Query Commons with the destination-specific phrase, namespace 6, get up to 10 results, imageinfo URL/thumburl. Pick the first usable raster image while rejecting titles containing obvious bad terms like flag, map, logo, icon, symbol, coat of arms, sign, street sign, road sign, bus stop, station sign. Prefer landscape images where possible. Use thumburl width around 900. If the API fails, keep a neutral placeholder. Add loading/loaded classes if useful. Remove WIKI_DESTINATION_NAMES and the old Wikipedia functions entirely.
-
-Do not change any other site functionality. Make the image cards continue to render immediately with a neutral placeholder and then replace each background with the real Commons image when loaded. Return the updated complete file.
+// NoClue Abroad language switcher
+const translations={
+'🇫🇮':'🇬🇧',
+'Uusi tapa matkustaa':'A new way to travel','Miten se toimii':'How it works','Meistä':'About us','Aloita':'Get started','Suunnittele matka':'Plan your trip','Tiedät mitä haluat.':'You know what you want.','Et tiedä minne olet menossa.':'You do not know where you are going.','Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.':'Tell us what kind of trip you want. We choose the destination. You get the surprise.','Suunnittele yllätysmatka':'Plan a surprise trip','Katso miten se toimii':'See how it works','LÄHTÖ':'DEPARTURE','KOHDE':'DESTINATION','Salainen':'Secret','Selviää myöhemmin':'Revealed later','Helsinki':'Helsinki','Näin se toimii':'How it works','Sinä päätät ':'You choose the ','fiiliksen.':'vibe.','Me päätämme paikan.':'We choose the place.','Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka.':'No hours of browsing hotels. No dozens of tabs. Tell us what matters and let us build the trip.','Kerro mitä haluat':'Tell us what you want','Esimerkiksi lämmin kohde, golfia, uintia, hyvää ruokaa ja budjetti 2 000 €.':'For example: a warm destination, golf, swimming, great food and a €2,000 budget.','Me valitsemme kohteen':'We choose the destination','Etsimme toiveisiisi sopivan vaihtoehdon ja pidämme kohteen salassa.':'We find an option that fits your wishes and keep the destination secret.','Sinä lähdet':'You leave','Saat pakkauslistan ja tarvittavat tiedot. Kohde selviää oikealla hetkellä.':'You get a packing list and the information you need. The destination is revealed at the right moment.','Sinun vuorosi':'Your turn','Millainen matka':'What kind of trip','sinua kiinnostaa?':'interests you?','Täytä toiveesi. Tästä alkaa NoClue-kokemus.':'Tell us your wishes. This is where the NoClue experience begins.','Budjetti':'Budget','Matkan pituus':'Trip length','Millainen sää?':'What weather?','Matkaseura':'Travel companions','Aurinkoinen ja lämmin':'Sunny and warm','Leuto':'Mild','Ei väliä':'No preference','Ystävät':'Friends','Puoliso':'Partner','Perhe':'Family','Yksin':'Alone','Mitä haluat tehdä?':'What do you want to do?','Valitse kaikki sopivat':'Select all that apply','Ranta':'Beach','Ruoka':'Food','Kaupunki':'City','Luonto':'Nature','Seikkailu':'Adventure','Lukitse toiveeni':'Lock in my wishes','MEISTÄ':'ABOUT US','Mikä on ':'What is ','NoClue Abroad on palvelu, jossa asiakas kertoo millaisen matkan hän haluaa, mutta ei tiedä etukäteen minne hän on menossa.':'NoClue Abroad is a service where you tell us what kind of trip you want without knowing where you are going in advance.','PALVELU':'SERVICE','Sinä kerrot ':'You tell us your ','toiveesi.':'wishes.','Lämmin kohde, golfia, uintia ja budjetti 2 000 €.':'A warm destination, golf, swimming and a €2,000 budget.','Kerrot ideasi':'Share your idea','Me suunnittelemme':'We plan it','Etsimme kohteen ja aktiviteetit toiveidesi perusteella.':'We find the destination and activities based on your wishes.','Sinä lähdet':'You leave','Saman tien?':'Right away?','KENELLE':'WHO IT IS FOR','Niille, jotka eivät halua ':'For people who do not want to ','suunnitella kaikkea.':'plan everything.','Palvelu sopii kiireisille ihmisille, jotka eivät halua käyttää aikaa matkan suunnitteluun, nuorille jotka haluavat enemmän jännitystä sekä ihmisille, jotka yksinkertaisesti vihaavat matkojen järjestämistä. Se sopii myös kaveriporukoille.':'The service is for busy people who do not want to spend time planning trips, young people looking for more adventure, and people who simply hate organizing travel. It also works for groups of friends.','YRITYKSEMME':'OUR COMPANY','Toimimme ':'We operate ','Suomesta.':'from Finland.','Yritys ei tarvitse aluksi omia toimitiloja, koska toimintaa voidaan hoitaa digitaalisesti. Aluksi yrityksessä on kaksi työntekijää.':'The company does not initially need its own premises because the business can be run digitally. At first, the company has two employees.','2 työntekijää':'2 employees','AI apuna':'AI support','AI auttaa kohteiden, hintojen ja aktiviteettien etsimisessä ja vertailussa.':'AI helps find and compare destinations, prices and activities.','KIERTOTALOUS & VASTUULLISUUS':'CIRCULARITY & RESPONSIBILITY','Vastuullisuus kuuluu ':'Responsibility is part of the ','matkaan.':'journey.','Haluamme huomioida ympäristövaikutukset ilman, että matkan laatu kärsii. Lyhyemmillä matkoilla voimme suosia junia ja busseja lentämisen sijaan. Suosimme mahdollisuuksien mukaan vastuullisia hotelleja, aktiviteetteja ja paikallisia yrityksiä. Liput, matkaohjeet ja pakkauslista toimitetaan digitaalisesti, jotta turhaa paperia ja materiaalia tarvitaan vähemmän.':'We want to consider environmental impact without compromising trip quality. For shorter trips, we can favor trains and buses instead of flying. Where possible, we favor responsible hotels, activities and local businesses. Tickets, travel instructions and packing lists are delivered digitally to reduce paper and materials.','MEGATRENDIT':'MEGATRENDS','Matkailu muuttuu.':'Travel is changing.','Sinä tiedät mitä haluat.':'You know what you want.','Me etsimme minne.':'We find where.','© 2026 NoClue Abroad':'© 2026 NoClue Abroad',
+'Kohdevalikoima':'Destination collection','Matkasi voi viedä':'Your trip can take you','mihin tahansa näistä.':'to any of these.','Sinä kerrot millaista matkaa haluat. NoClue valitsee toiveisiisi sopivan kohteen tästä valikoimasta — mutta pitää lopullisen kohteen yllätyksenä.':'You tell us what kind of trip you want. NoClue chooses a destination from this collection — but keeps the final destination a surprise.','KOHDEVALIKOIMA':'DESTINATION COLLECTION','KOHDEVALINTA':'DESTINATION SELECTION'
+};
+function applyLanguage(lang){const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walk.nextNode()){const n=walk.currentNode;if(n.parentElement.closest('.lang-switch'))continue;const original=n.textContent;let value=original;Object.keys(translations).forEach(k=>{if(lang==='en'&&value.includes(k))value=value.split(k).join(translations[k]);else if(lang==='fi'){const en=translations[k];if(en)value=value.split(en).join(k)}});n.textContent=value}document.documentElement.lang=lang;document.title=lang==='en'?'NoClue Abroad — You know what. Not where.':'NoClue Abroad — You know what. Not where.';localStorage.setItem('noclueLanguage',lang);const b=document.querySelector('.lang-switch');if(b)b.textContent=lang==='en'?'🇫🇮 FI':'🇬🇧 EN'}
+function setupLanguageSwitch(){const nav=document.querySelector('.nav');if(!nav||document.querySelector('.lang-switch'))return;const b=document.createElement('button');b.className='lang-switch';b.type='button';b.setAttribute('aria-label','Change language');b.addEventListener('click',()=>applyLanguage(document.documentElement.lang==='en'?'fi':'en'));const style=document.createElement('style');style.textContent='.lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px "DM Sans",sans-serif;cursor:pointer;transition:.2s}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}.lang-switch+*{}@media(max-width:800px){.nav nav{display:none}.lang-switch{padding:9px 11px}}';document.head.appendChild(style);nav.appendChild(b);applyLanguage(localStorage.getItem('noclueLanguage')||'fi')}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupLanguageSwitch);else setupLanguageSwitch();
