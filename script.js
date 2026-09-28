@@ -110,6 +110,8 @@ const LANGUAGE_PAIRS = [
   ["Our yrityksessämme näkyvät erityisesti kestävä kehitys, digitalisaatio ja muuttuvat kulutustottumukset.","Our company is particularly shaped by sustainable development, digitalization and changing consumer habits."]
 ];
 const ATTRS_TO_TRANSLATE=["aria-label","title","alt","placeholder"];
+// Translate all visible text nodes, including longer paragraphs and captions.
+// Finnish source text is never overwritten in the files; the current language is only rendered in the browser.
 const ENGLISH_ONLY = new Set(LANGUAGE_PAIRS.map(x=>x[1]));
 function translateString(value,lang){
   if(!value)return value;
