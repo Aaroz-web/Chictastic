@@ -71,66 +71,93 @@ if(form){form.addEventListener('submit',e=>{
 const observer=new IntersectionObserver(entries=>entries.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible')}),{threshold:.12});
 document.querySelectorAll('.step-card,.about-grid>div,.competitor-row>div,.destination-group').forEach(el=>{el.classList.add('reveal');observer.observe(el)});
 
-// NoClue Abroad language switcher
-const translations={
-  "How it works":"Miten se toimii","About us":"Meistä","Business plan":"Liiketoimintasuunnitelma","Financial plan":"Talouslaskelma","Start":"Aloita","Plan your trip":"Suunnittele matka",
-  "A new way to travel":"Uusi tapa matkustaa","You know what you want.":"Tiedät mitä haluat.","You don't know where you're going.":"Et tiedä minne olet menossa.","Tell us what kind of trip you want. We handle the destination. You get the surprise.":"Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.",
-  "Plan a surprise trip":"Suunnittele yllätysmatka","See how it works":"Katso miten se toimii","DEPARTURE":"LÄHTÖ","DESTINATION":"KOHDE","Secret":"Salainen","Revealed later":"Selviää myöhemmin",
-  "How it works":"Miten se toimii","You choose the ":"Sinä päätät ","feeling.":"fiiliksen.","We choose the place.":"Me päätämme paikan.","No hours of browsing hotels. No dozens of tabs. Tell us what matters and let us build the trip.":"Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka.",
-  "Tell us what you want":"Kerro mitä haluat","We choose the destination":"Me valitsemme kohteen","You leave":"Sinä lähdet",
-  "Where do we ":"Minne me ","travel?":"matkustamme?","What kind of trip":"Millainen matka","are you interested in?":"sinua kiinnostaa?",
-  "When are you travelling?":"Milloin matkustat?","Choose your departure date and then your return date.":"Valitse lähtöpäivä ja sen jälkeen paluupäivä.","Choose dates":"Valitse päivät",
-  "What's your budget?":"Mikä on budjettisi?","Set your maximum budget.":"Aseta enimmäisbudjettisi.",
-  "What kind of weather?":"Millainen sää?","Sunny and warm":"Aurinkoinen ja lämmin","Mild":"Leuto","No preference":"Ei väliä",
-  "Travel companions":"Matkaseura","Friends":"Ystävät","Partner":"Puoliso","Family":"Perhe","Alone":"Yksin",
-  "What do you want to do?":"Mitä haluat tehdä?","Select all that apply":"Valitse kaikki sopivat","Beach":"Ranta","Food":"Ruoka","City":"Kaupunki","Nature":"Luonto","Adventure":"Seikkailu","Lock in my preferences":"Lukitse toiveeni",
-  "ABOUT US":"MEISTÄ","What is ":"Mikä on ","BUSINESS ANALYSIS":"YRITYSANALYYSI","BUSINESS PLAN":"LIIKETOIMINTASUUNNITELMA","Our ":"Meidän ","idea.":"ideamme.","Our company":"Yrityksemme",
-  "Strengths":"Vahvuudet","Weaknesses":"Heikkoudet","Opportunities":"Mahdollisuudet","Threats":"Uhat",
-  "What do we sell?":"Mitä myymme?","How does it work?":"Miten idea toimii?","How do we find the trip?":"Miten löydämme matkan?","What makes us different?":"Mikä tekee meistä erilaisen?",
-  "FINANCIAL PLAN":"YRITYKSEN TALOUS","Summary":"Yhteenveto","Revenue":"Liikevaihto","Variable costs":"Muuttuvat kulut","Fixed costs":"Kiinteät kulut","Total margin":"Kate yhteensä","PROFIT / LOSS WITHOUT EMPLOYEE":"VOITTO / TAPPIO ILMAN TYÖNTEKIJÄÄ","Total":"Yhteensä","electricity":"sähkö","Employee":"Henkilöstö","insurance":"vakuutukset","marketing":"markkinointi","Loan costs":"Lainakulut",
-  "Plan your trip":"Suunnittele matka","What is NoClue Abroad?":"Mikä on NoClue Abroad?","Our company":"Yrityksemme","Service":"Palvelu",
-  "© 2026 NoClue Abroad":"© 2026 NoClue Abroad"
-};
-function replaceText(lang){
-  const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
-  while(walk.nextNode()){
-    const n=walk.currentNode;
-    if(n.parentElement.closest(".lang-switch")) continue;
-    let v=n.textContent;
-    if(lang==="fi"){
-      Object.entries(translations).forEach(([en,fi])=>{ if(v.includes(en)) v=v.split(en).join(fi); });
-    }else{
-      Object.entries(translations).forEach(([en,fi])=>{ if(v.includes(fi)) v=v.split(fi).join(en); });
-    }
-    n.textContent=v;
+// NoClue Abroad language switcher — Finnish source text stays intact; English is a toggle translation.
+const LANGUAGE_PAIRS = [
+  ["Miten se toimii","How it works"],["Meistä","About us"],["Liiketoimintasuunnitelma","Business plan"],["Talouslaskelma","Financial plan"],["Aloita","Start"],["Suunnittele matka","Plan your trip"],
+  ["Uusi tapa matkustaa","A new way to travel"],["Tiedät mitä haluat.","You know what you want."],["Et tiedä minne olet menossa.","You don't know where you're going."],
+  ["Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.","Tell us what kind of trip you want. We handle the destination. You get the surprise."],
+  ["Suunnittele yllätysmatka","Plan a surprise trip"],["Katso miten se toimii","See how it works"],["LÄHTÖ","DEPARTURE"],["KOHDE","DESTINATION"],["Salainen","Secret"],["Selviää myöhemmin","Revealed later"],
+  ["Sinä päätät ","You choose the "],["fiiliksen.","feeling."],["Me päätämme paikan.","We choose the place."],
+  ["Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka.","No hours of browsing hotels. No dozens of tabs. Tell us what matters and let us build the trip."],
+  ["Kerro mitä haluat","Tell us what you want"],["Me valitsemme kohteen","We choose the destination"],["Sinä lähdet","You leave"],
+  ["Minne me ","Where do we "],["matkustamme?","travel?"],["Millainen matka","What kind of trip"],["sinua kiinnostaa?","are you interested in?"],
+  ["Milloin matkustat?","When are you travelling?"],["Valitse lähtöpäivä ja sen jälkeen paluupäivä.","Choose your departure date and then your return date."],["Valitse päivät","Choose dates"],
+  ["Mikä on budjettisi?","What's your budget?"],["Aseta enimmäisbudjettisi.","Set your maximum budget."],
+  ["Millainen sää?","What kind of weather?"],["Aurinkoinen ja lämmin","Sunny and warm"],["Leuto","Mild"],["Ei väliä","No preference"],
+  ["Matkaseura","Travel companions"],["Ystävät","Friends"],["Puoliso","Partner"],["Perhe","Family"],["Yksin","Alone"],
+  ["Mitä haluat tehdä?","What do you want to do?"],["Valitse kaikki sopivat","Select all that apply"],["Ranta","Beach"],["Ruoka","Food"],["Kaupunki","City"],["Luonto","Nature"],["Seikkailu","Adventure"],["Lukitse toiveeni","Lock in my preferences"],
+  ["MEISTÄ","ABOUT US"],["Mikä on ","What is "],["YRITYSANALYYSI","BUSINESS ANALYSIS"],["LIIKETOIMINTASUUNNITELMA","BUSINESS PLAN"],["Meidän ","Our "],["ideamme.","idea."],
+  ["Vahvuudet","Strengths"],["Heikkoudet","Weaknesses"],["Mahdollisuudet","Opportunities"],["Uhat","Threats"],
+  ["Mitä myymme?","What do we sell?"],["Miten idea toimii?","How does it work?"],["Miten löydämme matkan?","How do we find the trip?"],["Mikä tekee meistä erilaisen?","What makes us different?"],
+  ["YRITYKSEN TALOUS","FINANCIAL PLAN"],["Yhteenveto","Summary"],["Liikevaihto","Revenue"],["Muuttuvat kulut","Variable costs"],["Kiinteät kulut","Fixed costs"],["Kate yhteensä","Total margin"],["VOITTO / TAPPIO ILMAN TYÖNTEKIJÄÄ","PROFIT / LOSS WITHOUT EMPLOYEE"],["Yhteensä","Total"],["sähkö","electricity"],["Henkilöstö","Employee"],["vakuutukset","insurance"],["markkinointi","marketing"],["Lainakulut","Loan costs"],["Tuote 1","Product 1"],["Tuote 2","Product 2"],["Tuote 3","Product 3"],["Tuote 4","Product 4"],["Määrä","Quantity"],
+  ["PALVELU","SERVICE"],["WHO IT'S FOR","KENELLE SE ON"],["WHY IT CAN SUCCEED","MIKSI SE VOI ONNISTUA"],["COMPETITIVE ADVANTAGE","KILPAILUETU"],["OUR COMPANY","YRITYKSEMME"],["CIRCULAR ECONOMY & RESPONSIBILITY","KIERTOTALOUS & VASTUULLISUUS"],["MEGATRENDS","MEGATRENDIT"],
+  ["You share your ","Kerrot "],["wishes.","toiveesi."],["Niille, jotka haluavat ","For those who want to "],["matkustaa eri tavalla.","travel differently."],
+  ["Miksi ","Why "],["kilpailijoista?","from competitors?"],["Rakennamme palvelua ","We build the service "],["digitaalisesti.","digitally."],
+  ["Kaksi työntekijää aluksi","Two employees at first"],["Pieni tiimi etsii kohteita ja aktiviteetteja, suunnittelee matkat ja huolehtii asiakkaan kokonaisuudesta.","A small team finds destinations and activities, plans trips and takes care of the customer experience."],
+  ["AI työkaluna","AI as a tool"],["Tekoälyä voidaan hyödyntää vaihtoehtojen löytämisessä, tietojen järjestämisessä ja matkakokonaisuuksien vertailussa.","AI can be used to find options, organize information and compare travel packages."],
+  ["Matkan pitäisi tuntua hyvältä ","The trip should feel good "],["myös jälkeenpäin.","even afterwards."],["Matkailu muuttuu, ja me ","Travel is changing, and we "],["haluamme muuttua sen mukana.","want to change with it."],
+  ["Sinä tiedät mitä haluat.","You know what you want."],["Me etsimme minne.","We find where."],["Plan your trip","Suunnittele matka"],
+  ["BUSINESS ANALYSIS","YRITYSANALYYSI"],["Our idea.","Meidän ideamme."],["Financial","Talous"],["plan.","suunnitelma."],["COMPANY FINANCES","YRITYKSEN TALOUS"],
+  ["Products","Tuotteet"],["Kate = myynti − muuttuvat kulut","Margin = sales − variable costs"],["Fixed costs","Kiinteät kulut"],["Yrityksen kiinteät kulut","Company fixed costs"],
+  ["alla oleva","below"],["Alla oleva laskelma esittää tuotteiden katteet, muuttuvat kulut, kiinteät kulut sekä yrityksen liikevaihdon ja voiton. Luvut on pidetty samoina kuin alkuperäisessä laskelmassa.","The calculation below shows product margins, variable costs, fixed costs, company revenue and profit. The figures are the same as in the original calculation."],
+  ["Kohteet on jaettu Euroopan ja muiden alueiden matkailualueisiin.","Destinations are divided into travel regions in Europe and other parts of the world."],
+  ["NoClue valitsee yllätysmatkan tästä kohdevalikoimasta.","NoClue chooses a surprise trip from this destination selection."],
+  ["Etelä-Eurooppa","Southern Europe"],["Länsi-Eurooppa","Western Europe"],["Keski-Eurooppa","Central Europe"],["Pohjois-Eurooppa","Northern Europe"],["Itä-Aasia","East Asia"],["Kaakkois-Aasia","Southeast Asia"],["Pohjois-Amerikka","North America"],["Oseania","Oceania"],["Etelä-Amerikka","South America"],
+  ["Täytä wishes. Päivämäärät ja budjetti ovat matkan lähtökohta.","Fill in your wishes. Dates and budget are the starting point for the trip."],
+  ["© 2026 NoClue Abroad","© 2026 NoClue Abroad"],
+  ["Strengths — Vahvuudet","Strengths — Strengths"],["Weaknesses — Heikkoudet","Weaknesses — Weaknesses"],["Opportunities — Mahdollisuudet","Opportunities — Opportunities"],["Threats — Uhat","Threats — Threats"],
+  ["The SWOT analysis avulla tarkastellaan NoClue Abroadin vahvuuksia, heikkouksia, mahdollisuuksia ja uhkia sekä niitä tekijöitä, jotka voivat vaikuttaa yrityksen toimintaan ja kasvuun.","The SWOT analysis examines NoClue Abroad's strengths, weaknesses, opportunities and threats, as well as factors that may affect the company's operations and growth."],
+  ["Our yrityksessämme näkyvät erityisesti kestävä kehitys, digitalisaatio ja muuttuvat kulutustottumukset.","Our company is particularly shaped by sustainable development, digitalization and changing consumer habits."]
+];
+const ATTRS_TO_TRANSLATE=["aria-label","title","alt","placeholder"];
+const ENGLISH_ONLY = new Set(LANGUAGE_PAIRS.map(x=>x[1]));
+function translateString(value,lang){
+  if(!value)return value;
+  const pairs=LANGUAGE_PAIRS.slice().sort((a,b)=>Math.max(a[0].length,a[1].length)-Math.max(b[0].length,b[1].length)).reverse();
+  let out=value;
+  for(const [fi,en] of pairs){
+    const from=lang==="en"?fi:en;
+    const to=lang==="en"?en:fi;
+    if(from) out=out.split(from).join(to);
+  }
+  return out;
+}
+function translateNodeTree(root,lang){
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()){
+    const n=walker.currentNode;
+    if(n.parentElement?.closest(".lang-switch,script,style")) continue;
+    n.textContent=translateString(n.textContent,lang);
+  }
+  if(root.querySelectorAll){
+    root.querySelectorAll(ATTRS_TO_TRANSLATE.map(a=>"["+a+"]").join(",")).forEach(el=>{
+      ATTRS_TO_TRANSLATE.forEach(a=>{if(el.hasAttribute(a))el.setAttribute(a,translateString(el.getAttribute(a),lang));});
+    });
   }
 }
 function applyLanguage(lang){
-  replaceText(lang);
+  translateNodeTree(document.body,lang);
   document.documentElement.lang=lang;
+  document.title=translateString(document.title,lang);
   localStorage.setItem("noclueLanguage",lang);
   const b=document.querySelector(".lang-switch");
-  if(b) b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  if(b)b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
 }
 function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
-  if(!nav||document.querySelector(".lang-switch")) return;
+  if(!nav||document.querySelector(".lang-switch"))return;
   const b=document.createElement("button");
-  b.className="lang-switch";
-  b.type="button";
-  b.setAttribute("aria-label","Vaihda kieltä / Change language");
-  b.addEventListener("click",()=>{
-    const next=document.documentElement.lang==="en"?"fi":"en";
-    applyLanguage(next);
-  });
+  b.className="lang-switch";b.type="button";b.setAttribute("aria-label","Vaihda kieltä / Change language");
+  b.addEventListener("click",()=>applyLanguage(document.documentElement.lang==="en"?"fi":"en"));
   const style=document.createElement("style");
-  style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px \"DM Sans\",sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
-  document.head.appendChild(style);
-  nav.appendChild(b);
+  style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
+  document.head.appendChild(style);nav.appendChild(b);
   const saved=localStorage.getItem("noclueLanguage")||"fi";
-  document.documentElement.lang="en";
-  if(saved==="fi") replaceText("fi");
-  document.documentElement.lang=saved;
   b.textContent=saved==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  document.documentElement.lang=saved;
+  if(saved==="fi")translateNodeTree(document.body,"fi");
+  else translateNodeTree(document.body,"en");
+  const observer=new MutationObserver(muts=>{for(const m of muts){m.addedNodes.forEach(n=>{if(n.nodeType===1||n.nodeType===3)translateNodeTree(n,document.documentElement.lang);});}});
+  observer.observe(document.body,{childList:true,subtree:true});
 }
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",setupLanguageSwitch); else setupLanguageSwitch();
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);else setupLanguageSwitch();
