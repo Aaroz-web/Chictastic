@@ -118,6 +118,39 @@ const LANGUAGE_PAIRS = [
 ["Yrityksessämme näkyvät erityisesti kestävä kehitys, digitalisaatio ja muuttuvat kulutustottumukset. Ihmiset haluavat matkustaa ja saada uusia elämyksiä, mutta samalla yhä useampi haluaa tehdä sen vastuullisesti. Me tarjoamme tähän ratkaisun. Digitalisaatio näkyy siinä, että tekoälyä ja muita palveluita hyödynnetään sopivan matkan löytämiseen ja kokoamiseen.","Our company is particularly shaped by sustainable development, digitalization and changing consumer habits. People want to travel and have new experiences, while more and more people also want to do so responsibly. We offer a solution to this. Digitalization can be seen in the use of AI and other services to find and build a suitable trip."]
 ];
 
+
+// Complete page-level translations for every remaining Finnish text node.
+LANGUAGE_PAIRS.push(
+["NoClue Abroad etusivu","NoClue Abroad home page"],
+["NoClue Abroad — Tiedät mitä haluat. Et minne olet menossa.","NoClue Abroad — You know what you want. Not where you are going."],
+["Mikä on ","What is "],
+["NoClue Abroad?","NoClue Abroad?"],
+["NoClue Abroad syntyi ajatuksesta, että matkustamisen pitäisi olla helppoa, mutta samalla siinä voisi olla enemmän yllätyksellisyyttä. Asiakas kertoo millaisesta kokemuksesta haaveilee, ja me huolehdimme siitä, että sopiva matka löytyy ilman, että koko kohdetta tarvitsee päättää itse.","NoClue Abroad was created from the idea that travelling should be easy while still having more surprise. The customer tells us what kind of experience they dream of, and we make sure a suitable trip is found without them having to choose the whole destination themselves."],
+["MEISTÄ","ABOUT US"],["01 — PALVELU","01 — SERVICE"],["02 — KENELLE SE ON","02 — WHO IT'S FOR"],["03 — MIKSI SE VOI ONNISTUA","03 — WHY IT CAN SUCCEED"],["04 — KILPAILUETU","04 — COMPETITIVE ADVANTAGE"],["05 — YRITYKSEMME","05 — OUR COMPANY"],["06 — KIERTOTALOUS & VASTUULLISUUS","06 — CIRCULAR ECONOMY & RESPONSIBILITY"],["07 — MEGATRENDIT","07 — MEGATRENDS"],
+["1. Kerrot ideasi","1. You share your idea"],["2. Me rakennamme kokonaisuuden","2. We build the whole trip"],["3. Sinä koet matkan","3. You experience the trip"],
+["Valitset ajankohdan, budjetin ja sellaiset kiinnostuksen kohteet, jotka tekevät matkasta sinulle mielekkään.","You choose the dates, budget and interests that make the trip meaningful to you."],
+["Yhdistämme toiveet sopivaksi matkaksi ja etsimme kohteen, jossa suunnitelma toimii myös käytännössä.","We combine your wishes into a suitable trip and find a destination where the plan also works in practice."],
+["Saat ennen lähtöä tarvittavat tiedot ja pakkauslistan. Osa matkasta pysyy tarkoituksella yllätyksenä.","You receive the necessary information and a packing list before departure. Part of the trip remains intentionally a surprise."],
+["Miksi NoClue Abroad?","Why NoClue Abroad?"],
+["Miten erotumme kilpailijoista?","How are we different from competitors?"],
+["Sinä tiedät mitä haluat.","You know what you want."],["Me etsimme minne.","We find where."],["Suunnittele matka","Plan a trip"],
+["LIIKETOIMINTASUUNNITELMA","BUSINESS PLAN"],["YRITYKSEN TALOUS","COMPANY FINANCES"],["Talouslaskelma.","Financial plan."],
+["Laskelma","Calculation"],["Kate = myynti − muuttuvat kulut","Margin = sales − variable costs"],
+["Edellinen kuukausi","Previous month"],["Seuraava kuukausi","Next month"],["Kuukausi","Month"],
+["Valitse ensin lähtöpäivä ja sitten paluupäivä.","First choose the departure date and then the return date."],
+["Lähtö:","Departure:"],["Paluu:","Return:"],["Valitse lähtö- ja paluupäivä","Choose departure and return dates"],["Valitse paluupäivä","Choose a return date"],
+["NOCLUE AI — KOHDEVALINTA","NOCLUE AI — DESTINATION SELECTION"],
+["Kohde valittiin toiveidesi perusteella. Se sopii erityisesti: ","The destination was selected based on your wishes. It is especially suitable for: "],
+["aurinkoiseen säähän","sunny weather"],["rantalomaan","a beach holiday"],["golfiin","golf"],["ruokaan","food"],["kaupunkilomaan","a city holiday"],["luontoon","nature"],["seikkailuun","adventure"],
+["Oikeassa NoClue-matkassa kohde pysyy matkustajalle salaisena.","On a real NoClue trip, the destination remains secret from the traveller."],
+["Valinta tehdään NoClue-kohdevalikoimasta. Tuotantoversiossa mukaan voidaan liittää myös ajantasainen lento-, hotelli- ja hintadata.","The choice is made from the NoClue destination selection. In a production version, current flight, hotel and price data could also be included."],
+["vältettävää kohdetta valittu","excluded destinations selected"],
+["Tammikuu","January"],["Helmikuu","February"],["Maaliskuu","March"],["Huhtikuu","April"],["Toukokuu","May"],["Kesäkuu","June"],["Heinäkuu","July"],["Elokuu","August"],["Syyskuu","September"],["Lokakuu","October"],["Marraskuu","November"],["Joulukuu","December"],
+["Etelä-Eurooppa","Southern Europe"],["Länsi-Eurooppa","Western Europe"],["Keski-Eurooppa","Central Europe"],["Pohjois-Eurooppa","Northern Europe"],["Itä-Aasia","East Asia"],["Kaakkois-Aasia","Southeast Asia"],["Pohjois-Amerikka","North America"],["Oseania","Oceania"],["Etelä-Amerikka","South America"],
+["NoClue valitsee yllätysmatkan tästä kohdevalikoimasta. Kohteet on jaettu Euroopan ja muiden alueiden matkailualueisiin.","NoClue chooses the surprise trip from this destination selection. The destinations are divided into travel regions in Europe and other parts of the world."],
+["Matkakohde","travel destination"],["Etelä-Eurooppa","Southern Europe"],["Länsi-Eurooppa","Western Europe"],["Keski-Eurooppa","Central Europe"],["Pohjois-Eurooppa","Northern Europe"],["Itä-Aasia","East Asia"],["Kaakkois-Aasia","Southeast Asia"],["Pohjois-Amerikka","North America"],["Oseania","Oceania"],["Etelä-Amerikka","South America"]
+);
+
 const ORIGINAL_TEXT = new WeakMap();
 const ORIGINAL_ATTRS = new WeakMap();
 const ATTRS = ["aria-label","title","alt","placeholder"];
