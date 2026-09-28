@@ -127,7 +127,7 @@ function setupLanguageSwitch(){
   style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px \"DM Sans\",sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
   document.head.appendChild(style);
   nav.appendChild(b);
-  const saved=localStorage.getItem("noclueLanguage")||"en";
+  const saved=localStorage.getItem("noclueLanguage")||"fi";
   document.documentElement.lang="en";
   if(saved==="fi") replaceText("fi");
   document.documentElement.lang=saved;
