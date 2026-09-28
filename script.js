@@ -122,6 +122,11 @@ const LANGUAGE_PAIRS = [
 // Complete page-level translations for every remaining Finnish text node.
 LANGUAGE_PAIRS.push(
 ["NoClue Abroad etusivu","NoClue Abroad home page"],
+["Vertaispalaute","Peer feedback"],
+["08 — PALAUTE","08 — FEEDBACK"],
+["Vertaispalaute.","Peer feedback."],
+["Ulkopuolinen palaute NoClue Abroadin ideasta ja verkkosivusta.","External feedback on the NoClue Abroad idea and website."],
+["NoClue Abroadin idea on kiinnostava ja erottuva. Mysteerimatkat tekevät matkustamisesta jännittävämpää ja samalla asiakkaan ei tarvitse käyttää aikaa matkan suunnitteluun. Yrityksen toimintaperiaate on selkeä, ja verkkosivuilta saa nopeasti hyvän käsityksen palvelusta. Erityisesti asiakkaan toiveiden, budjetin ja kiinnostuksenkohteiden huomioiminen on hyvä idea. Palvelu voisi sopia erityisesti nuorille ja seikkailunhaluisille matkustajille, jotka haluavat kokea jotain uutta ilman tarkkaa ennakkosuunnittelua. Kokonaisuutena idea vaikuttaa toimivalta ja siinä on paljon potentiaalia.","The NoClue Abroad idea is interesting and distinctive. Mystery trips make travelling more exciting, while the customer does not have to spend time planning the trip. The company’s operating principle is clear, and the website gives a quick and clear understanding of the service. In particular, taking the customer’s wishes, budget and interests into account is a good idea. The service could be especially suitable for young and adventurous travellers who want to experience something new without detailed advance planning. Overall, the idea seems functional and has a lot of potential."],
 ["NoClue Abroad — Tiedät mitä haluat. Et minne olet menossa.","NoClue Abroad — You know what you want. Not where you are going."],
 ["Mikä on ","What is "],
 ["NoClue Abroad?","NoClue Abroad?"],
