@@ -162,7 +162,25 @@ function translateFromFinnish(value,lang){
   for(const [fi,en] of pairs) out=out.split(lang==="en"?fi:en).join(lang==="en"?en:fi);
   return out;
 }
+const ELEMENT_PAIRS = [
+  [".swot-header h1", "SWOT <em>analyysi.</em>", "SWOT <em>analysis.</em>"],
+  [".about-block h2", "Miten erotumme <span>kilpailijoista?</span>", "How are we different from <span>competitors?</span>"]
+];
+
 function translateNodeTree(root,lang){
+  const elementRoots=[];
+  if(root.querySelectorAll){
+    ELEMENT_PAIRS.forEach(([selector,fi,en])=>{
+      root.querySelectorAll(selector).forEach(el=>{
+        const current=el.innerHTML;
+        if(current===fi || current===en || !el.dataset.nocluetranslated) {
+          el.dataset.nocluetranslated="1";
+          el.innerHTML=lang==="en"?en:fi;
+          elementRoots.push(el);
+        }
+      });
+    });
+  }
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
     const n=walker.currentNode;
