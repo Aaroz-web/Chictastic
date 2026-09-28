@@ -73,10 +73,64 @@ document.querySelectorAll('.step-card,.about-grid>div,.competitor-row>div,.desti
 
 // NoClue Abroad language switcher
 const translations={
-'🇫🇮':'🇬🇧',
-'Uusi tapa matkustaa':'A new way to travel','Miten se toimii':'How it works','Meistä':'About us','Aloita':'Get started','Suunnittele matka':'Plan your trip','Tiedät mitä haluat.':'You know what you want.','Et tiedä minne olet menossa.':'You do not know where you are going.','Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.':'Tell us what kind of trip you want. We choose the destination. You get the surprise.','Suunnittele yllätysmatka':'Plan a surprise trip','Katso miten se toimii':'See how it works','LÄHTÖ':'DEPARTURE','KOHDE':'DESTINATION','Salainen':'Secret','Selviää myöhemmin':'Revealed later','Helsinki':'Helsinki','Näin se toimii':'How it works','Sinä päätät ':'You choose the ','fiiliksen.':'vibe.','Me päätämme paikan.':'We choose the place.','Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka.':'No hours of browsing hotels. No dozens of tabs. Tell us what matters and let us build the trip.','Kerro mitä haluat':'Tell us what you want','Esimerkiksi lämmin kohde, golfia, uintia, hyvää ruokaa ja budjetti 2 000 €.':'For example: a warm destination, golf, swimming, great food and a €2,000 budget.','Me valitsemme kohteen':'We choose the destination','Etsimme toiveisiisi sopivan vaihtoehdon ja pidämme kohteen salassa.':'We find an option that fits your wishes and keep the destination secret.','Sinä lähdet':'You leave','Saat pakkauslistan ja tarvittavat tiedot. Kohde selviää oikealla hetkellä.':'You get a packing list and the information you need. The destination is revealed at the right moment.','Sinun vuorosi':'Your turn','Millainen matka':'What kind of trip','sinua kiinnostaa?':'interests you?','Täytä toiveesi. Tästä alkaa NoClue-kokemus.':'Tell us your wishes. This is where the NoClue experience begins.','Budjetti':'Budget','Matkan pituus':'Trip length','Millainen sää?':'What weather?','Matkaseura':'Travel companions','Aurinkoinen ja lämmin':'Sunny and warm','Leuto':'Mild','Ei väliä':'No preference','Ystävät':'Friends','Puoliso':'Partner','Perhe':'Family','Yksin':'Alone','Mitä haluat tehdä?':'What do you want to do?','Valitse kaikki sopivat':'Select all that apply','Ranta':'Beach','Ruoka':'Food','Kaupunki':'City','Luonto':'Nature','Seikkailu':'Adventure','Lukitse toiveeni':'Lock in my wishes','MEISTÄ':'ABOUT US','Mikä on ':'What is ','NoClue Abroad on palvelu, jossa asiakas kertoo millaisen matkan hän haluaa, mutta ei tiedä etukäteen minne hän on menossa.':'NoClue Abroad is a service where you tell us what kind of trip you want without knowing where you are going in advance.','PALVELU':'SERVICE','Sinä kerrot ':'You tell us your ','toiveesi.':'wishes.','Lämmin kohde, golfia, uintia ja budjetti 2 000 €.':'A warm destination, golf, swimming and a €2,000 budget.','Kerrot ideasi':'Share your idea','Me suunnittelemme':'We plan it','Etsimme kohteen ja aktiviteetit toiveidesi perusteella.':'We find the destination and activities based on your wishes.','Sinä lähdet':'You leave','Saman tien?':'Right away?','KENELLE':'WHO IT IS FOR','Niille, jotka eivät halua ':'For people who do not want to ','suunnitella kaikkea.':'plan everything.','Palvelu sopii kiireisille ihmisille, jotka eivät halua käyttää aikaa matkan suunnitteluun, nuorille jotka haluavat enemmän jännitystä sekä ihmisille, jotka yksinkertaisesti vihaavat matkojen järjestämistä. Se sopii myös kaveriporukoille.':'The service is for busy people who do not want to spend time planning trips, young people looking for more adventure, and people who simply hate organizing travel. It also works for groups of friends.','YRITYKSEMME':'OUR COMPANY','Toimimme ':'We operate ','Suomesta.':'from Finland.','Yritys ei tarvitse aluksi omia toimitiloja, koska toimintaa voidaan hoitaa digitaalisesti. Aluksi yrityksessä on kaksi työntekijää.':'The company does not initially need its own premises because the business can be run digitally. At first, the company has two employees.','2 työntekijää':'2 employees','AI apuna':'AI support','AI auttaa kohteiden, hintojen ja aktiviteettien etsimisessä ja vertailussa.':'AI helps find and compare destinations, prices and activities.','KIERTOTALOUS & VASTUULLISUUS':'CIRCULARITY & RESPONSIBILITY','Vastuullisuus kuuluu ':'Responsibility is part of the ','matkaan.':'journey.','Haluamme huomioida ympäristövaikutukset ilman, että matkan laatu kärsii. Lyhyemmillä matkoilla voimme suosia junia ja busseja lentämisen sijaan. Suosimme mahdollisuuksien mukaan vastuullisia hotelleja, aktiviteetteja ja paikallisia yrityksiä. Liput, matkaohjeet ja pakkauslista toimitetaan digitaalisesti, jotta turhaa paperia ja materiaalia tarvitaan vähemmän.':'We want to consider environmental impact without compromising trip quality. For shorter trips, we can favor trains and buses instead of flying. Where possible, we favor responsible hotels, activities and local businesses. Tickets, travel instructions and packing lists are delivered digitally to reduce paper and materials.','MEGATRENDIT':'MEGATRENDS','Matkailu muuttuu.':'Travel is changing.','Sinä tiedät mitä haluat.':'You know what you want.','Me etsimme minne.':'We find where.','© 2026 NoClue Abroad':'© 2026 NoClue Abroad',
-'Kohdevalikoima':'Destination collection','Matkasi voi viedä':'Your trip can take you','mihin tahansa näistä.':'to any of these.','Sinä kerrot millaista matkaa haluat. NoClue valitsee toiveisiisi sopivan kohteen tästä valikoimasta — mutta pitää lopullisen kohteen yllätyksenä.':'You tell us what kind of trip you want. NoClue chooses a destination from this collection — but keeps the final destination a surprise.','KOHDEVALIKOIMA':'DESTINATION COLLECTION','KOHDEVALINTA':'DESTINATION SELECTION'
+  "How it works":"Miten se toimii","About us":"Meistä","Business plan":"Liiketoimintasuunnitelma","Financial plan":"Talouslaskelma","Start":"Aloita","Plan your trip":"Suunnittele matka",
+  "A new way to travel":"Uusi tapa matkustaa","You know what you want.":"Tiedät mitä haluat.","You don't know where you're going.":"Et tiedä minne olet menossa.","Tell us what kind of trip you want. We handle the destination. You get the surprise.":"Kerro meille millaisen matkan haluat. Me hoidamme kohteen. Sinä saat yllätyksen.",
+  "Plan a surprise trip":"Suunnittele yllätysmatka","See how it works":"Katso miten se toimii","DEPARTURE":"LÄHTÖ","DESTINATION":"KOHDE","Secret":"Salainen","Revealed later":"Selviää myöhemmin",
+  "How it works":"Miten se toimii","You choose the ":"Sinä päätät ","feeling.":"fiiliksen.","We choose the place.":"Me päätämme paikan.","No hours of browsing hotels. No dozens of tabs. Tell us what matters and let us build the trip.":"Ei tuntikausien hotellien selaamista. Ei kymmeniä välilehtiä. Kerro tärkeimmät toiveesi ja anna meidän rakentaa niistä matka.",
+  "Tell us what you want":"Kerro mitä haluat","We choose the destination":"Me valitsemme kohteen","You leave":"Sinä lähdet",
+  "Where do we ":"Minne me ","travel?":"matkustamme?","What kind of trip":"Millainen matka","are you interested in?":"sinua kiinnostaa?",
+  "When are you travelling?":"Milloin matkustat?","Choose your departure date and then your return date.":"Valitse lähtöpäivä ja sen jälkeen paluupäivä.","Choose dates":"Valitse päivät",
+  "What's your budget?":"Mikä on budjettisi?","Set your maximum budget.":"Aseta enimmäisbudjettisi.",
+  "What kind of weather?":"Millainen sää?","Sunny and warm":"Aurinkoinen ja lämmin","Mild":"Leuto","No preference":"Ei väliä",
+  "Travel companions":"Matkaseura","Friends":"Ystävät","Partner":"Puoliso","Family":"Perhe","Alone":"Yksin",
+  "What do you want to do?":"Mitä haluat tehdä?","Select all that apply":"Valitse kaikki sopivat","Beach":"Ranta","Food":"Ruoka","City":"Kaupunki","Nature":"Luonto","Adventure":"Seikkailu","Lock in my preferences":"Lukitse toiveeni",
+  "ABOUT US":"MEISTÄ","What is ":"Mikä on ","BUSINESS ANALYSIS":"YRITYSANALYYSI","BUSINESS PLAN":"LIIKETOIMINTASUUNNITELMA","Our ":"Meidän ","idea.":"ideamme.","Our company":"Yrityksemme",
+  "Strengths":"Vahvuudet","Weaknesses":"Heikkoudet","Opportunities":"Mahdollisuudet","Threats":"Uhat",
+  "What do we sell?":"Mitä myymme?","How does it work?":"Miten idea toimii?","How do we find the trip?":"Miten löydämme matkan?","What makes us different?":"Mikä tekee meistä erilaisen?",
+  "FINANCIAL PLAN":"YRITYKSEN TALOUS","Summary":"Yhteenveto","Revenue":"Liikevaihto","Variable costs":"Muuttuvat kulut","Fixed costs":"Kiinteät kulut","Total margin":"Kate yhteensä","PROFIT / LOSS WITHOUT EMPLOYEE":"VOITTO / TAPPIO ILMAN TYÖNTEKIJÄÄ","Total":"Yhteensä","electricity":"sähkö","Employee":"Henkilöstö","insurance":"vakuutukset","marketing":"markkinointi","Loan costs":"Lainakulut",
+  "Plan your trip":"Suunnittele matka","What is NoClue Abroad?":"Mikä on NoClue Abroad?","Our company":"Yrityksemme","Service":"Palvelu",
+  "© 2026 NoClue Abroad":"© 2026 NoClue Abroad"
 };
-function applyLanguage(lang){const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);while(walk.nextNode()){const n=walk.currentNode;if(n.parentElement.closest('.lang-switch'))continue;const original=n.textContent;let value=original;Object.keys(translations).forEach(k=>{if(lang==='en'&&value.includes(k))value=value.split(k).join(translations[k]);else if(lang==='fi'){const en=translations[k];if(en)value=value.split(en).join(k)}});n.textContent=value}document.documentElement.lang=lang;document.title=lang==='en'?'NoClue Abroad — You know what. Not where.':'NoClue Abroad — You know what. Not where.';localStorage.setItem('noclueLanguage',lang);const b=document.querySelector('.lang-switch');if(b)b.textContent=lang==='en'?'🇫🇮 FI':'🇬🇧 EN'}
-function setupLanguageSwitch(){const nav=document.querySelector('.nav');if(!nav||document.querySelector('.lang-switch'))return;const b=document.createElement('button');b.className='lang-switch';b.type='button';b.setAttribute('aria-label','Change language');b.addEventListener('click',()=>applyLanguage(document.documentElement.lang==='en'?'fi':'en'));const style=document.createElement('style');style.textContent='.lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px "DM Sans",sans-serif;cursor:pointer;transition:.2s}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}.lang-switch+*{}@media(max-width:800px){.nav nav{display:none}.lang-switch{padding:9px 11px}}';document.head.appendChild(style);nav.appendChild(b);applyLanguage(localStorage.getItem('noclueLanguage')||'fi')}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupLanguageSwitch);else setupLanguageSwitch();
+function replaceText(lang){
+  const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  while(walk.nextNode()){
+    const n=walk.currentNode;
+    if(n.parentElement.closest(".lang-switch")) continue;
+    let v=n.textContent;
+    if(lang==="fi"){
+      Object.entries(translations).forEach(([en,fi])=>{ if(v.includes(en)) v=v.split(en).join(fi); });
+    }else{
+      Object.entries(translations).forEach(([en,fi])=>{ if(v.includes(fi)) v=v.split(fi).join(en); });
+    }
+    n.textContent=v;
+  }
+}
+function applyLanguage(lang){
+  replaceText(lang);
+  document.documentElement.lang=lang;
+  localStorage.setItem("noclueLanguage",lang);
+  const b=document.querySelector(".lang-switch");
+  if(b) b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+}
+function setupLanguageSwitch(){
+  const nav=document.querySelector(".nav");
+  if(!nav||document.querySelector(".lang-switch")) return;
+  const b=document.createElement("button");
+  b.className="lang-switch";
+  b.type="button";
+  b.setAttribute("aria-label","Vaihda kieltä / Change language");
+  b.addEventListener("click",()=>{
+    const next=document.documentElement.lang==="en"?"fi":"en";
+    applyLanguage(next);
+  });
+  const style=document.createElement("style");
+  style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px \"DM Sans\",sans-serif;cursor:pointer;transition:.2s;white-space:nowrap}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
+  document.head.appendChild(style);
+  nav.appendChild(b);
+  const saved=localStorage.getItem("noclueLanguage")||"en";
+  document.documentElement.lang="en";
+  if(saved==="fi") replaceText("fi");
+  document.documentElement.lang=saved;
+  b.textContent=saved==="en"?"🇫🇮 FI":"🇬🇧 EN";
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",setupLanguageSwitch); else setupLanguageSwitch();
