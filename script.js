@@ -146,7 +146,7 @@ LANGUAGE_PAIRS.push(
 ["Lähtö:","Departure:"],["Paluu:","Return:"],["Valitse lähtö- ja paluupäivä","Choose departure and return dates"],["Valitse paluupäivä","Choose a return date"],
 ["NOCLUE AI — KOHDEVALINTA","NOCLUE AI — DESTINATION SELECTION"],
 ["Kohde valittiin toiveidesi perusteella. Se sopii erityisesti: ","The destination was selected based on your wishes. It is especially suitable for: "],
-["aurinkoiseen säähän","sunny weather"],["rantalomaan","a beach holiday"],["golfiin","golf"],["ruokaan","food"],["kaupunkilomaan","a city holiday"],["luontoon","nature"],["seikkailuun","adventure"],
+["aurinkoiseen säähän","sunny weather"],["rantalomaan","a beach holiday"],["golfia","golf"],["ruokaan","food"],["kaupunkilomaan","a city holiday"],["luontoon","nature"],["seikkailuun","adventure"],
 ["Oikeassa NoClue-matkassa kohde pysyy matkustajalle salaisena.","On a real NoClue trip, the destination remains secret from the traveller."],
 ["Valinta tehdään NoClue-kohdevalikoimasta. Tuotantoversiossa mukaan voidaan liittää myös ajantasainen lento-, hotelli- ja hintadata.","The choice is made from the NoClue destination selection. In a production version, current flight, hotel and price data could also be included."],
 ["vältettävää kohdetta valittu","excluded destinations selected"],
