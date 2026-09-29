@@ -169,8 +169,7 @@ function translateFromFinnish(value,lang){
 }
 const ELEMENT_PAIRS = [
   [".swot-header h1", "SWOT <em>analyysi.</em>", "SWOT <em>analysis.</em>"],
-  [".about-block h2", "Miten erotumme <span>kilpailijoista?</span>", "How are we different from <span>competitors?</span>"],
-  [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
+    [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
 ];
 
 function translateNodeTree(root,lang){
