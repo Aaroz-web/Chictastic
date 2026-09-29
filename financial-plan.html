@@ -20,7 +20,10 @@
     .finance-section-title h2{font-size:30px;letter-spacing:-.035em;margin:0}
     .finance-section-title span{font-size:12px;color:#8A7B6A}
     .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:46px}
-    .product-card{border:1px solid #D3C1A8;border-radius:24px;background:#FFFDF8;padding:28px;box-shadow:0 10px 30px rgba(47,41,35,.055)}
+    .product-card{position:relative;isolation:isolate;overflow:hidden;border:1px solid #D3C1A8;border-radius:24px;background:#FFFDF8;padding:28px;box-shadow:0 10px 30px rgba(47,41,35,.055)}
+    .product-card::before,.cost-card::before,.side-card::before,.result-card::before{content:"";position:absolute;inset:0;background-size:cover;background-position:center;opacity:.18;z-index:-2;background-image:var(--bg)}
+    .product-card::after,.cost-card::after,.side-card::after,.result-card::after{content:"";position:absolute;inset:0;background:rgba(255,253,248,.78);z-index:-1}
+    .product-card>* ,.cost-card>* ,.side-card>* ,.result-card>*{position:relative;z-index:1}
     .product-card:nth-child(2),.product-card:nth-child(3){background:#F1E5D4}
     .product-card h3{margin:0 0 20px;font-size:24px;letter-spacing:-.03em}
     .finance-table{width:100%;border-collapse:collapse}
@@ -30,18 +33,19 @@
     .finance-table .total td{font-weight:800;color:#2F2923;border-bottom:0;padding-top:16px}
     .finance-table .margin td{font-weight:800;color:#9A6240;border-bottom:0}
     .cost-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-bottom:22px}
-    .cost-card{border:1px solid #D3C1A8;border-radius:24px;background:#FFFDF8;padding:28px}
+    .cost-card{position:relative;isolation:isolate;overflow:hidden;border:1px solid #D3C1A8;border-radius:24px;background:#FFFDF8;padding:28px}
     .cost-card h3{margin:0 0 20px;font-size:22px}
     .cost-line{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid #E3D6C6;font-size:14px}
     .cost-line:last-child{border-bottom:0}
     .cost-line strong{font-weight:700}
     .cost-line.total{margin-top:4px;padding-top:16px;font-size:16px;font-weight:800}
-    .side-card{border-radius:24px;background:#E8D9C5;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:22px}
+    .side-card{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;background:#E8D9C5;padding:28px;display:flex;flex-direction:column;justify-content:center;gap:22px}
     .side-row{display:flex;justify-content:space-between;gap:20px;align-items:center}
     .side-row span{font-size:13px;color:#5F574F}
     .side-row strong{font-size:18px}
     .side-row.blank strong{color:#9A6240;font-weight:600}
-    .result-card{margin-top:18px;border-radius:28px;background:#2F2923;color:#FFFDF8;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .result-card{position:relative;isolation:isolate;overflow:hidden;margin-top:18px;border-radius:28px;background:#2F2923;color:#FFFDF8;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:28px}
+    .result-card::before{opacity:.20;background-position:center}
     .result-card h2{grid-column:1/-1;margin:0;font-size:26px;letter-spacing:-.03em}
     .result-row{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid rgba(255,253,248,.18);padding:12px 0}
     .result-row span{color:#D8CFC4;font-size:13px}
@@ -74,14 +78,13 @@
     <p>Alla oleva laskelma esittää tuotteiden katteet, muuttuvat kulut, kiinteät kulut sekä yrityksen liikevaihdon ja voiton. Luvut on pidetty samoina kuin alkuperäisessä laskelmassa.</p>
   </section>
 
-  <section class="travel-visual"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1800&q=85" alt="Lentomatka ja matkailu"></section>
   <section>
     <div class="finance-section-title">
       <h2>Tuotteet</h2>
       <span>Kate = myynti − muuttuvat kulut</span>
     </div>
     <div class="product-grid">
-      <article class="product-card">
+      <article class="product-card" style="--bg:url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80')">
         <h3>Tuote 1</h3>
         <table class="finance-table">
           <thead><tr><th></th><th>€</th><th>Määrä</th><th>Yhteensä</th></tr></thead>
@@ -93,7 +96,7 @@
         </table>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" style="--bg:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')">
         <h3>Tuote 2</h3>
         <table class="finance-table">
           <thead><tr><th></th><th>€</th><th>Määrä</th><th>Yhteensä</th></tr></thead>
@@ -105,7 +108,7 @@
         </table>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" style="--bg:url('https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80')">
         <h3>Tuote 3</h3>
         <table class="finance-table">
           <thead><tr><th></th><th>€</th><th>Määrä</th><th>Yhteensä</th></tr></thead>
@@ -117,7 +120,7 @@
         </table>
       </article>
 
-      <article class="product-card">
+      <article class="product-card" style="--bg:url('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=80')">
         <h3>Tuote 4</h3>
         <table class="finance-table">
           <thead><tr><th></th><th>€</th><th>Määrä</th><th>Yhteensä</th></tr></thead>
@@ -134,7 +137,7 @@
   <section>
     <div class="finance-section-title"><h2>Kiinteät kulut</h2><span>Yrityksen kiinteät kulut</span></div>
     <div class="cost-layout">
-      <article class="cost-card">
+      <article class="cost-card" style="--bg:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80')">
         <h3>Kiinteät kulut</h3>
         <div class="cost-line"><span>sähkö</span><strong>200,00 €</strong></div>
         <div class="cost-line"><span>Henkilöstö</span><strong>4 000,00 €</strong></div>
@@ -143,7 +146,7 @@
         <div class="cost-line total"><span>Yhteensä</span><strong>9 200,00 €</strong></div>
       </article>
 
-      <aside class="side-card">
+      <aside class="side-card" style="--bg:url('https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1200&q=80')">
         <div class="side-row blank"><span>Työntekijä</span><strong>—</strong></div>
         <div class="side-row"><span>Lainakulut</span><strong>1 500,00 €</strong></div>
       </aside>
@@ -151,7 +154,7 @@
   </section>
 
   <section>
-    <div class="result-card">
+    <div class="result-card" style="--bg:url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1400&q=80')">
       <h2>Yhteenveto</h2>
       <div>
         <div class="result-row"><span>Kate yhteensä</span><strong>23 150,00 €</strong></div>
