@@ -232,68 +232,72 @@ function translateNodeTree(root,lang){
   }
 }
 
-/* Stable language switcher */
-(function(){
-  function button(){
-    return document.getElementById("languageSwitch");
+/* Language switcher — restored from the previous working version */
+function updateLanguageButton(lang){
+  const b=document.querySelector(".lang-switch");
+  if(!b)return;
+  b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  b.dataset.language=lang;
+  b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
+}
+
+function applyLanguage(lang){
+  const next=lang==="en"?"en":"fi";
+  translateNodeTree(document.body,next);
+  document.documentElement.lang=next;
+  const fiTitle=document.documentElement.dataset.fiTitle;
+  if(fiTitle)document.title=translateFromFinnish(fiTitle,next);
+  localStorage.setItem("noclueLanguage",next);
+  updateLanguageButton(next);
+}
+
+function setupLanguageSwitch(){
+  const nav=document.querySelector(".nav");
+  if(!nav)return;
+
+  let b=document.querySelector(".lang-switch");
+  if(!b){
+    b=document.createElement("button");
+    b.className="lang-switch";
+    b.type="button";
+    b.id="languageSwitch";
+    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;";
+    nav.appendChild(b);
   }
 
-  window.noClueSetLanguage=function(lang){
-    const next=lang==="en"?"en":"fi";
-    const pairs=window.NOCLUE_LANGUAGE_PAIRS||[];
-    const root=document.body;
-    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    while(walker.nextNode()){
-      const n=walker.currentNode;
-      if(n.parentElement.closest("#languageSwitch,script,style")) continue;
-      if(!window.__noClueOriginalText) window.__noClueOriginalText=new WeakMap();
-      if(!window.__noClueOriginalText.has(n)) window.__noClueOriginalText.set(n,n.textContent);
-      let value=window.__noClueOriginalText.get(n);
-      for(const pair of pairs){
-        const from=next==="en"?pair[0]:pair[1];
-        const to=next==="en"?pair[1]:pair[0];
-        if(from) value=value.split(from).join(to);
-      }
-      n.textContent=value;
-    }
-    document.documentElement.lang=next;
-    localStorage.setItem("noclueLanguage",next);
-    const b=button();
-    if(b){
-      b.querySelector("span").textContent=next==="en"?"FI":"EN";
-      b.setAttribute("aria-label",next==="en"?"Vaihda suomeksi":"Switch to English");
-    }
-    const title=document.documentElement.dataset.fiTitle;
-    if(title){
-      let t=title;
-      for(const pair of pairs){
-        const from=next==="en"?pair[0]:pair[1];
-        const to=next==="en"?pair[1]:pair[0];
-        t=t.split(from).join(to);
-      }
-      document.title=t;
-    }
-  };
+  if(!document.documentElement.dataset.fiTitle)
+    document.documentElement.dataset.fiTitle=document.title;
 
-  window.toggleNoClueLanguage=function(e){
-    if(e){e.preventDefault();e.stopPropagation();}
-    window.noClueSetLanguage(document.documentElement.lang==="en"?"fi":"en");
-  };
-
-  function init(){
-    const b=button();
-    if(!b)return;
-    if(!document.documentElement.dataset.fiTitle)
-      document.documentElement.dataset.fiTitle=document.title;
-    const pairs=LANGUAGE_PAIRS;
-    window.NOCLUE_LANGUAGE_PAIRS=pairs;
-    const saved=localStorage.getItem("noclueLanguage");
-    window.noClueSetLanguage(saved==="en"?"en":"fi");
+  if(!b.dataset.bound){
+    b.dataset.bound="1";
+    b.addEventListener("click",function(){
+      const current=document.documentElement.lang==="en"?"en":"fi";
+      applyLanguage(current==="en"?"fi":"en");
+    });
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
-  else init();
-})();
- 
+
+  const saved=localStorage.getItem("noclueLanguage");
+  applyLanguage(saved==="en"||saved==="fi"?saved:"fi");
+
+  if(!window.__noclueLanguageObserver){
+    window.__noclueLanguageObserver=new MutationObserver(muts=>{
+      const lang=document.documentElement.lang==="en"?"en":"fi";
+      muts.forEach(m=>{
+        m.addedNodes.forEach(n=>{
+          if(n.nodeType===1 && !n.closest?.(".lang-switch") && !n.closest?.("script") && !n.closest?.("style")){
+            translateNodeTree(n,lang);
+          }
+        });
+      });
+      updateLanguageButton(lang);
+    });
+    window.__noclueLanguageObserver.observe(document.body,{childList:true,subtree:true});
+  }
+}
+
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);
+else setupLanguageSwitch();
+
 /* Docs-style editor: shared Supabase text editing. */
 (function setupDocsEditor(){
   const EDITABLE="main h1,main h2,main h3,main h4,main p,main li,main .business-kicker,main .swot-kicker,main .feedback-kicker,main .business-note";
