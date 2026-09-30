@@ -243,23 +243,43 @@ function ncaSetLanguage(language){
 }
 
 function ncaSetupLanguage(){
-  const nav=document.querySelector(".nav");
-  if(!nav) return;
-  let button=nav.querySelector(".nca-language-button");
+  const header=document.querySelector("header.nav, .nav, header");
+  if(!header) return;
+
+  let button=document.querySelector(".nca-language-button");
   if(!button){
     button=document.createElement("button");
     button.className="nca-language-button";
     button.type="button";
-    button.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;";
-    nav.appendChild(button);
+    button.textContent="🇬🇧 EN";
+    button.style.cssText="display:inline-flex!important;align-items:center;justify-content:center;border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;position:relative;z-index:10001;";
+    const navLinks=header.querySelector("nav");
+    if(navLinks){
+      navLinks.insertAdjacentElement("afterend",button);
+    }else{
+      header.appendChild(button);
+    }
   }
-  button.onclick=()=>{
+
+  button.onclick=function(event){
+    event.preventDefault();
+    event.stopPropagation();
     const current=document.documentElement.lang==="en"?"en":"fi";
     ncaSetLanguage(current==="en"?"fi":"en");
   };
-  const saved=localStorage.getItem("noclueLanguage");
+
+  let saved="fi";
+  try{ saved=localStorage.getItem("noclueLanguage")||"fi"; }catch(e){}
   ncaSetLanguage(saved==="en"?"en":"fi");
 }
+
+document.addEventListener("click",function(event){
+  const button=event.target.closest?.(".nca-language-button");
+  if(!button || button.dataset.ncaBound==="1") return;
+  button.dataset.ncaBound="1";
+  const current=document.documentElement.lang==="en"?"en":"fi";
+  ncaSetLanguage(current==="en"?"fi":"en");
+},true);
 
 if(document.readyState==="loading"){
   document.addEventListener("DOMContentLoaded",ncaSetupLanguage,{once:true});
