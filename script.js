@@ -273,14 +273,6 @@ function ncaSetupLanguage(){
   ncaSetLanguage(saved==="en"?"en":"fi");
 }
 
-document.addEventListener("click",function(event){
-  const button=event.target.closest?.(".nca-language-button");
-  if(!button || button.dataset.ncaBound==="1") return;
-  button.dataset.ncaBound="1";
-  const current=document.documentElement.lang==="en"?"en":"fi";
-  ncaSetLanguage(current==="en"?"fi":"en");
-},true);
-
 if(document.readyState==="loading"){
   document.addEventListener("DOMContentLoaded",ncaSetupLanguage,{once:true});
 }else{
