@@ -116,6 +116,14 @@ const LANGUAGE_PAIRS = [
 ["Me huomioimme vastuullisuuden suosimalla ekologisempia matkustustapoja aina kun se on mahdollista. Esimerkiksi lyhyemmillä matkoilla voitaisiin suosia junia lentämisen sijaan. Myös hotelleissa ja aktiviteeteissa suosittaisiin vastuullisesti toimivia yrityksiä. Matkoissa huomioitaisiin ympäristövaikutukset, mutta samalla pidettäisiin huolta siitä, ettei se näy matkan laadussa. Yritys vähentäisi myös turhaa materiaalin käyttöä toimittamalla matkaohjeet, liput ja pakkauslistan digitaalisesti.","We consider responsibility by favouring more ecological ways of travelling whenever possible. For example, on shorter trips, trains could be preferred instead of flying. Hotels and activities would also favour responsibly operating companies. Environmental impacts would be considered while maintaining the quality of the trip. The company would also reduce unnecessary material use by providing travel instructions, tickets and packing lists digitally."],
 ["Matkailu muuttuu, ja me haluamme muuttua sen mukana.","Travel is changing, and we want to change with it."],
 ["Yrityksessämme näkyvät erityisesti kestävä kehitys, digitalisaatio ja muuttuvat kulutustottumukset. Ihmiset haluavat matkustaa ja saada uusia elämyksiä, mutta samalla yhä useampi haluaa tehdä sen vastuullisesti. Me tarjoamme tähän ratkaisun. Digitalisaatio näkyy siinä, että tekoälyä ja muita palveluita hyödynnetään sopivan matkan löytämiseen ja kokoamiseen.","Our company is particularly shaped by sustainable development, digitalization and changing consumer habits. People want to travel and have new experiences, while more and more people also want to do so responsibly. We offer a solution to this. Digitalization can be seen in the use of AI and other services to find and build a suitable trip."]
+["Vastuullisuus","Responsibility"],
+["09 — VASTUULLISUUS","09 — RESPONSIBILITY"],
+["Vastuullisuus — NoClue Abroad","Responsibility — NoClue Abroad"],
+["Vastuullinen matkailu on tärkeä osa NoClue Abroadin tapaa rakentaa matkoja.","Responsible travel is an important part of how NoClue Abroad builds trips."],
+["NoClue Abroadissa haluamme tehdä matkailusta elämyksellistä ja vastuullista. Toteutamme tämän suosimalla paikallisia yrityksiä, ympäristöystävällisiä palveluita ja julkista liikennettä aina, kun se on mahdollista, jotta matkailusta saatava raha hyödyttää suoraan alueen asukkaita. Kunnioitamme paikallista kulttuuria, luontoa ja eläimiä. Vältämme vastuuttomia aktiviteetteja ja pyrimme vähentämään matkojen hiilijalanjälkeä, energiankulutusta sekä jätteen määrää.","At NoClue Abroad, we want to make travel experiential and responsible. We do this by favouring local businesses, environmentally friendly services and public transport whenever possible, so that money from tourism benefits local residents directly. We respect local culture, nature and animals. We avoid irresponsible activities and aim to reduce the carbon footprint, energy consumption and amount of waste caused by trips."],
+["Luonto- ja kulttuuriarvojen lisäksi valitsemme kohteet asiakkaan turvallisuuden perusteella. Suosimme kohteita, joissa myös naiset ja seksuaalivähemmistöihin kuuluvat matkailijat voivat tuntea olonsa turvalliseksi ja tervetulleeksi ilman pelkoa syrjinnästä tai häirinnästä. Tukeaksemme eläinten hyvinvointia lahjoitamme lisäksi 5 % tuloistamme eläinsuojelutyöhön.","In addition to nature and cultural values, we choose destinations based on customer safety. We favour destinations where women and travellers belonging to sexual minorities can also feel safe and welcome without fear of discrimination or harassment. To support animal welfare, we also donate 5% of our income to animal protection work."],
+["Haluamme varmistaa, että matkustaminen hyödyttää sekä matkailijaa että paikallista yhteisöä.","We want to ensure that travel benefits both the traveller and the local community."],
+
 ];
 
 
@@ -168,6 +176,7 @@ function translateFromFinnish(value,lang){
   return out;
 }
 const ELEMENT_PAIRS = [
+  [".responsibility-header h1", "Vastuul<em>lisuus.</em>", "Responsibi<em>lity.</em>"],
   [".swot-header h1", "SWOT-<em>analyysi.</em>", "SWOT <em>analysis.</em>"],
     [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
 ];
