@@ -121,7 +121,12 @@ function ncaToggleLanguage(event){
 }
 window.ncaSetLanguage=ncaSetLanguage;
 window.ncaToggleLanguage=ncaToggleLanguage;
-document.addEventListener("click",function(event){\n  const button=event.target.closest&&event.target.closest(".nca-language-button");\n  if(button){event.preventDefault();event.stopPropagation();ncaSetLanguage(document.documentElement.lang==="en"?"fi":"en");}\n},true);\n\nfunction ncaSetupLanguage(){
+document.addEventListener("click",function(event){
+  const button=event.target.closest&&event.target.closest(".nca-language-button");
+  if(button){event.preventDefault();event.stopPropagation();ncaSetLanguage(document.documentElement.lang==="en"?"fi":"en");}
+},true);
+
+function ncaSetupLanguage(){
   let saved="fi";
   try{saved=localStorage.getItem("noclueLanguage")||"fi";}catch(e){}
   ncaSetLanguage(saved==="en"?"en":"fi");
