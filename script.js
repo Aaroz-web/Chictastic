@@ -268,6 +268,15 @@ function ncaSetupLanguage(){
     }
   }
 
+  // Bind the language button directly here as the final, authoritative handler.
+  // This works for both the existing static button and a dynamically created one.
+  button.onclick=function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    ncaToggleLanguage(event);
+    return false;
+  };
+
   let saved="fi";
   try{ saved=localStorage.getItem("noclueLanguage")||"fi"; }catch(e){}
   ncaSetLanguage(saved==="en"?"en":"fi");
