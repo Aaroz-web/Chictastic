@@ -131,6 +131,8 @@ const LANGUAGE_PAIRS = [
 ["Luonto ja eläimet","Nature and animals"],
 
 ];
+window.NOCLUE_LANGUAGE_PAIRS = LANGUAGE_PAIRS;
+
 
 
 // Complete page-level translations for every remaining Finnish text node.
