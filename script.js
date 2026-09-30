@@ -233,7 +233,7 @@ function ncaSetLanguage(language){
   document.documentElement.lang=lang;
   ncaTranslateTree(document.body,lang);
   ncaTranslateSpecialElements(lang);
-  localStorage.setItem("noclueLanguage",lang);
+  try{ localStorage.setItem("noclueLanguage",lang); }catch(e){}
   const button=document.querySelector(".nca-language-button");
   if(button){
     button.textContent=lang==="fi"?"🇬🇧 EN":"🇫🇮 FI";
@@ -267,13 +267,6 @@ function ncaSetupLanguage(){
       header.appendChild(button);
     }
   }
-
-  button.onclick=function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    const current=document.documentElement.lang==="en"?"en":"fi";
-    ncaSetLanguage(current==="en"?"fi":"en");
-  };
 
   let saved="fi";
   try{ saved=localStorage.getItem("noclueLanguage")||"fi"; }catch(e){}
