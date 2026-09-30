@@ -230,10 +230,13 @@ function translateNodeTree(root,lang){
   }
 }
 
+/* Language switch icon */
+const langIconStyle=document.createElement("style");langIconStyle.textContent=".lang-switch .lang-icon{font-size:15px;line-height:1;display:inline-block}.lang-switch span:last-child{line-height:1}";document.head.appendChild(langIconStyle);
+
 function updateLanguageButton(lang){
   const b=document.querySelector(".lang-switch");
   if(!b)return;
-  b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  b.innerHTML=lang==="en"?'<span class="lang-icon" aria-hidden="true">🌐</span><span>FI</span>':'<span class="lang-icon" aria-hidden="true">🌐</span><span>EN</span>';
   b.dataset.language=lang;
   b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
 }
@@ -258,7 +261,7 @@ function setupLanguageSwitch(){
     b.className="lang-switch";
     b.type="button";
     b.id="languageSwitch";
-    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;";
+    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:9px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;";
     nav.appendChild(b);
   }
 
