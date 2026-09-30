@@ -251,6 +251,15 @@ function applyLanguage(lang){
   updateLanguageButton(next);
 }
 
+document.addEventListener("click",function(e){
+  const button=e.target.closest?.(".lang-switch");
+  if(!button)return;
+  e.preventDefault();
+  e.stopPropagation();
+  const current=document.documentElement.lang==="en"?"en":"fi";
+  applyLanguage(current==="en"?"fi":"en");
+},{capture:true});
+
 function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
   if(!nav)return;
@@ -271,10 +280,6 @@ function setupLanguageSwitch(){
 
   if(!b.dataset.bound){
     b.dataset.bound="1";
-    b.addEventListener("click",function(){
-      const current=document.documentElement.lang==="en"?"en":"fi";
-      applyLanguage(current==="en"?"fi":"en");
-    });
   }
 
   const saved=localStorage.getItem("noclueLanguage");
