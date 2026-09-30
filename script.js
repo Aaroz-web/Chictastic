@@ -264,16 +264,8 @@ function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
   if(!nav)return;
 
-  let b=document.querySelector(".lang-switch");
-  if(!b){
-    b=document.createElement("button");
-    b.className="lang-switch";
-    b.type="button";
-    b.id="languageSwitch";
-    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:9px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;";
-    const plan=nav.querySelector(".nav-button");
-    if(plan&&plan.parentNode===nav) plan.insertAdjacentElement("afterend",b); else nav.appendChild(b);
-  }
+  const b=document.querySelector(".lang-switch");
+  if(!b)return;
 
   if(!document.documentElement.dataset.fiTitle)
     document.documentElement.dataset.fiTitle=document.title;
