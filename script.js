@@ -232,3 +232,41 @@ function setupLanguageSwitch(){
   observer.observe(document.body,{childList:true,subtree:true});
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);else setupLanguageSwitch();
+
+/* Docs-style editor: persistent browser-local text editing. */
+(function setupDocsEditor(){
+  const EDITABLE="main h1,main h2,main h3,main h4,main p,main li,main .business-kicker,main .swot-kicker,main .feedback-kicker,main .business-note";
+  const page=(location.pathname.split("/").pop()||"index").replace(/[^a-z0-9_-]/gi,"_");
+  let editing=false;
+  function key(el){if(!el.dataset.nocluEditKey){el.dataset.nocluEditKey=String([...document.querySelectorAll(EDITABLE)].indexOf(el));}return "noclue-edit:"+page+":"+document.documentElement.lang+":"+el.dataset.nocluEditKey;}
+  function restore(){document.querySelectorAll(EDITABLE).forEach(el=>{const v=localStorage.getItem(key(el));if(v!==null)el.innerHTML=v;});}
+  function toggle(on){
+    editing=on; document.body.classList.toggle("noclue-editing",on);
+    document.querySelectorAll(EDITABLE).forEach(el=>{el.contentEditable=on?"true":"false";el.classList.toggle("noclue-editable",on);});
+    const e=document.querySelector(".noclue-edit-btn"),s=document.querySelector(".noclue-save-btn"),r=document.querySelector(".noclue-reset-btn");
+    if(e)e.textContent=on?"Lopeta muokkaus":"Muokkaa"; if(s)s.hidden=!on;if(r)r.hidden=!on;
+  }
+  function save(){
+    document.querySelectorAll(EDITABLE).forEach(el=>localStorage.setItem(key(el),el.innerHTML));
+    const st=document.querySelector(".noclue-edit-status");if(st){st.textContent="Tallennettu ✓";clearTimeout(st._t);st._t=setTimeout(()=>st.textContent="",1800);}
+  }
+  function reset(){if(!confirm("Palautetaanko tämän sivun alkuperäiset tekstit?"))return;document.querySelectorAll(EDITABLE).forEach(el=>localStorage.removeItem(key(el)));location.reload();}
+  function init(){
+    if(document.querySelector(".noclue-editor-bar"))return;
+    const bar=document.createElement("div");bar.className="noclue-editor-bar";
+    bar.innerHTML='<button class="noclue-edit-btn" type="button">Muokkaa</button><button class="noclue-save-btn" type="button" hidden>Tallenna</button><button class="noclue-reset-btn" type="button" hidden>Palauta</button><span class="noclue-edit-status"></span>';
+    document.body.appendChild(bar);
+    bar.querySelector(".noclue-edit-btn").onclick=()=>toggle(!editing);
+    bar.querySelector(".noclue-save-btn").onclick=save;
+    bar.querySelector(".noclue-reset-btn").onclick=reset;
+    restore();
+  }
+  const css=document.createElement("style");css.textContent=`
+    .noclue-editor-bar{position:fixed;right:22px;bottom:22px;z-index:9999;display:flex;gap:8px;align-items:center;padding:8px;background:rgba(255,253,248,.96);border:1px solid #d3c1a8;border-radius:16px;box-shadow:0 12px 35px rgba(47,41,35,.14);backdrop-filter:blur(10px);font:600 13px "DM Sans",sans-serif}
+    .noclue-editor-bar button{border:0;border-radius:10px;padding:9px 13px;background:#17231f;color:#fff;cursor:pointer}
+    .noclue-editor-bar .noclue-save-btn{background:#9a6240}.noclue-editor-bar .noclue-reset-btn{background:#eee7dc;color:#17231f}.noclue-edit-status{min-width:70px;text-align:center;color:#6b6259}
+    .noclue-editing .noclue-editable{outline:1px dashed rgba(154,98,64,.55);outline-offset:5px;cursor:text}.noclue-editing .noclue-editable:focus{outline:2px solid #9a6240;background:rgba(255,253,248,.72)}
+    @media(max-width:700px){.noclue-editor-bar{left:10px;right:10px;bottom:10px;justify-content:center}.noclue-editor-bar button{padding:8px 10px}}
+  `;document.head.appendChild(css);
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
