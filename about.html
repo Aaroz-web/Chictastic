@@ -54,5 +54,80 @@
 </main>
 <footer><a class="brand" href="index.html"><img class="logo footer-logo" src="logo.svg" alt="NoClue Abroad"></a><a href="about.html">Meistä</a><a href="swot.html">SWOT</a><a href="business-plan.html">Liiketoimintasuunnitelma</a><a href="financial-plan.html">Talouslaskelma</a><span>© 2026 NoClue Abroad</span></footer>
 <script src="script.js?v=3"></script>
-</body>
+<div id="pageEditor" class="page-editor" aria-label="Sivun tekstin muokkaus">
+  <button id="editPageBtn" type="button">✎ Muokkaa sivua</button>
+  <div id="editControls" class="edit-controls" hidden>
+    <span>Muokkaa tekstiä suoraan sivulla</span>
+    <button id="doneEditingBtn" type="button">Valmis ✓</button>
+    <button id="resetEditingBtn" type="button" class="reset-edit">Palauta alkuperäinen</button>
+  </div>
+</div>
+<style>
+.page-editor{position:fixed;right:22px;bottom:22px;z-index:9999;font-family:inherit}
+.page-editor button{border:0;border-radius:999px;padding:12px 18px;background:#2f241d;color:#fff;cursor:pointer;font:inherit;box-shadow:0 8px 30px rgba(0,0,0,.16)}
+.edit-controls{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:#fffaf4;color:#2f241d;box-shadow:0 8px 30px rgba(0,0,0,.18);font-size:13px}
+.edit-controls button{padding:9px 14px}
+.edit-controls .reset-edit{background:#eee4da;color:#2f241d}
+.about-block[data-editing="true"]{outline:2px dashed #a17b5b;outline-offset:8px;border-radius:8px}
+.about-block[data-editing="true"] h2,
+.about-block[data-editing="true"] p,
+.about-block[data-editing="true"] h3,
+.about-block[data-editing="true"] strong{cursor:text}
+.about-block[data-editing="true"] [contenteditable="true"]:focus{outline:0;background:rgba(255,255,255,.55);border-radius:5px}
+@media(max-width:700px){.page-editor{right:12px;bottom:12px}.edit-controls{flex-wrap:wrap;max-width:calc(100vw - 24px)}}
+</style>
+<script>
+(function(){
+  const KEY="noclue-about-page-edits-v1";
+  const editor=document.getElementById("pageEditor");
+  const editBtn=document.getElementById("editPageBtn");
+  const controls=document.getElementById("editControls");
+  const doneBtn=document.getElementById("doneEditingBtn");
+  const resetBtn=document.getElementById("resetEditingBtn");
+  const blocks=[...document.querySelectorAll(".about-block")];
+  const cta=document.querySelector(".about-cta");
+
+  function editableElements(){
+    return blocks.flatMap(block=>[...block.querySelectorAll("h2,p,h3,strong")]);
+  }
+
+  function loadSaved(){
+    try{
+      const saved=JSON.parse(localStorage.getItem(KEY)||"null");
+      if(!saved)return;
+      blocks.forEach((block,i)=>{if(saved.blocks&&saved.blocks[i]!==undefined)block.innerHTML=saved.blocks[i];});
+      if(cta&&saved.cta!==undefined)cta.querySelector("h2").innerHTML=saved.cta;
+    }catch(e){}
+  }
+
+  function startEditing(){
+    controls.hidden=false;
+    editBtn.hidden=true;
+    blocks.forEach(block=>block.dataset.editing="true");
+    editableElements().forEach(el=>el.contentEditable="true");
+    if(cta){cta.dataset.editing="true"; const h=cta.querySelector("h2"); if(h)h.contentEditable="true";}
+  }
+
+  function finishEditing(){
+    const saved={blocks:blocks.map(block=>block.innerHTML),cta:cta?cta.querySelector("h2").innerHTML:""};
+    try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+    editableElements().forEach(el=>el.contentEditable="false");
+    blocks.forEach(block=>delete block.dataset.editing);
+    if(cta){delete cta.dataset.editing; const h=cta.querySelector("h2"); if(h)h.contentEditable="false";}
+    controls.hidden=true;
+    editBtn.hidden=false;
+  }
+
+  function resetEditing(){
+    if(!confirm("Palautetaanko Meistä-sivun alkuperäiset tekstit?"))return;
+    try{localStorage.removeItem(KEY);}catch(e){}
+    location.reload();
+  }
+
+  editBtn.addEventListener("click",startEditing);
+  doneBtn.addEventListener("click",finishEditing);
+  resetBtn.addEventListener("click",resetEditing);
+  loadSaved();
+})();
+</script></body>
 </html>
