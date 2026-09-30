@@ -228,13 +228,14 @@ function applyLanguage(lang){
   document.title=translateFromFinnish(document.documentElement.dataset.fiTitle||document.title,lang);
   localStorage.setItem("noclueLanguage",lang);
   const b=document.querySelector(".lang-switch");
-  if(b)b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  if(b)b.innerHTML=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
 }
 function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
   if(!nav||document.querySelector(".lang-switch"))return;
   const b=document.createElement("button");
   b.className="lang-switch";b.type="button";b.setAttribute("aria-label","Vaihda kieltä / Change language");
+  b.innerHTML=document.documentElement.lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
   b.addEventListener("click",()=>applyLanguage(document.documentElement.lang==="en"?"fi":"en"));
   const style=document.createElement("style");
   style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
