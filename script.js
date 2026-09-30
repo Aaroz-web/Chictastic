@@ -232,7 +232,7 @@ function translateNodeTree(root,lang){
   }
 }
 
-/* Language switcher — restored from the previous working version */
+/* Language switcher — previous working implementation */
 function updateLanguageButton(lang){
   const b=document.querySelector(".lang-switch");
   if(!b)return;
@@ -254,45 +254,27 @@ function applyLanguage(lang){
 function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
   if(!nav)return;
+  if(document.querySelector(".lang-switch"))return;
 
-  let b=document.querySelector(".lang-switch");
-  if(!b){
-    b=document.createElement("button");
-    b.className="lang-switch";
-    b.type="button";
-    b.id="languageSwitch";
-    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;";
-    nav.appendChild(b);
-  }
+  const b=document.createElement("button");
+  b.className="lang-switch";
+  b.type="button";
+  b.setAttribute("aria-label","Vaihda kieltä / Change language");
+  b.addEventListener("click",function(){
+    const current=document.documentElement.lang==="en"?"en":"fi";
+    applyLanguage(current==="en"?"fi":"en");
+  });
+
+  const style=document.createElement("style");
+  style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;transition:.2s;white-space:nowrap;flex:0 0 auto}.lang-switch:hover{transform:translateY(-2px);box-shadow:0 8px 20px #17231f18}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
+  document.head.appendChild(style);
+  nav.appendChild(b);
 
   if(!document.documentElement.dataset.fiTitle)
     document.documentElement.dataset.fiTitle=document.title;
 
-  if(!b.dataset.bound){
-    b.dataset.bound="1";
-    b.addEventListener("click",function(){
-      const current=document.documentElement.lang==="en"?"en":"fi";
-      applyLanguage(current==="en"?"fi":"en");
-    });
-  }
-
-  const saved=localStorage.getItem("noclueLanguage");
+  const saved=localStorage.getItem("noclueLanguage")||"fi";
   applyLanguage(saved==="en"||saved==="fi"?saved:"fi");
-
-  if(!window.__noclueLanguageObserver){
-    window.__noclueLanguageObserver=new MutationObserver(muts=>{
-      const lang=document.documentElement.lang==="en"?"en":"fi";
-      muts.forEach(m=>{
-        m.addedNodes.forEach(n=>{
-          if(n.nodeType===1 && !n.closest?.(".lang-switch") && !n.closest?.("script") && !n.closest?.("style")){
-            translateNodeTree(n,lang);
-          }
-        });
-      });
-      updateLanguageButton(lang);
-    });
-    window.__noclueLanguageObserver.observe(document.body,{childList:true,subtree:true});
-  }
 }
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);
