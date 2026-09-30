@@ -283,7 +283,6 @@ function translateNodeTree(root,lang){
     if(!b)return;
     if(!document.documentElement.dataset.fiTitle)
       document.documentElement.dataset.fiTitle=document.title;
-    b.onclick=window.toggleNoClueLanguage;
     const pairs=LANGUAGE_PAIRS;
     window.NOCLUE_LANGUAGE_PAIRS=pairs;
     const saved=localStorage.getItem("noclueLanguage");
