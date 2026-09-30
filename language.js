@@ -127,6 +127,14 @@ document.addEventListener("click",function(event){
 },true);
 
 function ncaSetupLanguage(){
+  document.querySelectorAll(".nca-language-button").forEach(button=>{
+    if(button.parentElement!==document.body) document.body.appendChild(button);
+    button.style.position="fixed";
+    button.style.top="12px";
+    button.style.right="20px";
+    button.style.zIndex="2147483647";
+    button.style.pointerEvents="auto";
+  });
   let saved="fi";
   try{saved=localStorage.getItem("noclueLanguage")||"fi";}catch(e){}
   ncaSetLanguage(saved==="en"?"en":"fi");
