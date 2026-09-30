@@ -242,6 +242,13 @@ function ncaSetLanguage(language){
   }
 }
 
+function ncaToggleLanguage(event){
+  if(event){ event.preventDefault(); event.stopPropagation(); }
+  const next=document.documentElement.lang==="en"?"fi":"en";
+  ncaSetLanguage(next);
+}
+window.ncaToggleLanguage=ncaToggleLanguage;
+
 function ncaSetupLanguage(){
   const header=document.querySelector("header.nav, .nav, header");
   if(!header) return;
