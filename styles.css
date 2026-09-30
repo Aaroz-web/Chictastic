@@ -17,3 +17,50 @@
 .region-copy h3{font:800 27px Manrope;margin:0 0 10px;letter-spacing:-.04em}
 .region-copy p{margin:0;color:#68716c;font-size:13px;line-height:1.8}
 @media(max-width:800px){.region-gallery{grid-template-columns:1fr}.region-images{height:190px}}
+
+
+/* NoClue Abroad — premium motion layer (visual only) */
+@keyframes ncFadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes ncFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes ncFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes ncDrift{0%,100%{transform:translateX(0) rotate(15deg)}50%{transform:translateX(18px) rotate(15deg)}}
+@keyframes ncGlow{0%,100%{box-shadow:0 0 55px #dcc19b}50%{box-shadow:0 0 90px #dcc19b}}
+
+body{overflow-x:hidden}
+.nav{transition:background .35s ease,box-shadow .35s ease}
+.nav nav a{transition:color .25s ease,transform .25s ease}
+.nav nav a:hover{transform:translateY(-1px)}
+.nav-button,.primary-button,.light-button,.text-button{transition:transform .28s ease,box-shadow .28s ease,background .28s ease,color .28s ease}
+.nav-button:hover,.primary-button:hover,.light-button:hover{transform:translateY(-3px);box-shadow:0 12px 28px #2F292326}
+.text-button:hover{transform:translateX(4px)}
+.hero-copy>*{animation:ncFadeUp .75s cubic-bezier(.2,.7,.2,1) both}
+.hero-copy .eyebrow{animation-delay:.05s}.hero-copy h1{animation-delay:.13s}.hero-copy .hero-text{animation-delay:.21s}.hero-copy .hero-actions{animation-delay:.29s}
+.hero-visual{animation:ncFadeIn .9s ease both;transition:transform .6s ease,box-shadow .6s ease}
+.hero-visual:hover{transform:translateY(-5px);box-shadow:inset 0 0 100px #6e5c4baa,0 25px 60px #2F292320}
+.sun{animation:ncGlow 5s ease-in-out infinite}.plane{animation:ncDrift 4s ease-in-out infinite}
+.destination-card{transition:transform .35s ease,box-shadow .35s ease}
+.destination-card:hover{transform:translateY(-7px);box-shadow:0 22px 50px #2F29232e}
+.section-kicker,.trip-section>.section-kicker,.destinations-section>.section-kicker,.featured-destinations>.section-kicker{animation:ncFadeUp .65s ease both}
+.section h2,.trip-section h2,.about-page h1,.about-page h2,.competition-section h2{animation:ncFadeUp .7s .08s ease both}
+.intro>p,.trip-section>p,.destinations-section>p,.featured-destinations>p{animation:ncFadeUp .7s .16s ease both}
+.step-card,.region-card,.featured-card,.destination-group,.principles article,.competitor-row>div,.trip-form{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease,border-color .35s ease}
+.step-card:hover,.region-card:hover,.featured-card:hover,.destination-group:hover,.principles article:hover,.competitor-row>div:hover{transform:translateY(-7px);box-shadow:0 22px 48px #2F292318}
+.step-card .icon{transition:transform .35s ease}.step-card:hover .icon{transform:scale(1.12) rotate(5deg)}
+.region-card{animation:ncFadeUp .65s ease both}
+.region-card:nth-child(2){animation-delay:.06s}.region-card:nth-child(3){animation-delay:.12s}.region-card:nth-child(4){animation-delay:.18s}.region-card:nth-child(5){animation-delay:.24s}.region-card:nth-child(6){animation-delay:.30s}.region-card:nth-child(7){animation-delay:.36s}.region-card:nth-child(8){animation-delay:.42s}.region-card:nth-child(9){animation-delay:.48s}
+.region-images,.featured-image{overflow:hidden}
+.region-images img,.featured-image img{transition:transform .7s cubic-bezier(.2,.7,.2,1),filter .5s ease}
+.region-card:hover .region-images img,.featured-card:hover .featured-image img{transform:scale(1.055);filter:saturate(1.05)}
+.trip-form{animation:ncFadeUp .75s .18s ease both}.trip-form:focus-within{box-shadow:0 25px 70px #2F292318}
+.trip-form select,.trip-form input[type=text],.trip-form input[type=email]{transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.trip-form select:focus,.trip-form input:focus{border-color:#9A6240;box-shadow:0 0 0 4px #9A62401a;outline:none;transform:translateY(-1px)}
+.chips span{transition:transform .2s ease,box-shadow .2s ease}.chips span:hover{transform:translateY(-2px);box-shadow:0 8px 18px #2F292314}
+footer a{transition:color .25s ease,transform .25s ease}footer a:hover{color:#9A6240;transform:translateY(-1px)}
+.about-hero-copy>*{animation:ncFadeUp .75s cubic-bezier(.2,.7,.2,1) both}
+.about-hero-copy .section-kicker{animation-delay:.04s}.about-hero-copy h1{animation-delay:.12s}.about-hero-copy>p{animation-delay:.2s}
+.about-orbit{animation:ncFadeIn 1s ease both}.orbit-center{animation:ncFloat 5s ease-in-out infinite}
+.orbit-dot{transition:transform .3s ease,box-shadow .3s ease}.orbit-dot:hover{transform:scale(1.1);box-shadow:0 16px 35px #2F292328}
+.story-grid>*{animation:ncFadeUp .75s ease both}.story-grid>*:nth-child(2){animation-delay:.12s}
+.audience-copy>*{animation:ncFadeUp .7s ease both}.audience-list>div{transition:padding-left .3s ease,background .3s ease}.audience-list>div:hover{padding-left:10px;background:#fff9f0}
+.about-vision .vision-number{animation:ncFadeIn 1s .25s ease both}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
