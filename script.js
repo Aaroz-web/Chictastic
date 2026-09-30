@@ -175,83 +175,126 @@ const ORIGINAL_ATTRS = new WeakMap();
 const ATTRS = ["aria-label","title","alt","placeholder"];
 
 function translateFromFinnish(value,lang){
-  if(!value) return value;
+  if(!value)return value;
   let out=value;
   const pairs=LANGUAGE_PAIRS.slice().sort((a,b)=>b[0].length-a[0].length);
   for(const [fi,en] of pairs) out=out.split(lang==="en"?fi:en).join(lang==="en"?en:fi);
   return out;
 }
+
 const ELEMENT_PAIRS = [
-  [".responsibility-header h1", "Vastuul<em>lisuus.</em>", "Responsibi<em>lity.</em>"],
-  [".responsibility-header p", "Vastuullinen matkailu on tärkeä osa NoClue Abroadin tapaa rakentaa matkoja.", "Responsible travel is an important part of how NoClue Abroad builds trips."],
-  [".swot-header h1", "SWOT-<em>analyysi.</em>", "SWOT <em>analysis.</em>"],
-  [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
+  [".responsibility-header h1","Vastuul<em>lisuus.</em>","Responsibi<em>lity.</em>"],
+  [".responsibility-header p","Vastuullinen matkailu on tärkeä osa NoClue Abroadin tapaa rakentaa matkoja.","Responsible travel is an important part of how NoClue Abroad builds trips."],
+  [".swot-header h1","SWOT-<em>analyysi.</em>","SWOT <em>analysis.</em>"],
+  [".feedback-header h1","Vertais<em>palaute.</em>","Peer <em>feedback.</em>"]
 ];
 
 function translateNodeTree(root,lang){
-  const elementRoots=[];
+  if(!root)return;
+  if(root.nodeType===3){
+    if(!ORIGINAL_TEXT.has(root)) ORIGINAL_TEXT.set(root,root.textContent);
+    root.textContent=translateFromFinnish(ORIGINAL_TEXT.get(root),lang);
+    return;
+  }
+  if(root.nodeType!==1 && root!==document.body)return;
+
   if(root.querySelectorAll){
     ELEMENT_PAIRS.forEach(([selector,fi,en])=>{
       root.querySelectorAll(selector).forEach(el=>{
-        const current=el.innerHTML;
-        if(current===fi || current===en || !el.dataset.nocluetranslated) {
-          el.dataset.nocluetranslated="1";
-          el.innerHTML=lang==="en"?en:fi;
-          elementRoots.push(el);
-        }
+        if(!el.dataset.nocluetranslated)el.dataset.nocluetranslated="1";
+        el.innerHTML=lang==="en"?en:fi;
       });
     });
   }
+
   const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
   while(walker.nextNode()){
     const n=walker.currentNode;
-    if(n.parentElement?.closest(".lang-switch,script,style")) continue;
-    if(!ORIGINAL_TEXT.has(n)) ORIGINAL_TEXT.set(n,n.textContent);
+    if(n.parentElement?.closest(".lang-switch,script,style"))continue;
+    if(!ORIGINAL_TEXT.has(n))ORIGINAL_TEXT.set(n,n.textContent);
     n.textContent=translateFromFinnish(ORIGINAL_TEXT.get(n),lang);
   }
+
   if(root.querySelectorAll){
     root.querySelectorAll(ATTRS.map(a=>"["+a+"]").join(",")).forEach(el=>{
-      if(!ORIGINAL_ATTRS.has(el)) ORIGINAL_ATTRS.set(el,{});
+      if(el.classList.contains("lang-switch"))return;
+      if(!ORIGINAL_ATTRS.has(el))ORIGINAL_ATTRS.set(el,{});
       const originals=ORIGINAL_ATTRS.get(el);
       ATTRS.forEach(a=>{
         if(el.hasAttribute(a)){
-          if(originals[a]===undefined) originals[a]=el.getAttribute(a);
+          if(originals[a]===undefined)originals[a]=el.getAttribute(a);
           el.setAttribute(a,translateFromFinnish(originals[a],lang));
         }
       });
     });
   }
 }
-function applyLanguage(lang){
-  translateNodeTree(document.body,lang);
-  document.documentElement.lang=lang;
-  document.title=translateFromFinnish(document.documentElement.dataset.fiTitle||document.title,lang);
-  localStorage.setItem("noclueLanguage",lang);
+
+function updateLanguageButton(lang){
   const b=document.querySelector(".lang-switch");
-  if(b)b.innerHTML=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  if(!b)return;
+  b.textContent=lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
+  b.dataset.language=lang;
+  b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
 }
+
+function applyLanguage(lang){
+  const next=lang==="en"?"en":"fi";
+  translateNodeTree(document.body,next);
+  document.documentElement.lang=next;
+  const fiTitle=document.documentElement.dataset.fiTitle;
+  if(fiTitle)document.title=translateFromFinnish(fiTitle,next);
+  localStorage.setItem("noclueLanguage",next);
+  updateLanguageButton(next);
+}
+
 function setupLanguageSwitch(){
   const nav=document.querySelector(".nav");
-  if(!nav||document.querySelector(".lang-switch"))return;
-  const b=document.createElement("button");
-  b.className="lang-switch";b.type="button";b.setAttribute("aria-label","Vaihda kieltä / Change language");
-  b.innerHTML=document.documentElement.lang==="en"?"🇫🇮 FI":"🇬🇧 EN";
-  b.addEventListener("click",()=>applyLanguage(document.documentElement.lang==="en"?"fi":"en"));
-  const style=document.createElement("style");
-  style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
-  document.head.appendChild(style);nav.appendChild(b);
-  // Finnish is the first-time default. After the visitor changes language,
-  // keep that choice across page changes and browser reloads until they change it again.
-  if(!document.documentElement.dataset.fiTitle)document.documentElement.dataset.fiTitle=document.title;
+  if(!nav)return;
+
+  let b=document.querySelector(".lang-switch");
+  if(!b){
+    b=document.createElement("button");
+    b.className="lang-switch";
+    b.type="button";
+    b.id="languageSwitch";
+    b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;";
+    nav.appendChild(b);
+  }
+
+  if(!document.documentElement.dataset.fiTitle)
+    document.documentElement.dataset.fiTitle=document.title;
+
+  if(!b.dataset.bound){
+    b.dataset.bound="1";
+    b.addEventListener("click",function(){
+      const current=document.documentElement.lang==="en"?"en":"fi";
+      applyLanguage(current==="en"?"fi":"en");
+    });
+  }
+
   const saved=localStorage.getItem("noclueLanguage");
-  const language=saved==="en"||saved==="fi"?saved:"fi";
-  applyLanguage(language);
-  const observer=new MutationObserver(muts=>muts.forEach(m=>m.addedNodes.forEach(n=>{
-    if(n.nodeType===1||n.nodeType===3)translateNodeTree(n,document.documentElement.lang);
-  })));
-  observer.observe(document.body,{childList:true,subtree:true});
+  applyLanguage(saved==="en"||saved==="fi"?saved:"fi");
+
+  if(!window.__noclueLanguageObserver){
+    window.__noclueLanguageObserver=new MutationObserver(muts=>{
+      const lang=document.documentElement.lang==="en"?"en":"fi";
+      muts.forEach(m=>{
+        m.addedNodes.forEach(n=>{
+          if(n.nodeType===1 && !n.closest?.(".lang-switch") && !n.closest?.("script") && !n.closest?.("style")){
+            translateNodeTree(n,lang);
+          }
+        });
+      });
+      updateLanguageButton(lang);
+    });
+    window.__noclueLanguageObserver.observe(document.body,{childList:true,subtree:true});
+  }
 }
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);else setupLanguageSwitch();
+
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);
+else setupLanguageSwitch();
+
 
 /* Docs-style editor: shared Supabase text editing. */
 (function setupDocsEditor(){
