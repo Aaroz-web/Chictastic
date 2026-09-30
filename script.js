@@ -231,12 +231,12 @@ function translateNodeTree(root,lang){
 }
 
 /* Language switch icon */
-const langIconStyle=document.createElement("style");langIconStyle.textContent=".lang-switch .lang-icon{font-size:15px;line-height:1;display:inline-block}.lang-switch span:last-child{line-height:1}";document.head.appendChild(langIconStyle);
+const langIconStyle=document.createElement("style");langIconStyle.textContent=".lang-switch .lang-icon{width:16px;height:16px;display:block;flex:0 0 16px}.lang-switch span:last-child{line-height:1}";document.head.appendChild(langIconStyle);
 
 function updateLanguageButton(lang){
   const b=document.querySelector(".lang-switch");
   if(!b)return;
-  b.innerHTML=lang==="en"?'<span class="lang-icon" aria-hidden="true">🌐</span><span>FI</span>':'<span class="lang-icon" aria-hidden="true">🌐</span><span>EN</span>';
+  b.innerHTML='<svg class="lang-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 19.5 12 21c-2.5-1.5-3.8-4.5-3.8-9S9.5 5.5 12 3z"></path></svg><span>'+ (lang==="en"?"FI":"EN") +'</span>';
   b.dataset.language=lang;
   b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
 }
@@ -262,7 +262,8 @@ function setupLanguageSwitch(){
     b.type="button";
     b.id="languageSwitch";
     b.style.cssText="border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:9px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;";
-    nav.appendChild(b);
+    const plan=nav.querySelector(".nav-button");
+    if(plan&&plan.parentNode===nav) plan.insertAdjacentElement("afterend",b); else nav.appendChild(b);
   }
 
   if(!document.documentElement.dataset.fiTitle)
