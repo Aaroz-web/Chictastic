@@ -230,79 +230,68 @@ function translateNodeTree(root,lang){
   }
 }
 
-/* Language switch icon */
-const langIconStyle=document.createElement("style");langIconStyle.textContent=".lang-switch .lang-icon{width:16px;height:16px;display:block;flex:0 0 16px}.lang-switch span:last-child{line-height:1}";document.head.appendChild(langIconStyle);
-
-function updateLanguageButton(lang){
-  const b=document.querySelector(".lang-switch");
-  if(!b)return;
-  b.innerHTML='<svg class="lang-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 19.5 12 21c-2.5-1.5-3.8-4.5-3.8-9S9.5 5.5 12 3z"></path></svg><span>'+ (lang==="en"?"FI":"EN") +'</span>';
-  b.dataset.language=lang;
-  b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
-}
-
-window.toggleNoClueLanguage=function(e){
-  if(e){e.preventDefault();e.stopPropagation();}
-  const current=document.documentElement.lang==="en"?"en":"fi";
-  applyLanguage(current==="en"?"fi":"en");
-};
-
-function applyLanguage(lang){
-  const next=lang==="en"?"en":"fi";
-  translateNodeTree(document.body,next);
-  document.documentElement.lang=next;
-  const fiTitle=document.documentElement.dataset.fiTitle;
-  if(fiTitle)document.title=translateFromFinnish(fiTitle,next);
-  localStorage.setItem("noclueLanguage",next);
-  updateLanguageButton(next);
-}
-
-document.addEventListener("click",function(e){
-  const button=e.target.closest?.(".lang-switch");
-  if(!button)return;
-  e.preventDefault();
-  e.stopPropagation();
-  const current=document.documentElement.lang==="en"?"en":"fi";
-  applyLanguage(current==="en"?"fi":"en");
-},{capture:true});
-
-function setupLanguageSwitch(){
-  const nav=document.querySelector(".nav");
-  if(!nav)return;
-
-  const b=document.querySelector(".lang-switch");
-  if(!b)return;
-
-  if(!document.documentElement.dataset.fiTitle)
-    document.documentElement.dataset.fiTitle=document.title;
-
-  if(!b.dataset.bound){
-    b.dataset.bound="1";
+/* Stable language switcher */
+(function(){
+  function button(){
+    return document.getElementById("languageSwitch");
   }
 
-  const saved=localStorage.getItem("noclueLanguage");
-  applyLanguage(saved==="en"||saved==="fi"?saved:"fi");
+  window.noClueSetLanguage=function(lang){
+    const next=lang==="en"?"en":"fi";
+    const pairs=window.NOCLUE_LANGUAGE_PAIRS||[];
+    const root=document.body;
+    const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+    while(walker.nextNode()){
+      const n=walker.currentNode;
+      if(n.parentElement.closest("#languageSwitch,script,style")) continue;
+      if(!n.dataset.noClueOriginal) n.dataset.noClueOriginal=n.textContent;
+      let value=n.dataset.noClueOriginal;
+      for(const pair of pairs){
+        const from=next==="en"?pair[0]:pair[1];
+        const to=next==="en"?pair[1]:pair[0];
+        if(from) value=value.split(from).join(to);
+      }
+      n.textContent=value;
+    }
+    document.documentElement.lang=next;
+    localStorage.setItem("noclueLanguage",next);
+    const b=button();
+    if(b){
+      b.querySelector("span").textContent=next==="en"?"FI":"EN";
+      b.setAttribute("aria-label",next==="en"?"Vaihda suomeksi":"Switch to English");
+    }
+    const title=document.documentElement.dataset.fiTitle;
+    if(title){
+      let t=title;
+      for(const pair of pairs){
+        const from=next==="en"?pair[0]:pair[1];
+        const to=next==="en"?pair[1]:pair[0];
+        t=t.split(from).join(to);
+      }
+      document.title=t;
+    }
+  };
 
-  if(!window.__noclueLanguageObserver){
-    window.__noclueLanguageObserver=new MutationObserver(muts=>{
-      const lang=document.documentElement.lang==="en"?"en":"fi";
-      muts.forEach(m=>{
-        m.addedNodes.forEach(n=>{
-          if(n.nodeType===1 && !n.closest?.(".lang-switch") && !n.closest?.("script") && !n.closest?.("style")){
-            translateNodeTree(n,lang);
-          }
-        });
-      });
-      updateLanguageButton(lang);
-    });
-    window.__noclueLanguageObserver.observe(document.body,{childList:true,subtree:true});
+  window.toggleNoClueLanguage=function(e){
+    if(e){e.preventDefault();e.stopPropagation();}
+    window.noClueSetLanguage(document.documentElement.lang==="en"?"fi":"en");
+  };
+
+  function init(){
+    const b=button();
+    if(!b)return;
+    if(!document.documentElement.dataset.fiTitle)
+      document.documentElement.dataset.fiTitle=document.title;
+    b.onclick=window.toggleNoClueLanguage;
+    const pairs=LANGUAGE_PAIRS;
+    window.NOCLUE_LANGUAGE_PAIRS=pairs;
+    const saved=localStorage.getItem("noclueLanguage");
+    window.noClueSetLanguage(saved==="en"?"en":"fi");
   }
-}
-
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);
-else setupLanguageSwitch();
-
-
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);
+  else init();
+})();
+ 
 /* Docs-style editor: shared Supabase text editing. */
 (function setupDocsEditor(){
   const EDITABLE="main h1,main h2,main h3,main h4,main p,main li,main .business-kicker,main .swot-kicker,main .feedback-kicker,main .business-note";
