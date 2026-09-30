@@ -241,6 +241,12 @@ function updateLanguageButton(lang){
   b.setAttribute("aria-label",lang==="en"?"Vaihda suomeksi":"Switch to English");
 }
 
+window.toggleNoClueLanguage=function(e){
+  if(e){e.preventDefault();e.stopPropagation();}
+  const current=document.documentElement.lang==="en"?"en":"fi";
+  applyLanguage(current==="en"?"fi":"en");
+};
+
 function applyLanguage(lang){
   const next=lang==="en"?"en":"fi";
   translateNodeTree(document.body,next);
