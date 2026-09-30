@@ -239,9 +239,12 @@ function setupLanguageSwitch(){
   const style=document.createElement("style");
   style.textContent=".lang-switch{border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}.nav{gap:14px}@media(max-width:800px){.lang-switch{padding:9px 11px}}";
   document.head.appendChild(style);nav.appendChild(b);
-  document.documentElement.dataset.fiTitle=document.title;
-  const saved=localStorage.getItem("noclueLanguage")||"fi";
-  applyLanguage(saved);
+  // Finnish is the first-time default. After the visitor changes language,
+  // keep that choice across page changes and browser reloads until they change it again.
+  if(!document.documentElement.dataset.fiTitle)document.documentElement.dataset.fiTitle=document.title;
+  const saved=localStorage.getItem("noclueLanguage");
+  const language=saved==="en"||saved==="fi"?saved:"fi";
+  applyLanguage(language);
   const observer=new MutationObserver(muts=>muts.forEach(m=>m.addedNodes.forEach(n=>{
     if(n.nodeType===1||n.nodeType===3)translateNodeTree(n,document.documentElement.lang);
   })));
