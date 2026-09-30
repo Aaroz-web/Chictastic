@@ -244,8 +244,9 @@ function translateNodeTree(root,lang){
     while(walker.nextNode()){
       const n=walker.currentNode;
       if(n.parentElement.closest("#languageSwitch,script,style")) continue;
-      if(!n.dataset.noClueOriginal) n.dataset.noClueOriginal=n.textContent;
-      let value=n.dataset.noClueOriginal;
+      if(!window.__noClueOriginalText) window.__noClueOriginalText=new WeakMap();
+      if(!window.__noClueOriginalText.has(n)) window.__noClueOriginalText.set(n,n.textContent);
+      let value=window.__noClueOriginalText.get(n);
       for(const pair of pairs){
         const from=next==="en"?pair[0]:pair[1];
         const to=next==="en"?pair[1]:pair[0];
