@@ -123,6 +123,12 @@ const LANGUAGE_PAIRS = [
 ["NoClue Abroadissa haluamme tehdä matkailusta elämyksellistä ja vastuullista. Toteutamme tämän suosimalla paikallisia yrityksiä, ympäristöystävällisiä palveluita ja julkista liikennettä aina, kun se on mahdollista, jotta matkailusta saatava raha hyödyttää suoraan alueen asukkaita. Kunnioitamme paikallista kulttuuria, luontoa ja eläimiä. Vältämme vastuuttomia aktiviteetteja ja pyrimme vähentämään matkojen hiilijalanjälkeä, energiankulutusta sekä jätteen määrää.","At NoClue Abroad, we want to make travel experiential and responsible. We do this by favouring local businesses, environmentally friendly services and public transport whenever possible, so that money from tourism benefits local residents directly. We respect local culture, nature and animals. We avoid irresponsible activities and aim to reduce the carbon footprint, energy consumption and amount of waste caused by trips."],
 ["Luonto- ja kulttuuriarvojen lisäksi valitsemme kohteet asiakkaan turvallisuuden perusteella. Suosimme kohteita, joissa myös naiset ja seksuaalivähemmistöihin kuuluvat matkailijat voivat tuntea olonsa turvalliseksi ja tervetulleeksi ilman pelkoa syrjinnästä tai häirinnästä. Tukeaksemme eläinten hyvinvointia lahjoitamme lisäksi 5 % tuloistamme eläinsuojelutyöhön.","In addition to nature and cultural values, we choose destinations based on customer safety. We favour destinations where women and travellers belonging to sexual minorities can also feel safe and welcome without fear of discrimination or harassment. To support animal welfare, we also donate 5% of our income to animal protection work."],
 ["Haluamme varmistaa, että matkustaminen hyödyttää sekä matkailijaa että paikallista yhteisöä.","We want to ensure that travel benefits both the traveller and the local community."],
+["Luonnon ja matkailun maisema","Landscape of nature and travel"],
+["Luonto matkakohteessa","Nature at a travel destination"],
+["Eläin luonnossa","Animal in nature"],
+["Julkinen liikenne","Public transport"],
+["Paikallinen matkailu","Local travel"],
+["Luonto ja eläimet","Nature and animals"],
 
 ];
 
@@ -177,8 +183,9 @@ function translateFromFinnish(value,lang){
 }
 const ELEMENT_PAIRS = [
   [".responsibility-header h1", "Vastuul<em>lisuus.</em>", "Responsibi<em>lity.</em>"],
+  [".responsibility-header p", "Vastuullinen matkailu on tärkeä osa NoClue Abroadin tapaa rakentaa matkoja.", "Responsible travel is an important part of how NoClue Abroad builds trips."],
   [".swot-header h1", "SWOT-<em>analyysi.</em>", "SWOT <em>analysis.</em>"],
-    [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
+  [".feedback-header h1", "Vertais<em>palaute.</em>", "Peer <em>feedback.</em>"]
 ];
 
 function translateNodeTree(root,lang){
