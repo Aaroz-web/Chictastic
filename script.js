@@ -185,7 +185,7 @@ const NCA_TRANSLATABLE_ATTRS = ["placeholder","title","aria-label","alt"];
 function ncaTranslate(value, language){
   if(!value) return value;
   let result=value;
-  const ordered=LANGUAGE_PAIRS.slice().sort((x,y)=>y[0].length-x[0].length);
+  const ordered=LANGUAGE_PAIRS.slice().sort((a,b)=>b[0].length-a[0].length);
   for(const [fi,en] of ordered){
     result=result.split(language==="en"?fi:en).join(language==="en"?en:fi);
   }
@@ -202,10 +202,14 @@ function ncaTranslateTree(root, language){
     if(!NCA_TEXT_ORIGINAL.has(node)) NCA_TEXT_ORIGINAL.set(node,node.nodeValue);
     node.nodeValue=ncaTranslate(NCA_TEXT_ORIGINAL.get(node),language);
   }
-  root.querySelectorAll?.(NCA_TRANSLATABLE_ATTRS.map(a=>"["+a+"]").join(",")).forEach(el=>{
+
+  root.querySelectorAll(NCA_TRANSLATABLE_ATTRS.map(a=>"["+a+"]").join(",")).forEach(el=>{
     if(el.classList.contains("nca-language-button")) return;
     let originals=NCA_ATTR_ORIGINAL.get(el);
-    if(!originals){ originals={}; NCA_ATTR_ORIGINAL.set(el,originals); }
+    if(!originals){
+      originals={};
+      NCA_ATTR_ORIGINAL.set(el,originals);
+    }
     NCA_TRANSLATABLE_ATTRS.forEach(attr=>{
       if(el.hasAttribute(attr)){
         if(originals[attr]===undefined) originals[attr]=el.getAttribute(attr);
@@ -233,7 +237,11 @@ function ncaSetLanguage(language){
   document.documentElement.lang=lang;
   ncaTranslateTree(document.body,lang);
   ncaTranslateSpecialElements(lang);
-  localStorage.setItem("noclueLanguage",lang);
+
+  try{
+    localStorage.setItem("noclueLanguage",lang);
+  }catch(e){}
+
   const button=document.querySelector(".nca-language-button");
   if(button){
     button.textContent=lang==="fi"?"🇬🇧 EN":"🇫🇮 FI";
@@ -242,41 +250,36 @@ function ncaSetLanguage(language){
   }
 }
 
+window.ncaSetLanguage=ncaSetLanguage;
+
 function ncaToggleLanguage(event){
-  if(event){ event.preventDefault(); event.stopPropagation(); }
+  if(event){
+    event.preventDefault();
+    event.stopPropagation();
+  }
   const next=document.documentElement.lang==="en"?"fi":"en";
   ncaSetLanguage(next);
 }
+
 window.ncaToggleLanguage=ncaToggleLanguage;
 
 function ncaSetupLanguage(){
   const header=document.querySelector("header.nav, .nav, header");
   if(!header) return;
 
-  let button=document.querySelector(".nca-language-button");
-  if(!button){
-    button=document.createElement("button");
-    button.className="nca-language-button";
-    button.type="button";
-    button.textContent="🇬🇧 EN";
-    button.style.cssText="display:inline-flex!important;align-items:center;justify-content:center;border:1px solid #d9dcd6;background:#fff;color:#17231f;border-radius:999px;padding:10px 13px;font:700 12px 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto;position:relative;z-index:10001;";
-    const navLinks=header.querySelector("nav");
-    if(navLinks){
-      navLinks.insertAdjacentElement("afterend",button);
-    }else{
-      header.appendChild(button);
-    }
-  }
+  const button=document.querySelector(".nca-language-button");
+  if(!button) return;
 
-  button.onclick=function(event){
-    event.preventDefault();
-    event.stopPropagation();
-    const current=document.documentElement.lang==="en"?"en":"fi";
-    ncaSetLanguage(current==="en"?"fi":"en");
-  };
+  button.type="button";
+  button.style.pointerEvents="auto";
+
+  button.addEventListener("click",ncaToggleLanguage);
 
   let saved="fi";
-  try{ saved=localStorage.getItem("noclueLanguage")||"fi"; }catch(e){}
+  try{
+    saved=localStorage.getItem("noclueLanguage")||"fi";
+  }catch(e){}
+
   ncaSetLanguage(saved==="en"?"en":"fi");
 }
 
