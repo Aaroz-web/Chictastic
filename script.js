@@ -233,24 +233,53 @@ function setupLanguageSwitch(){
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",setupLanguageSwitch);else setupLanguageSwitch();
 
-/* Docs-style editor: persistent browser-local text editing. */
+/* Docs-style editor: shared Supabase text editing. */
 (function setupDocsEditor(){
   const EDITABLE="main h1,main h2,main h3,main h4,main p,main li,main .business-kicker,main .swot-kicker,main .feedback-kicker,main .business-note";
+  const SUPABASE_URL="https://moomdysipkemgecakipl.supabase.co";
+  const SUPABASE_KEY="sb_publishable_O6x-K3ylIVUqn2yDBNBKLA_pzpFfO4e";
   const page=(location.pathname.split("/").pop()||"index").replace(/[^a-z0-9_-]/gi,"_");
   let editing=false;
-  function key(el){if(!el.dataset.nocluEditKey){el.dataset.nocluEditKey=String([...document.querySelectorAll(EDITABLE)].indexOf(el));}return "noclue-edit:"+page+":"+document.documentElement.lang+":"+el.dataset.nocluEditKey;}
-  function restore(){document.querySelectorAll(EDITABLE).forEach(el=>{const v=localStorage.getItem(key(el));if(v!==null)el.innerHTML=v;});}
+  const api=SUPABASE_URL+"/rest/v1/site_edits";
+  const headers={"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json","Prefer":"return=minimal"};
+
+  function elements(){return [...document.querySelectorAll(EDITABLE)];}
+  function elementKey(el){let key=el.dataset.nocluEditKey;if(!key){key=String(elements().indexOf(el));el.dataset.nocluEditKey=key;}return key;}
+  function setStatus(t){const st=document.querySelector(".noclue-edit-status");if(st){st.textContent=t;clearTimeout(st._t);if(t==="Tallennettu ✓")st._t=setTimeout(()=>st.textContent="",1800);}}
+  async function restore(){
+    try{
+      const lang=document.documentElement.lang||"fi";
+      const res=await fetch(api+"?page_key=eq."+encodeURIComponent(page)+"&lang=eq."+encodeURIComponent(lang)+"&select=element_key,html",{headers});
+      if(!res.ok) throw new Error("Lataus epäonnistui");
+      const rows=await res.json();
+      const map=new Map(rows.map(r=>[String(r.element_key),r.html]));
+      elements().forEach(el=>{const v=map.get(elementKey(el));if(v!==undefined)el.innerHTML=v;});
+    }catch(e){setStatus("Yhteysvirhe");console.error(e);}
+  }
   function toggle(on){
-    editing=on; document.body.classList.toggle("noclue-editing",on);
-    document.querySelectorAll(EDITABLE).forEach(el=>{el.contentEditable=on?"true":"false";el.classList.toggle("noclue-editable",on);});
+    editing=on;document.body.classList.toggle("noclue-editing",on);
+    elements().forEach(el=>{el.contentEditable=on?"true":"false";el.classList.toggle("noclue-editable",on);});
     const e=document.querySelector(".noclue-edit-btn"),s=document.querySelector(".noclue-save-btn"),r=document.querySelector(".noclue-reset-btn");
-    if(e)e.textContent=on?"Lopeta muokkaus":"Muokkaa"; if(s)s.hidden=!on;if(r)r.hidden=!on;
+    if(e)e.textContent=on?"Lopeta muokkaus":"Muokkaa";if(s)s.hidden=!on;if(r)r.hidden=!on;
   }
-  function save(){
-    document.querySelectorAll(EDITABLE).forEach(el=>localStorage.setItem(key(el),el.innerHTML));
-    const st=document.querySelector(".noclue-edit-status");if(st){st.textContent="Tallennettu ✓";clearTimeout(st._t);st._t=setTimeout(()=>st.textContent="",1800);}
+  async function save(){
+    try{
+      const lang=document.documentElement.lang||"fi";
+      const rows=elements().map(el=>({page_key:page,lang,element_key:elementKey(el),html:el.innerHTML,updated_at:new Date().toISOString()}));
+      const res=await fetch(api,{method:"POST",headers:{...headers,"Prefer":"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(rows)});
+      if(!res.ok) throw new Error(await res.text());
+      setStatus("Tallennettu ✓");
+    }catch(e){setStatus("Tallennus epäonnistui");console.error(e);}
   }
-  function reset(){if(!confirm("Palautetaanko tämän sivun alkuperäiset tekstit?"))return;document.querySelectorAll(EDITABLE).forEach(el=>localStorage.removeItem(key(el)));location.reload();}
+  async function reset(){
+    if(!confirm("Palautetaanko tämän sivun alkuperäiset tekstit?"))return;
+    try{
+      const lang=document.documentElement.lang||"fi";
+      const res=await fetch(api+"?page_key=eq."+encodeURIComponent(page)+"&lang=eq."+encodeURIComponent(lang),{method:"DELETE",headers});
+      if(!res.ok)throw new Error(await res.text());
+      location.reload();
+    }catch(e){setStatus("Palautus epäonnistui");console.error(e);}
+  }
   function init(){
     if(document.querySelector(".noclue-editor-bar"))return;
     const bar=document.createElement("div");bar.className="noclue-editor-bar";
