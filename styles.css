@@ -64,3 +64,50 @@ footer a{transition:color .25s ease,transform .25s ease}footer a:hover{color:#9A
 .audience-copy>*{animation:ncFadeUp .7s ease both}.audience-list>div{transition:padding-left .3s ease,background .3s ease}.audience-list>div:hover{padding-left:10px;background:#fff9f0}
 .about-vision .vision-number{animation:ncFadeIn 1s .25s ease both}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* Scroll reveal for text — content stays unchanged */
+@keyframes ncScrollReveal{
+  from{opacity:0;transform:translateY(32px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@supports (animation-timeline:view()){
+  main .section-kicker,
+  main h2,
+  main h3,
+  main h4,
+  main p,
+  main li,
+  main .business-kicker,
+  main .swot-kicker,
+  main .feedback-kicker,
+  main .business-note{
+    animation-name:ncScrollReveal;
+    animation-duration:1ms;
+    animation-fill-mode:both;
+    animation-timing-function:cubic-bezier(.2,.7,.2,1);
+    animation-timeline:view();
+    animation-range:entry 0% cover 28%;
+  }
+  main .step-card,
+  main .region-card,
+  main .featured-card,
+  main .destination-group,
+  main .principles article,
+  main .competitor-row>div,
+  main .trip-form{
+    animation-name:ncScrollReveal;
+    animation-duration:1ms;
+    animation-fill-mode:both;
+    animation-timing-function:cubic-bezier(.2,.7,.2,1);
+    animation-timeline:view();
+    animation-range:entry 0% cover 25%;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  main .section-kicker,main h2,main h3,main h4,main p,main li,
+  main .business-kicker,main .swot-kicker,main .feedback-kicker,main .business-note,
+  main .step-card,main .region-card,main .featured-card,main .destination-group,
+  main .principles article,main .competitor-row>div,main .trip-form{
+    animation:none!important;
+  }
+}
