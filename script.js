@@ -48,7 +48,30 @@ function renderDestinationCards(){
     destinationGrid.appendChild(card);
   });
 }
-function pickDestination(data){const excluded=new Set(data.excludedDestinations||[]);const interests=data.interests||[];const pool=DESTINATIONS.filter(d=>!excluded.has(d[0]));let best=pool[0];let bestScore=-1;pool.forEach(d=>{let score=d[2].filter(t=>interests.map(x=>({Ranta:'beach',Golf:'golf',Ruoka:'food',Kaupunki:'city',Luonto:'nature',Seikkailu:'adventure'}[x])).includes(t)).length;if((data.weather||'').includes('Aurinkoinen')&&d[2].includes('warm'))score+=2;if((data.weather||'').includes('Leuto')&&d[2].includes('nature'))score+=1;score+=Math.random();if(score>bestScore){best=d;bestScore=score}});return {city:best[0],country:best[1],tags:best[2]};}
+function pickDestination(data){
+  const excluded=new Set(data.excludedDestinations||[]);
+  const interests=data.interests||[];
+  const interestMap={Ranta:'beach',Golf:'golf',Ruoka:'food',Kaupunki:'city',Luonto:'nature',Seikkailu:'adventure'};
+  let history=[];
+  try{history=JSON.parse(localStorage.getItem('noclueDestinationHistory')||'[]');if(!Array.isArray(history))history=[];}catch(e){history=[];}
+  const available=DESTINATIONS.filter(d=>!excluded.has(d[0]));
+  let pool=available.filter(d=>!history.includes(d[0]));
+  if(!pool.length){history=[];pool=available.slice();}
+  let bestScore=-Infinity,bestCandidates=[];
+  pool.forEach(d=>{
+    let score=d[2].filter(t=>interests.map(x=>interestMap[x]).includes(t)).length*3;
+    if((data.weather||'').includes('Aurinkoinen')&&d[2].includes('warm'))score+=4;
+    if((data.weather||'').includes('Leuto')&&d[2].includes('nature'))score+=2;
+    if((data.weather||'').includes('Ei väliä'))score+=1;
+    score+=Math.random()*2;
+    if(score>bestScore+0.01){bestScore=score;bestCandidates=[d];}
+    else if(Math.abs(score-bestScore)<0.01)bestCandidates.push(d);
+  });
+  const best=bestCandidates[Math.floor(Math.random()*bestCandidates.length)]||pool[0]||available[0]||DESTINATIONS[0];
+  history.push(best[0]);
+  try{localStorage.setItem('noclueDestinationHistory',JSON.stringify(history));}catch(e){}
+  return {city:best[0],country:best[1],tags:best[2]};
+}
 renderDestinationCards();
 if(form){form.addEventListener('submit',e=>{
   e.preventDefault();
