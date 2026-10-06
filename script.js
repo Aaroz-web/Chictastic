@@ -80,6 +80,10 @@ if(form){form.addEventListener('submit',e=>{
     duration:document.getElementById('duration')?.value||'',
     weather:document.getElementById('weather').value,
     company:document.getElementById('company').value,
+    travelers:{
+      adults:Number(document.getElementById('adultCount')?.textContent||2),
+      children:Number(document.getElementById('childCount')?.textContent||0)
+    },
     interests:[...document.querySelectorAll('.chips input:checked')].map(x=>x.value),
     excludedDestinations:[...selectedFeatured]
   };
